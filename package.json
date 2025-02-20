@@ -1,0 +1,23 @@
+{
+    "name": "fidato-wealth",
+    "version": "1.0.0",
+    "scripts": {
+        "dev": "webpack --mode development --watch",
+        "build": "webpack --mode production",
+        "copy": "cp node_modules/locomotive-scroll/dist/locomotive-scroll.min.js dist/js/ && cp node_modules/locomotive-scroll/dist/locomotive-scroll.min.css dist/css/"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.26.9",
+        "@babel/preset-env": "^7.26.9",
+        "babel-loader": "^9.2.1",
+        "css-loader": "^6.11.0",
+        "mini-css-extract-plugin": "^2.9.2",
+        "sass": "^1.85.0",
+        "sass-loader": "^13.3.3",
+        "webpack": "^5.98.0",
+        "webpack-cli": "^5.1.4"
+    },
+    "dependencies": {
+        "locomotive-scroll": "^4.1.4"
+    }
+}
