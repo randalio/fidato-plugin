@@ -12,7 +12,7 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
         $team_members = get_posts([
             'post_type' => 'our-team',
             'post_status' => 'publish',
-            'numberposts' => -1,
+            'numberposts' => 25,
             'orderby' => 'title',
             'order' => 'ASC',
         ]);
@@ -91,7 +91,15 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
                     <?php foreach ($settings['slides'] as $slide): ?>
                         <div class="swiper-slide">
                             <div class="slide-inner">
-                                <?php echo wp_get_attachment_image( $slide['image']['id'], 'large' ); ?>
+                                <?php 
+                                // Add error checking before using the image
+                                if (!empty($slide['image']['id'])) {
+                                    echo wp_get_attachment_image($slide['image']['id'], 'large');
+                                } else {
+                                    // Show a placeholder or nothing
+                                    echo '<div class="no-image"></div>';
+                                }
+                                ?>
 
                                 <?php $member_id = $slide['team_member_id']; ?>
                                 <?php if( !$member_id ){
@@ -209,7 +217,15 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
                     $slug = preg_replace("/[^A-Za-z0-9 ]/", '',strtolower(str_replace(' ', '', $name)));
                     ?>
                     <div class="team-panel--content" id="<?php echo $slug;?>">
-                    <?php echo wp_get_attachment_image( $slide['image']['id'], 'large' ); ?>
+                    <?php 
+                    // Add error checking before using the image
+                    if (!empty($slide['image']['id'])) {
+                        echo wp_get_attachment_image($slide['image']['id'], 'large');
+                    } else {
+                        // Show a placeholder or nothing
+                        echo '<div class="no-image"></div>';
+                    }
+                    ?>
 
  
                     <h3 class="name blue-grade"><?php echo $name;?></h3>

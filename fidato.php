@@ -72,6 +72,15 @@ function custom_post_type() {
 }
 add_action( 'init', 'custom_post_type', 0 );
 
+// Increase memory limit for this plugin
+function fidato_increase_memory_limit() {
+    if (current_user_can('administrator')) {
+        ini_set('memory_limit', '256M');
+    }
+}
+add_action('admin_init', 'fidato_increase_memory_limit');
+
+
 class MyPlugin {
     private $version = '1.0.4';
 
@@ -80,9 +89,11 @@ class MyPlugin {
         add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
 
         add_action('wp_body_open', function() {
-            echo '<div id="data-scroll-container" data-scroll-container>';
+            echo '<div data-scroll>';
+            echo '  <div data-scroll-container>';
         });
         add_action('wp_footer', function() {
+            echo '  </div>';
             echo '</div>';
         });
         

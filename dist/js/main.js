@@ -27,7 +27,6 @@ function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = 
 function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-// import LocomotiveScroll from 'locomotive-scroll';
 // Add your JavaScript code here
 var FidatoPluginJS = /*#__PURE__*/function () {
   function FidatoPluginJS() {
@@ -38,7 +37,6 @@ var FidatoPluginJS = /*#__PURE__*/function () {
     key: "init",
     value: function init() {
       // wait until DOM is ready
-
       document.addEventListener("DOMContentLoaded", function (event) {
         console.log("DOM loaded");
 
@@ -49,50 +47,85 @@ var FidatoPluginJS = /*#__PURE__*/function () {
           dividers[i].setAttribute('data-scroll', '');
           dividers[i].setAttribute('data-scroll-repeat', '');
           dividers[i].setAttribute('data-scroll-class', 'loco-in-view');
-          //console.log(dividers[i]);
         }
 
         //wait until images, links, fonts, stylesheets, and js is loaded
         window.addEventListener("load", function (e) {
           console.log("window loaded");
-          var scroll = new LocomotiveScroll({
+          var scroll = null;
+
+          // Initialize Locomotive Scroll
+          scroll = new LocomotiveScroll({
             el: document.querySelector('[data-scroll-container]'),
             smooth: true,
-            multiplier: 0.9,
-            "class": 'loco-in-view'
+            multiplier: 1,
+            "class": 'loco-in-view',
+            lerp: 0.1
           });
 
-          // Initialize the main Swiper with the same navigation buttons
+          // Keep a reference to scrollTop outside of the event handlers
+          var scrollTop = 0;
+          scroll.on('scroll', function (obj) {
+            // Current vertical scroll position
+            scrollTop = obj.scroll.y;
+          });
+
+          // Initialize the Swiper with proper configuration to avoid scroll conflicts
           var teamSwiper = new Swiper('.teamSwiper', {
             slidesPerView: 1.5,
             centeredSlides: true,
             loop: true,
-            speed: 750,
-            spaceBetween: 40,
+            speed: 500,
+            spaceBetween: 72,
+            // Prevent Swiper from capturing mousewheel events when not needed
+            mousewheel: {
+              forceToAxis: false,
+              releaseOnEdges: true,
+              // Only enable mousewheel when hovering over the swiper
+              noMousewheelClass: 'swiper-no-mousewheel'
+            },
+            // Enable keyboard control only when swiper is in viewport
+            keyboard: {
+              enabled: true,
+              onlyInViewport: true
+            },
             navigation: {
               nextEl: '.team-swiper-button-next',
               prevEl: '.team-swiper-button-prev'
             },
             breakpoints: {
               768: {
-                slidesPerView: 2,
-                spaceBetween: 50
+                slidesPerView: 2
               },
               1024: {
-                slidesPerView: 3,
-                spaceBetween: 72
+                slidesPerView: 3
+              }
+            },
+            on: {
+              // Important: Update Locomotive Scroll after swiper events
+              slideChangeTransitionEnd: function slideChangeTransitionEnd() {
+                if (scroll) {
+                  // Force Locomotive Scroll to update
+                  scroll.update();
+                }
+              },
+              touchEnd: function touchEnd() {
+                if (scroll) {
+                  // Make sure Locomotive Scroll is updated after touch interactions
+                  setTimeout(function () {
+                    scroll.update();
+                  }, 100);
+                }
               }
             }
           });
-          var scrollTop = 0;
-          scroll.on('scroll', function (obj) {
-            // Current vertical scroll position
-            scrollTop = obj.scroll.y;
-            //console.log('Current scroll position:', scrollTop);
 
-            // You can also get horizontal scroll if needed
-            var scrollLeft = obj.scroll.x;
-          });
+          // Update Locomotive Scroll after Swiper initialization
+          setTimeout(function () {
+            if (scroll) {
+              scroll.update();
+            }
+          }, 500);
 
           // Select all link elements within swiper-slide elements that are inside team-carousel
           document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(function (link) {
@@ -103,38 +136,194 @@ var FidatoPluginJS = /*#__PURE__*/function () {
               document.querySelector(linkHref).classList.add('active');
               console.log(linkHref);
               var teamPanelOverlay = document.querySelector('.panel-container');
-
-              // Add 'active' class to the overlay
-              scroll.stop();
+              if (scroll) {
+                scroll.stop();
+              }
               teamPanelOverlay.classList.add('active');
               teamPanelOverlay.style.top = scrollTop + 'px';
             });
           });
-          this.document.querySelector('.team-panel--header .close').addEventListener('click', function () {
+
+          // Make sure all close/overlay click handlers properly restart Locomotive Scroll
+          document.querySelector('.team-panel--header .close').addEventListener('click', function () {
             var teamPanelOverlay = document.querySelector('.panel-container');
             teamPanelOverlay.classList.remove('active');
-            document.querySelectorAll('.team-panel--content').forEach(function (link) {
-              link.classList.remove('active');
+            document.querySelectorAll('.team-panel--content').forEach(function (panel) {
+              panel.classList.remove('active');
             });
-            // teamPanelOverlay.style.top = '0px';
-            scroll.start();
+            if (scroll) {
+              scroll.start();
+
+              // Force update after starting
+              setTimeout(function () {
+                scroll.update();
+              }, 100);
+            }
           });
-          this.document.querySelector('.team-panel--overlay').addEventListener('click', function () {
+          document.querySelector('.team-panel--overlay').addEventListener('click', function () {
             console.log('overlay clicked');
             var teamPanelOverlay = document.querySelector('.panel-container');
             teamPanelOverlay.classList.remove('active');
-            document.querySelectorAll('.team-panel--content').forEach(function (link) {
-              link.classList.remove('active');
+            document.querySelectorAll('.team-panel--content').forEach(function (panel) {
+              panel.classList.remove('active');
             });
-            // teamPanelOverlay.style.top = '0px';
-            scroll.start();
+            if (scroll) {
+              scroll.start();
+
+              // Force update after starting
+              setTimeout(function () {
+                scroll.update();
+              }, 100);
+            }
           });
+
+          // Add event listeners to handle resize events
+          window.addEventListener('resize', function () {
+            if (scroll) {
+              // Force Locomotive Scroll update on window resize
+              setTimeout(function () {
+                scroll.update();
+              }, 100);
+            }
+          });
+
+          // Ensure Locomotive Scroll continues to work when interacting with the Swiper
+          var teamCarousel = document.querySelector('.team-carousel');
+          if (teamCarousel) {
+            // When mouse enters the carousel, make sure scroll isn't stopped
+            teamCarousel.addEventListener('mouseenter', function () {
+              if (scroll && !document.querySelector('.panel-container.active')) {
+                scroll.update();
+              }
+            });
+
+            // When mouse leaves the carousel, make sure scroll is working
+            teamCarousel.addEventListener('mouseleave', function () {
+              if (scroll && !document.querySelector('.panel-container.active')) {
+                scroll.update();
+              }
+            });
+          }
         }, false);
       });
     }
   }]);
 }();
 new FidatoPluginJS();
+
+// // Add your JavaScript code here
+// class FidatoPluginJS {
+
+//     constructor() {
+//         this.init();
+//     }
+
+//     init() {
+//         // wait until DOM is ready
+
+//         document.addEventListener("DOMContentLoaded", function(event){
+//         console.log("DOM loaded");
+
+//             // add animation to all dividers
+//             const dividers = document.querySelectorAll('.elementor-widget-divider');
+//             for (let i = 0; i < dividers.length; i++) {
+//                 // Access each element using elements[i]
+//                 dividers[i].setAttribute('data-scroll', '');
+//                 dividers[i].setAttribute('data-scroll-repeat', '');
+//                 dividers[i].setAttribute('data-scroll-class', 'loco-in-view');
+//             }
+
+//             //wait until images, links, fonts, stylesheets, and js is loaded
+//             window.addEventListener("load", function(e){    
+//             console.log("window loaded");
+
+//                 const scroll = new LocomotiveScroll({
+//                     el: document.querySelector('[data-scroll-container]'),
+//                     smooth: true,
+//                     multiplier: 1,
+//                     class: 'loco-in-view',
+//                     lerp: 0.1
+//                 });
+
+//                 // Initialize the main Swiper with the same navigation buttons
+//                 var teamSwiper = new Swiper('.teamSwiper', {
+//                     slidesPerView: 1.5,
+//                     centeredSlides: true,
+//                     loop: true,
+//                     speed: 500,
+//                     spaceBetween: 72,
+//                     navigation: {
+//                         nextEl: '.team-swiper-button-next',
+//                         prevEl: '.team-swiper-button-prev',
+//                     },
+//                     breakpoints: {
+//                         768: {
+//                             slidesPerView: 2,
+//                         },
+//                         1024: {
+//                             slidesPerView: 3,
+//                         }
+//                     }
+//                 });
+//                 let scrollTop = 0;
+//                 scroll.on('scroll', (obj) => {
+//                     // Current vertical scroll position
+//                     scrollTop = obj.scroll.y;
+
+//                 });
+
+//                 // Select all link elements within swiper-slide elements that are inside team-carousel
+//                 document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(link => {
+//                     // Add click event listener to each link
+//                     link.addEventListener('click', function(e) {
+
+//                         e.preventDefault();
+
+//                         const linkHref = this.getAttribute('href').toString();
+//                         document.querySelector(linkHref).classList.add('active');
+//                         console.log(linkHref);
+//                         const teamPanelOverlay = document.querySelector('.panel-container');
+
+//                         scroll.stop();
+
+//                         teamPanelOverlay.classList.add('active');
+//                         teamPanelOverlay.style.top = scrollTop + 'px';
+
+//                     });
+//                 });
+
+//                 this.document.querySelector('.team-panel--header .close').addEventListener('click', function() {
+//                     const teamPanelOverlay = document.querySelector('.panel-container');
+
+//                     teamPanelOverlay.classList.remove('active');
+//                     document.querySelectorAll('.team-panel--content').forEach(link => {
+//                         link.classList.remove('active');
+//                     });
+
+//                     scroll.start();
+
+//                 });
+
+//                 this.document.querySelector('.team-panel--overlay').addEventListener('click', function() {
+//                     console.log('overlay clicked');
+//                     const teamPanelOverlay = document.querySelector('.panel-container');
+
+//                     teamPanelOverlay.classList.remove('active');
+//                     document.querySelectorAll('.team-panel--content').forEach(link => {
+//                         link.classList.remove('active');
+//                     });
+
+//                     scroll.start();
+
+//                 });
+
+//             }, false);
+
+//         });
+//     }
+// }
+
+// new FidatoPluginJS();
 })();
 
 // This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
