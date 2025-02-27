@@ -103,7 +103,7 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
                                 }
                                 $slug = preg_replace("/[^A-Za-z0-9 ]/", '',strtolower(str_replace(' ', '', $name)));
                                 ?>
-                                <h3 class="name"><?php echo $name;?></h3>
+                                <h3 class="name blue-grade"><?php echo $name;?></h3>
                                 <p class="position"><?php echo $slide['position'];?></p>
 
                                 <hr/>
@@ -212,7 +212,7 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
                     <?php echo wp_get_attachment_image( $slide['image']['id'], 'large' ); ?>
 
  
-                    <h3 class="name"><?php echo $name;?></h3>
+                    <h3 class="name blue-grade"><?php echo $name;?></h3>
                     <p class="position"><?php echo $slide['position'];?></p>
 
                     <hr/>

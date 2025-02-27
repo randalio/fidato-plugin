@@ -1,8 +1,41 @@
-h2,
-h3{
-    background: $fidatoBlueGrade;
-    background-clip: border-box;
-    background-clip: text !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
+
+.elementor-widget-heading:not(.no-grade){
+    h2{
+        background: $fidatoBlueGrade;
+        background-clip: border-box;
+        background-clip: text !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+    }
 }
+
+.elementor-widget-heading.blue-grade{
+    & h1,
+    & h2,
+    & h3,
+    & h4,
+    & h5,
+    & h6,
+    & p{
+        background: $fidatoBlueGrade;
+        background-clip: border-box;
+        background-clip: text !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+    }
+}
+
+
+    h1.blue-grade,
+    h2.blue-grade,
+    h3.blue-grade,
+    h4.blue-grade,
+    h5.blue-grade,
+    h6.blue-grade,
+    p.blue-grade{
+        background: $fidatoBlueGrade;
+        background-clip: border-box;
+        background-clip: text !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+    }

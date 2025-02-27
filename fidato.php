@@ -73,7 +73,7 @@ function custom_post_type() {
 add_action( 'init', 'custom_post_type', 0 );
 
 class MyPlugin {
-    private $version = '1.0.0';
+    private $version = '1.0.1';
 
     public function __construct() {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
