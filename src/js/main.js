@@ -39,16 +39,13 @@ class FidatoPluginJS {
 
 
 
-
-
-
             // Initialize the main Swiper with the same navigation buttons
             var teamSwiper = new Swiper('.teamSwiper', {
                 slidesPerView: 1.5,
                 centeredSlides: true,
                 loop: true,
-                speed: 750,
-                spaceBetween: 40,
+                speed: 500,
+                spaceBetween: 72,
                 navigation: {
                     nextEl: '.team-swiper-button-next',
                     prevEl: '.team-swiper-button-prev',
@@ -56,11 +53,9 @@ class FidatoPluginJS {
                 breakpoints: {
                     768: {
                         slidesPerView: 2,
-                        spaceBetween: 50
                     },
                     1024: {
                         slidesPerView: 3,
-                        spaceBetween: 72
                     }
                 }
             });
