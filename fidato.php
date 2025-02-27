@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Fidato Wealth
  * Description: Plugin with Webpack build system
- * Version: 1.0.1
+ * Version: 1.0.4
  * Author: Randal Pope
  */
 
@@ -73,17 +73,11 @@ function custom_post_type() {
 add_action( 'init', 'custom_post_type', 0 );
 
 class MyPlugin {
-    private $version = '1.0.1';
+    private $version = '1.0.4';
 
     public function __construct() {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_assets'));
-
-
-        wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js');
-        wp_enqueue_style('swiper-styles', plugin_dir_url('fidato/dist/css/swiper.css') . 'swiper.css', [], time());
-
-        //wp_enqueue_script("team-carousel", plugin_dir_url("fidato/team-carousel/team-carousel.js").'team-carousel.js', array('jquery'), time());
 
         add_action('wp_body_open', function() {
             echo '<div id="data-scroll-container" data-scroll-container>';
@@ -104,14 +98,6 @@ class MyPlugin {
             array(),
             $this->version
         );
-
-        // wp_enqueue_script(
-        //     'fidato-admin',
-        //     plugin_dir_url(__FILE__) . 'dist/js/main.js',
-        //     array('jquery'),
-        //     $this->version,
-        //     true
-        // );
     }
 
     public function enqueue_frontend_assets() {
@@ -143,6 +129,17 @@ class MyPlugin {
             array('jquery', 'locomotive-scroll-js'),
             $this->version,
             true
+        );
+
+        wp_enqueue_script(
+            'swiper',
+            'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js'
+        );
+        wp_enqueue_style(
+            'swiper-styles',
+            plugin_dir_url('fidato/dist/css/swiper.css') . 'swiper.css',
+            array(),
+            $this->version
         );
     }
 }
