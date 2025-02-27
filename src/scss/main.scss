@@ -1,39 +1,4 @@
-
-// Add your SCSS code here
-
-.animate-divider{
-    & .elementor-divider{
-        width: 0;
-        transition: width 2s ease-in-out;
-    }
-
-    &.loco-in-view{
-        & .elementor-divider{
-            width: 100%;
-        }
-    }
-}
-
-// .fidato-plugin {
-//     &-container {
-//         padding: 20px;
-//         background: #fff;
-        
-//         h2 {
-//             color: #333;
-//             margin-bottom: 1rem;
-//         }
-//     }
-    
-//     &-button {
-//         background: #0073aa;
-//         color: white;
-//         padding: 10px 20px;
-//         border: none;
-//         border-radius: 4px;
-        
-//         &:hover {
-//             background: darken(#0073aa, 10%);
-//         }
-//     }
-// }
+@import 'vars'; // SCSS Variables
+@import 'locomotiveScroll'; // Locomotive Scroll Styles
+@import 'teamSlider'; // Team Slider Styles
+@import 'global'; // Global Styles

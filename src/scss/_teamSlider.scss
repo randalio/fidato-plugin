@@ -1,0 +1,247 @@
+.team-carousel{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 1200px) {
+    .team-carousel .swiper.teamSwiper {
+        max-width: 100%;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-right: 0;
+    }
+    .team-carousel  .team-carousel--content{
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .team-carousel  .team-carousel--content .content-inner{
+        width: 37.5rem;
+        margin: auto;
+    }
+  }
+
+
+.team-carousel .swiper-button-next,
+.team-carousel .swiper-button-prev{
+    position: relative;
+    // margin-top: 2rem;
+    width: 6.25rem;
+    height: 6.25rem;
+    & > svg{
+        width: 100%;
+        height: auto;
+    }
+    &:after{
+        display: none;
+    }
+}
+.team-carousel .swiper-button-next{
+    left: 0; 
+}
+.team-carousel .swiper-button-prev{
+    right: 0; 
+    left: unset;
+}
+
+.team-carousel .swiper-navigation{
+    display: flex;
+    gap: 0rem;
+    justify-content: center;
+}
+
+
+.team-carousel .swiper.teamSwiper .swiper-slide,
+.team-panel .team-panel--content{
+    & img{
+        aspect-ratio: 11/16;
+        min-width: 100%;
+        object-fit: cover;
+        border-radius: 1rem;
+        box-shadow: 5px 6px 13px rgba(0, 0, 0, 0.10);
+        margin-bottom: 1rem;
+    }
+
+    & .name{
+        text-shadow: 0px 0px 5px rgba(17, 52, 82, 0.25);
+        font-family: "Playfair Display";
+        font-size: 2.25rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1.15em;
+        letter-spacing: -0.0225rem;
+    }
+
+    & .position{
+        color: #E5684C;
+        text-shadow: 0px 0px 5px rgba(229, 104, 76, 0.25);
+        font-family: Lato;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 100%; /* 1rem */
+        letter-spacing: 0.15rem;
+        text-transform: uppercase;
+    }
+
+    & > hr{
+        color:  #113452;
+    }
+
+    & .link{
+        color: #113452;
+        text-align: right;
+        font-size: 1.125rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 100%;
+        letter-spacing: -0.01125rem;
+        margin-top: 1.1rem;
+        display: inline-block;
+        
+        & > span{
+            border-bottom: 1px solid  #113452;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        & > svg{
+            vertical-align: -2px;
+        }
+
+    }
+}
+
+
+.team-carousel .swiper.teamSwiper .swiper-slide{
+    padding-top: 150px;
+    transition: all 0.75s cubic-bezier(0.65, 0, 0.35, 1);
+    opacity: 0;
+
+    &.swiper-slide-prev{
+        padding-top: 150px;
+        opacity: 1;
+    }
+    &.swiper-slide-active{
+        padding-top: 0;
+        opacity: 1;
+    }
+    &.swiper-slide-next{
+        padding-top: 150px;
+        opacity: 1;
+    }
+
+}
+
+
+.panel-container{
+    opacity: 0;
+    position: fixed;
+    z-index: 999999;
+    left: 0;
+    top: 0;
+    transition: opacity 0.5s ease 0s;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+
+
+    &.active{
+        opacity: 1;
+        pointer-events: all;
+
+        & .team-panel{
+            transform: translate3d(0,0,0);
+        }
+
+        & .team-panel--overlay{
+            pointer-events: all;
+        }
+    }
+
+
+    & .team-panel{
+        position: fixed;
+        z-index: 9999999999;
+        height: 100vh;
+        width: 100%;
+        max-width: 48rem;
+        right: 0;
+        border-radius: 0.75rem 0rem 0rem 0.75rem;
+        background: #F2F2F2;
+        transform: translate3d(50%,0,0);
+        overflow-y: scroll;
+        transition: all 0.5s ease;
+        top:0;
+
+        @media screen and (min-width: 1025px){
+            top: unset;
+        }
+    
+        &--header{
+            padding: 2.5rem;
+            padding-bottom: 0;
+    
+            & .close{
+                cursor: pointer;
+                display: flex;
+                justify-content: end;
+                @media screen and (min-width: 1025px){
+                    justify-content: start;
+                }
+            }
+        }
+        
+    
+        &--content{
+            padding: 1rem 3rem 12rem;
+            display: none;
+
+            @media screen and (min-width: 1025px){
+                padding: 0rem 6rem 12rem;
+            }
+
+            &.active{
+                display: block;
+            }
+
+            & p{
+                padding: 1rem 0;
+                margin-bottom: 0;
+            }
+        }
+        
+        
+    
+    
+    }
+
+    & .team-panel--overlay{
+        position: absolute;
+        display: block !important;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(17, 52, 82, 0.85);
+        backdrop-filter: blur(8.5px);   
+        z-index: 10000;
+    }
+
+
+
+}
+
+
+
+
+.elementor-editor-active .swiper.teamSwiper .swiper-slide{
+    max-height: 500px;
+    max-width: 300px;
+    aspect-ratio: 3/2;
+    opacity: 1 !important;
+}
+
+

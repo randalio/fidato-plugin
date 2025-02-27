@@ -1,0 +1,38 @@
+
+/* * * * * * * * * * * * * * * * * * * * * 
+*  Divider Locomotive Scroll Animations  *
+* * * * * * * * * * * * * * * * * * * * */
+
+/* Animate in Divider with Cubic Easing */
+.elementor-divider{
+    width: 0%;
+    transition: width 3s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+.loco-in-view{
+    & .elementor-divider{
+        width: 100%;
+    }
+}
+
+/* Half Speed Divider Animation for columns*/
+.loco-divider-half-speed{
+    & .elementor-divider{
+        transition: width 2s cubic-bezier(0.85, 0, 0.15, 1);
+    }
+}
+
+
+/* Cancel out default animation */
+.loco-no-anim{
+    &.elementor-divider{
+        width: unset !important;
+        transition: unset !important;
+    }
+
+    &.loco-in-view{
+        & .elementor-divider{
+            width: unset !important;
+        }
+    }
+}
