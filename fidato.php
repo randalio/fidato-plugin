@@ -135,9 +135,10 @@ class MyPlugin {
             'swiper',
             'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js'
         );
+        
         wp_enqueue_style(
             'swiper-styles',
-            plugin_dir_url('fidato/dist/css/swiper.css') . 'swiper.css',
+            plugin_dir_url(__FILE__) . 'dist/css/swiper.css',
             array(),
             $this->version
         );
