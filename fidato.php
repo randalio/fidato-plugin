@@ -105,13 +105,13 @@ class MyPlugin {
             $this->version
         );
 
-        wp_enqueue_script(
-            'fidato-admin',
-            plugin_dir_url(__FILE__) . 'dist/js/main.js',
-            array('jquery'),
-            $this->version,
-            true
-        );
+        // wp_enqueue_script(
+        //     'fidato-admin',
+        //     plugin_dir_url(__FILE__) . 'dist/js/main.js',
+        //     array('jquery'),
+        //     $this->version,
+        //     true
+        // );
     }
 
     public function enqueue_frontend_assets() {
