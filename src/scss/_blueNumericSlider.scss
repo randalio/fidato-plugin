@@ -1,0 +1,148 @@
+.blueNumericSwiper{
+
+    & .swiper-slide{
+
+        background: $fidatoBlueGrade;
+        color:#fff;
+        border-radius: 1rem;
+        font-family: 'Lato', sans-serif;
+        aspect-ratio: 4/3;
+        box-shadow: 5px 6px 13px rgba(0, 0, 0, 0.10);
+
+        @media screen and (max-width: 768px){
+            aspect-ratio: unset;
+            height: auto;
+
+        }
+
+        & .slide-inner{
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            height: 100%;
+        }
+        
+        &--header{
+            &-decoration{
+                display: flex;
+                justify-content: space-between;
+                align-items: start;
+
+                @media screen and (max-width: 768px){
+                    align-items: center;
+        
+                }
+
+                & img{
+                    max-width: 3rem;
+                }
+
+                & .counter{
+                    font-weight: 700;
+                    font-size: 1rem;
+                }
+            }
+
+            & h3{
+                pading: 0.5rem 0;
+                
+                @media screen and (max-width: 768px){
+                    padding: 0;
+        
+                }
+            }
+        }
+
+        &--footer{
+            width: 100%;
+            padding-bottom: 0.5rem;
+            
+            & a{
+                
+                color:#fff;
+               
+
+                & span{
+                    border-color:#fff;
+                    display: inline-block;
+                    margin-right: 0.5rem;
+                }
+            }
+
+            & svg *{
+                stroke: #fff !important;
+            }
+
+            & hr{
+                color:#fff;
+            }
+
+        }
+
+    }
+
+
+    & h3{
+        font-family: "Playfair Display";
+        font-size: 1.5rem;
+        color: #E5684C;
+        padding-right: 4rem;
+        margin-top: 0rem;
+
+    }
+
+    & hr{
+        color: #113452;
+        border-top: 1px;
+    }
+
+    & a{
+        color: #113452;
+        font-size: 1.125rem;
+        margin-right: 0.5rem;
+        margin-top: 0.5rem;
+        display: inline-block;
+
+        & span{
+            border-bottom: 1px solid #113452;    
+        }
+       
+        & svg{
+            vertical-align: -2px;
+        }
+    }
+
+    
+    
+}
+
+.blue-numeric-carousel .swiper-button-next,
+.blue-numeric-carousel .swiper-button-prev{
+    position: relative;
+    margin-top: 2rem;
+    width: 6.25rem;
+    height: 6.25rem;
+    & > svg{
+        width: 100%;
+        height: auto;
+    }
+    &:after{
+        display: none;
+    }
+}
+.blue-numeric-carousel .swiper-button-next{
+    left: 0; 
+}
+.blue-numeric-carousel .swiper-button-prev{
+    right: 0; 
+    left: unset;
+}
+
+.blue-numeric-carousel .swiper-navigation{
+    display: flex;
+    gap: 0rem;
+    justify-content: center;
+}

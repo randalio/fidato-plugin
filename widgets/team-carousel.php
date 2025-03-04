@@ -2,7 +2,7 @@
 class Elementor_Team_Carousel extends \Elementor\Widget_Base {
 
     public function get_name() { return 'team_carousel'; }
-    public function get_title() { return 'Fidato Wealth Team Slider'; }
+    public function get_title() { return 'Fidato Team Slider'; }
     public function get_icon() { return 'eicon-device-mobile'; }
     public function get_categories() { return ['general']; }
 

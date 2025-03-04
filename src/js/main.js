@@ -49,14 +49,7 @@ class FidatoPluginJS {
                     loop: true,
                     speed: 500,
                     spaceBetween: 72,
-                    // Prevent Swiper from capturing mousewheel events when not needed
-                    mousewheel: {
-                        forceToAxis: false,
-                        releaseOnEdges: true,
-                        // Only enable mousewheel when hovering over the swiper
-                        noMousewheelClass: 'swiper-no-mousewheel',
-                    },
-                    // Enable keyboard control only when swiper is in viewport
+                    mousewheel: false,
                     keyboard: {
                         enabled: true,
                         onlyInViewport: true,
@@ -90,6 +83,97 @@ class FidatoPluginJS {
                             }
                         }
                     }
+                });
+
+                // Initialize the Swiper with proper configuration to avoid scroll conflicts
+                var overflowSwiper = new Swiper('.overflowSwiper', {
+                    slidesPerView: 1.33,
+                    centeredSlides: true,
+                    loop: false,
+                    speed: 500,
+                    spaceBetween: 36,
+                    mousewheel: false,
+                    keyboard: {
+                        enabled: true,
+                        onlyInViewport: true,
+                    },
+                    navigation: {
+                        nextEl: '.overflow-swiper-button-next',
+                        prevEl: '.overflow-swiper-button-prev',
+                    },
+                    breakpoints: {
+                        768: {
+                            centeredSlides: false,
+                            slidesPerView: 2,
+                        },
+                        1024: {
+                            centeredSlides: false,
+                            slidesPerView: 3,
+                        }
+                    },
+                    // on: {
+                    //     // Important: Update Locomotive Scroll after swiper events
+                    //     slideChangeTransitionEnd: function() {
+                    //         if (scroll) {
+                    //             // Force Locomotive Scroll to update
+                    //             scroll.update();
+                    //         }
+                    //     },
+                    //     touchEnd: function() {
+                    //         if (scroll) {
+                    //             // Make sure Locomotive Scroll is updated after touch interactions
+                    //             setTimeout(() => {
+                    //                 scroll.update();
+                    //             }, 100);
+                    //         }
+                    //     }
+                    // }
+                });
+
+                var blueNumericSwiper = new Swiper('.blueNumericSwiper', {
+                    slidesPerView: 1.33,
+                    centeredSlides: true,
+                    loop: false,
+                    speed: 500,
+                    spaceBetween: 16,
+                    mousewheel: false,
+                    keyboard: {
+                        enabled: true,
+                        onlyInViewport: true,
+                    },
+                    navigation: {
+                        nextEl: '.blue-numeric-swiper-button-next',
+                        prevEl: '.blue-numeric-swiper-button-prev',
+                    },
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 2,
+                            centeredSlides: false,
+                            spaceBetween: 36,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            centeredSlides: false,
+                            spaceBetween: 36,
+                        }
+                    },
+                    // on: {
+                    //     // Important: Update Locomotive Scroll after swiper events
+                    //     slideChangeTransitionEnd: function() {
+                    //         if (scroll) {
+                    //             // Force Locomotive Scroll to update
+                    //             scroll.update();
+                    //         }
+                    //     },
+                    //     touchEnd: function() {
+                    //         if (scroll) {
+                    //             // Make sure Locomotive Scroll is updated after touch interactions
+                    //             setTimeout(() => {
+                    //                 scroll.update();
+                    //             }, 100);
+                    //         }
+                    //     }
+                    // }
                 });
                 
                 // Update Locomotive Scroll after Swiper initialization

@@ -10,11 +10,32 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+
+
+/* Team Slider */
 function register_team_carousel_elementor_widget( $widgets_manager ) {
     require_once( __DIR__ . '/widgets/team-carousel.php' );
     $widgets_manager->register( new \Elementor_Team_Carousel() );
 }
 add_action( 'elementor/widgets/register', 'register_team_carousel_elementor_widget' );
+
+
+/* Overflow Photo Slider */
+function register_overflow_carousel_elementor_widget( $widgets_manager ) {
+    require_once( __DIR__ . '/widgets/overflow-carousel.php' );
+    $widgets_manager->register( new \Elementor_Overflow_Carousel() );
+}
+add_action( 'elementor/widgets/register', 'register_overflow_carousel_elementor_widget' );
+
+
+/* Overflow Blue Numeric Slider */
+function register_blue_numeric_carousel_elementor_widget( $widgets_manager ) {
+    require_once( __DIR__ . '/widgets/blue-numeric-carousel.php' );
+    $widgets_manager->register( new \Elementor_Blue_Numeric_Carousel() );
+}
+add_action( 'elementor/widgets/register', 'register_blue_numeric_carousel_elementor_widget' );
+
+
 
 // Register Team Custom Post Type
 function custom_post_type() {

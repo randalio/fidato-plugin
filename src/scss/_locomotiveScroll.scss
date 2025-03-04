@@ -36,3 +36,17 @@
         }
     }
 }
+
+[data-scroll-class="loco-in-view"]{
+    opacity: 0 !important;
+    transition: background var(--background-transition,.3s),
+                border var(--border-transition,.3s),
+                box-shadow var(--border-transition,.3s),
+                transform var(--e-con-transform-transition-duration,.4s),
+                opacity 2s ease !important;
+}
+
+[data-scroll-class="loco-in-view"].loco-in-view{
+    opacity: 1 !important;
+    
+}
