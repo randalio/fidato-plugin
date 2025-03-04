@@ -103,7 +103,7 @@ add_action('admin_init', 'fidato_increase_memory_limit');
 
 
 class MyPlugin {
-    private $version = '1.0.4';
+    private $version = '1.0.6';
 
     public function __construct() {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
