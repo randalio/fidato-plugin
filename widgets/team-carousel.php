@@ -130,7 +130,7 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
 
                 <div class="swiper-navigation">
                     <!-- Navigation Buttons -->
-                    <div class="swiper-button-next team-swiper-button-prev">
+                    <div class="swiper-button-prev team-swiper-button-prev">
                         <svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88" fill="none">
                             <g filter="url(#filter0_d_40_63)">
                                 <circle cx="39" cy="38" r="25" transform="rotate(-180 39 38)" fill="#113452"/>
