@@ -56,7 +56,7 @@
 .team-carousel .swiper.teamSwiper .swiper-slide,
 .team-panel .team-panel--content{
     & img{
-        aspect-ratio: 11/16;
+        aspect-ratio: 23/31;
         min-width: 100%;
         object-fit: cover;
         border-radius: 1rem;
@@ -118,6 +118,7 @@
     padding-top: 150px;
     transition: all 0.75s cubic-bezier(0.65, 0, 0.35, 1);
     opacity: 0;
+    font-family: 'Lato', sans-serif;
 
     &.swiper-slide-prev{
         padding-top: 150px;
@@ -198,6 +199,7 @@
         &--content{
             padding: 1rem 3rem 12rem;
             display: none;
+            font-family: 'Lato', sans-serif;
 
             @media screen and (min-width: 1025px){
                 padding: 0rem 6rem 12rem;
