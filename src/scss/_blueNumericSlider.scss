@@ -138,12 +138,12 @@
 }
 .blue-numeric-carousel .swiper-button-next{
     left: 0; 
-    transform: translateX(0.75rem);
+    transform: translateX(-0.75rem);
 }
 .blue-numeric-carousel .swiper-button-prev{
     right: 0; 
     left: unset;
-    transform: translateX(-0.75rem);
+    transform: translateX(0.75rem);
 }
 
 .blue-numeric-carousel .swiper-navigation{

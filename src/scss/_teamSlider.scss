@@ -40,12 +40,12 @@
 }
 .team-carousel .swiper-button-next{
     left: 0; 
-    transform: translateX(0.75rem);
+    transform: translateX(-0.75rem);
 }
 .team-carousel .swiper-button-prev{
     right: 0; 
     left: unset;
-    transform: translateX(-0.75rem);
+    transform: translateX(0.75rem);
 }
 
 .team-carousel .swiper-navigation{
