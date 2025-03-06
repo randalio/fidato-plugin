@@ -39,14 +39,16 @@
 
 [data-scroll-class="loco-in-view"]{
     opacity: 0 !important;
-    
-}
-
-[data-scroll-class="loco-in-view"].loco-in-view{
-    opacity: 1 !important;
     transition: background var(--background-transition,.3s),
                 border var(--border-transition,.3s),
                 box-shadow var(--border-transition,.3s),
                 transform var(--e-con-transform-transition-duration,.4s),
                 opacity 2s ease !important;
+    transition-delay: 0.5s;
+    
+}
+
+[data-scroll-class="loco-in-view"].loco-in-view{
+    opacity: 1 !important;
+    
 }

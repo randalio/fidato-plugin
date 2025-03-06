@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Fidato Wealth
  * Description: Plugin with Webpack build system
- * Version: 1.0.4
+ * Version: 1.0.8
  * Author: Randal Pope
  */
 

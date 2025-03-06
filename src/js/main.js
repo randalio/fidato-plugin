@@ -32,7 +32,8 @@ class FidatoPluginJS {
                     smooth: true,
                     multiplier: 1,
                     class: 'loco-in-view',
-                    lerp: 0.1
+                    lerp: 0.05,
+                    offset: ["25%"," 25%"]
                 });
 
                 // Keep a reference to scrollTop outside of the event handlers
@@ -48,7 +49,7 @@ class FidatoPluginJS {
                     centeredSlides: true,
                     loop: true,
                     speed: 500,
-                    spaceBetween: 72,
+                    spaceBetween: 32,
                     mousewheel: false,
                     keyboard: {
                         enabled: true,
@@ -61,9 +62,11 @@ class FidatoPluginJS {
                     breakpoints: {
                         768: {
                             slidesPerView: 2,
+                            spaceBetween: 44,
                         },
                         1024: {
                             slidesPerView: 3,
+                            spaceBetween: 72,
                         }
                     },
                     on: {
