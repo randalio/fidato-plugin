@@ -60,8 +60,7 @@ var FidatoPluginJS = /*#__PURE__*/function () {
             smooth: true,
             multiplier: 1,
             "class": 'loco-in-view',
-            lerp: 0.05,
-            offset: ["25%", 0]
+            lerp: 0.05
           });
 
           // Keep a reference to scrollTop outside of the event handlers
