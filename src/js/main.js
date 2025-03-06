@@ -33,7 +33,7 @@ class FidatoPluginJS {
                     multiplier: 1,
                     class: 'loco-in-view',
                     lerp: 0.05,
-                    offset: ["25%"," 25%"]
+                    offset: ["25%", 0]
                 });
 
                 // Keep a reference to scrollTop outside of the event handlers
