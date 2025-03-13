@@ -2,30 +2,42 @@
 
     font-family: 'Lato', sans-serif;
 
+    // & .swiper-slide .slide-inner{
+
+    //     display: flex;
+    //     flex-direction: column;
+    //     align-items: flex-start; 
+
+    // }
+
     & .swiper-slide .slide-inner img{
         border-radius: 1rem ;
         box-shadow: 5px 6px 13px rgba(0, 0, 0, 0.10);
     }
 
 
-    & h3{
-        font-family: "Playfair Display";
-        font-size: 2.25rem;
-        padding-right: 4rem;
-        margin-top: 1rem;
-        text-shadow: 0px 0px 5px rgba(17, 52, 82, 0.25);
+    & h3.name {
 
-        @media screen and (max-width: 768px){
-            font-size: 1.5rem;
-            padding-right: 0;
+        & > span{
+            font-family: "Playfair Display", serif;
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0px 0px 5px rgba(17, 52, 82, 0.25);
+            display: inline-block;
+            width: auto;
+            max-width: fit-content;
+            line-height: 1.2;
         }
-
+        
     }
 
     & hr{
-        color: #113452;
-        border-top: 1px;
+        color:  #113452;
+        border-bottom: 0px solid transparent;
     }
+
 
     & a{
         color: #113452;
@@ -51,8 +63,10 @@
 .overflow-carousel .swiper-button-prev{
     position: relative;
     margin-top: 2rem;
-    width: 6.25rem;
-    height: 6.25rem;
+    width: 3.25rem;
+    height: 3.25rem;
+    position: relative;
+    z-index: 1;
     & > svg{
         width: 100%;
         height: auto;
@@ -60,23 +74,43 @@
     &:after{
         display: none;
     }
+
+    &:before{
+        content: '';
+        display: block;
+        top: 0;
+        left: 0;
+        // border: 1px solid red;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        border-radius: 50%;
+        background-color:#fff;
+        box-shadow: 0px 0px 17px rgba(17, 52, 82, 0.45);
+        z-index: -1;
+    }
+
+    
 }
 .overflow-carousel .swiper-button-next{
     left: 0; 
-    &>svg{
-        transform: translateX(-0.5rem);
-    }
+   
+    // &>svg{
+    //     transform: translateX(-0.5rem);
+    // }
+    
 }
 .overflow-carousel .swiper-button-prev{
     right: 0; 
     left: unset;
-    &>svg{
-        transform: translateX(0.5rem);
-    }
+    // &>svg{
+    //     transform: translateX(0.5rem);
+    // }
 }
 
 .overflow-carousel .swiper-navigation{
     display: flex;
-    gap: 0rem;
+    gap: 1.25rem;
     justify-content: center;
+    margin-top: 2rem;
 }

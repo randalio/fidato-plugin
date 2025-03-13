@@ -68,7 +68,9 @@ class Elementor_Overflow_Carousel extends \Elementor\Widget_Base {
                                 ?>
 
     
-                                <h3 class="name blue-grade"><?php echo $slide['title'];?></h3>
+                                <h3 class="name blue-grade">
+                                    <span><?php echo $slide['title'];?></span>
+                                </h3>
                                 <hr/>
 
                                 <a class="link" href="#<?php echo $slug; ?>">
@@ -85,46 +87,16 @@ class Elementor_Overflow_Carousel extends \Elementor\Widget_Base {
 
                 <div class="swiper-navigation">
                     <!-- Navigation Buttons -->
-                    <div class="swiper-button-next overflow-swiper-button-prev">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88" fill="none">
-                            <g filter="url(#filter0_d_40_63)">
-                                <circle cx="39" cy="38" r="25" transform="rotate(-180 39 38)" fill="#113452"/>
-                                <path d="M54 38L24 38M24 38L33.6429 47M24 38L33.6429 29" stroke="white"/>
-                            </g>
-                            <defs>
-                                <filter id="filter0_d_40_63" x="0" y="0" width="88" height="88" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                <feMorphology radius="6" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_40_63"/>
-                                <feOffset dx="5" dy="6"/>
-                                <feGaussianBlur stdDeviation="6.5"/>
-                                <feComposite in2="hardAlpha" operator="out"/>
-                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_40_63"/>
-                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_40_63" result="shape"/>
-                                </filter>
-                            </defs>
+                    <div class="swiper-button-prev overflow-swiper-button-prev">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
+                        <circle cx="25" cy="25" r="25" transform="rotate(-180 25 25)" fill="#113452"/>
+                        <path d="M40 25L10 25M10 25L19.6429 34M10 25L19.6429 16" stroke="white"/>
                         </svg>
                     </div>
                     <div class="swiper-button-next overflow-swiper-button-next">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88" fill="none">
-                            <g filter="url(#filter0_d_40_70)">
-                                <circle cx="39" cy="38" r="25" fill="#113452"/>
-                                <path d="M24 38L54 38M54 38L44.3571 29M54 38L44.3571 47" stroke="white"/>
-                            </g>
-                            <defs>
-                                <filter id="filter0_d_40_70" x="0" y="0" width="88" height="88" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                                <feMorphology radius="6" operator="dilate" in="SourceAlpha" result="effect1_dropShadow_40_70"/>
-                                <feOffset dx="5" dy="6"/>
-                                <feGaussianBlur stdDeviation="6.5"/>
-                                <feComposite in2="hardAlpha" operator="out"/>
-                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
-                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_40_70"/>
-                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_40_70" result="shape"/>
-                                </filter>
-                            </defs>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
+                        <circle cx="25" cy="25" r="25" fill="#113452"/>
+                        <path d="M10 25L40 25M40 25L30.3571 16M40 25L30.3571 34" stroke="white"/>
                         </svg>
                     </div>
             </div>

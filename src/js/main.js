@@ -43,48 +43,61 @@ class FidatoPluginJS {
                 });
 
                 // Initialize the Swiper with proper configuration to avoid scroll conflicts
+             // Initialize the Swiper with proper configuration to avoid jump on loop
                 var teamSwiper = new Swiper('.teamSwiper', {
                     slidesPerView: 1.5,
-                    centeredSlides: true,
                     loop: true,
-                    speed: 500,
+                    speed: 750, // Match your CSS transition speed
                     spaceBetween: 32,
                     mousewheel: false,
                     keyboard: {
-                        enabled: true,
-                        onlyInViewport: true,
+                    enabled: true,
+                    onlyInViewport: true,
                     },
                     navigation: {
-                        nextEl: '.team-swiper-button-next',
-                        prevEl: '.team-swiper-button-prev',
+                    nextEl: '.team-swiper-button-next',
+                    prevEl: '.team-swiper-button-prev',
                     },
                     breakpoints: {
-                        768: {
-                            slidesPerView: 2,
-                            spaceBetween: 44,
-                        },
-                        1024: {
-                            slidesPerView: 3,
-                            spaceBetween: 72,
+                    768: {
+                        slidesPerView: 2,
+                        spaceBetween: 44,
+                    },
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 100,
+                    }
+                    },
+                    // These are the key fixes for smooth looping
+                    loopAdditionalSlides: 5, // Add more cloned slides
+                    loopedSlides: 5,         // Number of looped slides
+                    // This is critical for smooth animation
+                    allowTouchMove: false,   // Disable touch movement to prevent jump issues
+                    on: {
+                    // Important: Update Locomotive Scroll after swiper events
+                    slideChangeTransitionEnd: function() {
+                        if (scroll) {
+                        // Force Locomotive Scroll to update
+                        scroll.update();
                         }
                     },
-                    on: {
-                        // Important: Update Locomotive Scroll after swiper events
-                        slideChangeTransitionEnd: function() {
-                            if (scroll) {
-                                // Force Locomotive Scroll to update
-                                scroll.update();
-                            }
-                        },
-                        touchEnd: function() {
-                            if (scroll) {
-                                // Make sure Locomotive Scroll is updated after touch interactions
-                                setTimeout(() => {
-                                    scroll.update();
-                                }, 100);
-                            }
+                    touchEnd: function() {
+                        if (scroll) {
+                        // Make sure Locomotive Scroll is updated after touch interactions
+                        setTimeout(() => {
+                            scroll.update();
+                        }, 100);
                         }
                     }
+                    }
+                });
+                
+                // If you need touch movement, add this to handle navigation via buttons only:
+                document.querySelector('.team-swiper-button-next').addEventListener('click', () => {
+                    teamSwiper.slideNext();
+                });
+                document.querySelector('.team-swiper-button-prev').addEventListener('click', () => {
+                    teamSwiper.slidePrev();
                 });
 
                 // Initialize the Swiper with proper configuration to avoid scroll conflicts
