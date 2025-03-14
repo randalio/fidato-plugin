@@ -104,7 +104,7 @@ body .elementor-element .e-n-accordion .e-n-accordion-item:first-child .e-n-acco
     border-top: 1px solid #113452;
 }
 
-body .elementor-element .elementor-widget-n-accordion .e-n-accordion .e-n-accordion-item-title * {
+body .elementor-element .elementor-widget-n-accordion .e-n-accordion .e-n-accordion-item-title *:not(i) {
     color: var(--e-global-color-770f0b03);
     font-family: "Playfair Display",Sans-serif;
     font-size: 1.5rem;
