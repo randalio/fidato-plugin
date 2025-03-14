@@ -203,11 +203,11 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
 
                     <hr/>
 
-                    <p><?php echo get_the_excerpt($member_id); ?></p>
+                    <p><?php echo get_the_content($member_id); ?></p>
 
                     <hr/>
 
-                    <?php if( $url ): ?>
+                    <?php if( $url == 'hide this' ): ?>
                     <a class="link" href="<?php echo $url; ?>">
                         <span>More Information</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" viewBox="0 0 21 14" fill="none">
