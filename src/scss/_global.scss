@@ -72,3 +72,22 @@
 
 
     }
+
+
+
+@media screen and (max-width: 768px){
+    .elementor-button-wrapper{
+        max-width: 66.66%;
+        & > a{
+            text-align: left;
+
+            & .elementor-button-icon{
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+            }
+
+        }
+    }
+}
+   
