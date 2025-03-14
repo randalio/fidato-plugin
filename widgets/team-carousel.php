@@ -202,9 +202,10 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
                     <p class="position"><?php echo $slide['position'];?></p>
 
                     <hr/>
-
-                    <p><?php echo get_post($member_id)->post_content; ?></p>
-
+                    <?php
+                    $member = get_post( $member_id);
+                    $content = apply_filters('the_content',$member->post_content);
+                    echo $content; ?>
                     <hr/>
 
                     <?php if( $url == 'hide this' ): ?>
