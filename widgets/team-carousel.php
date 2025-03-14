@@ -203,7 +203,7 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
 
                     <hr/>
 
-                    <p><?php echo get_the_content($member_id); ?></p>
+                    <p><?php echo get_post($member_id)->post_content; ?></p>
 
                     <hr/>
 
