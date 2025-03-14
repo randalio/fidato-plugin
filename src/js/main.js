@@ -48,6 +48,7 @@ class FidatoPluginJS {
                     slidesPerView: 1.5,
                     loop: true,
                     speed: 750, // Match your CSS transition speed
+                    centeredSlides: true,
                     spaceBetween: 32,
                     mousewheel: false,
                     keyboard: {
@@ -62,10 +63,12 @@ class FidatoPluginJS {
                     768: {
                         slidesPerView: 2,
                         spaceBetween: 44,
+                        centeredSlides: true,
                     },
                     1024: {
                         slidesPerView: 3,
                         spaceBetween: 100,
+                        centeredSlides: false,
                     }
                     },
                     // These are the key fixes for smooth looping
