@@ -40,6 +40,7 @@ add_action( 'elementor/widgets/register', 'register_blue_numeric_carousel_elemen
 // Register Team Custom Post Type
 function custom_post_type() {
 
+    // Company Roster / Team
 	$labels = array(
 		'name'                  => _x( 'Members', 'Post Type General Name', 'fidato-wealth' ),
 		'singular_name'         => _x( 'Member', 'Post Type Singular Name', 'fidato-wealth' ),
@@ -89,6 +90,112 @@ function custom_post_type() {
 		'capability_type'       => 'page',
 	);
 	register_post_type( 'our-team', $args );
+
+
+    // Podcasts
+    $labels = array(
+		'name'                  => _x( 'Podcasts', 'Post Type General Name', 'fidato-wealth' ),
+		'singular_name'         => _x( 'Podcast', 'Post Type Singular Name', 'fidato-wealth' ),
+		'menu_name'             => __( 'Podcasts', 'fidato-wealth' ),
+		'name_admin_bar'        => __( 'Podcasts', 'fidato-wealth' ),
+		'archives'              => __( 'Podcast Archives', 'fidato-wealth' ),
+		'attributes'            => __( 'Podcast Attributes', 'fidato-wealth' ),
+		'parent_item_colon'     => __( 'Parent Podcast:', 'fidato-wealth' ),
+		'all_items'             => __( 'All Podcasts', 'fidato-wealth' ),
+		'add_new_item'          => __( 'Add New Podcast', 'fidato-wealth' ),
+		'add_new'               => __( 'Add New', 'fidato-wealth' ),
+		'new_item'              => __( 'New Podcast', 'fidato-wealth' ),
+		'edit_item'             => __( 'Edit Podcast', 'fidato-wealth' ),
+		'update_item'           => __( 'Update Podcast', 'fidato-wealth' ),
+		'view_item'             => __( 'View Podcast', 'fidato-wealth' ),
+		'view_items'            => __( 'View Podcast', 'fidato-wealth' ),
+		'search_items'          => __( 'Search Podcast', 'fidato-wealth' ),
+		'not_found'             => __( 'Not found', 'fidato-wealth' ),
+		'not_found_in_trash'    => __( 'Not found in Trash', 'fidato-wealth' ),
+		'featured_image'        => __( 'Featured Image', 'fidato-wealth' ),
+		'set_featured_image'    => __( 'Set featured image', 'fidato-wealth' ),
+		'remove_featured_image' => __( 'Remove featured image', 'fidato-wealth' ),
+		'use_featured_image'    => __( 'Use as featured image', 'fidato-wealth' ),
+		'insert_into_item'      => __( 'Insert into Podcast', 'fidato-wealth' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this Podcast', 'fidato-wealth' ),
+		'items_list'            => __( 'Podcast list', 'fidato-wealth' ),
+		'items_list_navigation' => __( 'Podcast list navigation', 'fidato-wealth' ),
+		'filter_items_list'     => __( 'Filter members list', 'fidato-wealth' ),
+	);
+	$args = array(
+		'label'                 => __( 'Podcast', 'fidato-wealth' ),
+		'description'           => __( 'Post Type Description', 'fidato-wealth' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title', 'editor', 'excerpt' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 20,
+		'menu_icon'             => 'dashicons-controls-volumeon',
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => true,
+		'can_export'            => true,
+		'has_archive'           => true,
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+		'capability_type'       => 'page',
+	);
+	register_post_type( 'podcasts', $args );
+
+
+    // Articles
+    $labels = array(
+        'name'                  => _x( 'Articles', 'Post Type General Name', 'fidato-wealth' ),
+        'singular_name'         => _x( 'Article', 'Post Type Singular Name', 'fidato-wealth' ),
+        'menu_name'             => __( 'Articles', 'fidato-wealth' ),
+        'name_admin_bar'        => __( 'Articles', 'fidato-wealth' ),
+        'archives'              => __( 'Article Archives', 'fidato-wealth' ),
+        'attributes'            => __( 'Article Attributes', 'fidato-wealth' ),
+        'parent_item_colon'     => __( 'Parent Article:', 'fidato-wealth' ),
+        'all_items'             => __( 'All Articles', 'fidato-wealth' ),
+        'add_new_item'          => __( 'Add New Article', 'fidato-wealth' ),
+        'add_new'               => __( 'Add New', 'fidato-wealth' ),
+        'new_item'              => __( 'New Article', 'fidato-wealth' ),
+        'edit_item'             => __( 'Edit Article', 'fidato-wealth' ),
+        'update_item'           => __( 'Update Article', 'fidato-wealth' ),
+        'view_item'             => __( 'View Article', 'fidato-wealth' ),
+        'view_items'            => __( 'View Article', 'fidato-wealth' ),
+        'search_items'          => __( 'Search Article', 'fidato-wealth' ),
+        'not_found'             => __( 'Not found', 'fidato-wealth' ),
+        'not_found_in_trash'    => __( 'Not found in Trash', 'fidato-wealth' ),
+        'featured_image'        => __( 'Featured Image', 'fidato-wealth' ),
+        'set_featured_image'    => __( 'Set featured image', 'fidato-wealth' ),
+        'remove_featured_image' => __( 'Remove featured image', 'fidato-wealth' ),
+        'use_featured_image'    => __( 'Use as featured image', 'fidato-wealth' ),
+        'insert_into_item'      => __( 'Insert into Article', 'fidato-wealth' ),
+        'uploaded_to_this_item' => __( 'Uploaded to this Article', 'fidato-wealth' ),
+        'items_list'            => __( 'Article list', 'fidato-wealth' ),
+        'items_list_navigation' => __( 'Article list navigation', 'fidato-wealth' ),
+        'filter_items_list'     => __( 'Filter members list', 'fidato-wealth' ),
+    );
+    $args = array(
+        'label'                 => __( 'Article', 'fidato-wealth' ),
+        'description'           => __( 'Post Type Description', 'fidato-wealth' ),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'excerpt' ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 20,
+        'menu_icon'             => 'dashicons-media-document',
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'page',
+    );
+    register_post_type( 'articles', $args );
+
+
 
 }
 add_action( 'init', 'custom_post_type', 0 );
