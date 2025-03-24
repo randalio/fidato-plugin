@@ -71,69 +71,6 @@ var FidatoPluginJS = /*#__PURE__*/function () {
           });
 
           // Initialize the Swiper with proper configuration to avoid scroll conflicts
-          // Initialize the Swiper with proper configuration to avoid jump on loop
-          var teamSwiper = new Swiper('.teamSwiper', {
-            slidesPerView: 1.5,
-            loop: true,
-            speed: 750,
-            // Match your CSS transition speed
-            centeredSlides: true,
-            spaceBetween: 32,
-            mousewheel: false,
-            keyboard: {
-              enabled: true,
-              onlyInViewport: true
-            },
-            navigation: {
-              nextEl: '.team-swiper-button-next',
-              prevEl: '.team-swiper-button-prev'
-            },
-            breakpoints: {
-              768: {
-                slidesPerView: 2,
-                spaceBetween: 44,
-                centeredSlides: true
-              },
-              1024: {
-                slidesPerView: 3,
-                spaceBetween: 100,
-                centeredSlides: false
-              }
-            },
-            // These are the key fixes for smooth looping
-            loopAdditionalSlides: 5,
-            // Add more cloned slides
-            loopedSlides: 5,
-            // Number of looped slides
-            // This is critical for smooth animation
-            allowTouchMove: false,
-            // Disable touch movement to prevent jump issues
-            on: {
-              // Important: Update Locomotive Scroll after swiper events
-              slideChangeTransitionEnd: function slideChangeTransitionEnd() {
-                if (scroll) {
-                  // Force Locomotive Scroll to update
-                  scroll.update();
-                }
-              },
-              touchEnd: function touchEnd() {
-                if (scroll) {
-                  // Make sure Locomotive Scroll is updated after touch interactions
-                  setTimeout(function () {
-                    scroll.update();
-                  }, 100);
-                }
-              }
-            }
-          });
-
-          // If you need touch movement, add this to handle navigation via buttons only:
-          document.querySelector('.team-swiper-button-next').addEventListener('click', function () {
-            teamSwiper.slideNext();
-          });
-          document.querySelector('.team-swiper-button-prev').addEventListener('click', function () {
-            teamSwiper.slidePrev();
-          });
 
           // Initialize the Swiper with proper configuration to avoid scroll conflicts
           var overflowSwiper = new Swiper('.overflowSwiper', {
@@ -224,6 +161,22 @@ var FidatoPluginJS = /*#__PURE__*/function () {
             //     }
             // }
           });
+          var learningCenterSwiper = new Swiper('.learningCenterSwiper', {
+            slidesPerView: 1,
+            centeredSlides: false,
+            loop: false,
+            speed: 500,
+            spaceBetween: 36,
+            mousewheel: false,
+            keyboard: {
+              enabled: true,
+              onlyInViewport: true
+            },
+            navigation: {
+              nextEl: '.learning-center-swiper-button-next',
+              prevEl: '.learning-center-swiper-button-prev'
+            }
+          });
 
           // Update Locomotive Scroll after Swiper initialization
           setTimeout(function () {
@@ -231,83 +184,148 @@ var FidatoPluginJS = /*#__PURE__*/function () {
               scroll.update();
             }
           }, 500);
+          if (document.querySelectorAll('.team-carousel').length) {
+            // Initialize the Swiper with proper configuration to avoid jump on loop
+            var teamSwiper = new Swiper('.teamSwiper', {
+              slidesPerView: 1.5,
+              loop: true,
+              speed: 750,
+              // Match your CSS transition speed
+              centeredSlides: true,
+              spaceBetween: 32,
+              mousewheel: false,
+              keyboard: {
+                enabled: true,
+                onlyInViewport: true
+              },
+              navigation: {
+                nextEl: '.team-swiper-button-next',
+                prevEl: '.team-swiper-button-prev'
+              },
+              breakpoints: {
+                768: {
+                  slidesPerView: 2,
+                  spaceBetween: 44,
+                  centeredSlides: true
+                },
+                1024: {
+                  slidesPerView: 3,
+                  spaceBetween: 100,
+                  centeredSlides: false
+                }
+              },
+              // These are the key fixes for smooth looping
+              loopAdditionalSlides: 5,
+              // Add more cloned slides
+              loopedSlides: 5,
+              // Number of looped slides
+              // This is critical for smooth animation
+              allowTouchMove: false,
+              // Disable touch movement to prevent jump issues
+              on: {
+                // Important: Update Locomotive Scroll after swiper events
+                slideChangeTransitionEnd: function slideChangeTransitionEnd() {
+                  if (scroll) {
+                    // Force Locomotive Scroll to update
+                    scroll.update();
+                  }
+                },
+                touchEnd: function touchEnd() {
+                  if (scroll) {
+                    // Make sure Locomotive Scroll is updated after touch interactions
+                    setTimeout(function () {
+                      scroll.update();
+                    }, 100);
+                  }
+                }
+              }
+            });
 
-          // Select all link elements within swiper-slide elements that are inside team-carousel
-          document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(function (link) {
-            // Add click event listener to each link
-            link.addEventListener('click', function (e) {
-              e.preventDefault();
-              var linkHref = this.getAttribute('href').toString();
-              document.querySelector(linkHref).classList.add('active');
-              console.log(linkHref);
+            // If you need touch movement, add this to handle navigation via buttons only:
+            document.querySelector('.team-swiper-button-next').addEventListener('click', function () {
+              teamSwiper.slideNext();
+            });
+            document.querySelector('.team-swiper-button-prev').addEventListener('click', function () {
+              teamSwiper.slidePrev();
+            });
+
+            // Select all link elements within swiper-slide elements that are inside team-carousel
+            document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(function (link) {
+              // Add click event listener to each link
+              link.addEventListener('click', function (e) {
+                e.preventDefault();
+                var linkHref = this.getAttribute('href').toString();
+                document.querySelector(linkHref).classList.add('active');
+                console.log(linkHref);
+                var teamPanelOverlay = document.querySelector('.panel-container');
+                if (scroll) {
+                  scroll.stop();
+                }
+                teamPanelOverlay.classList.add('active');
+                teamPanelOverlay.style.top = scrollTop + 'px';
+              });
+            });
+
+            // Make sure all close/overlay click handlers properly restart Locomotive Scroll
+            document.querySelector('.team-panel--header .close').addEventListener('click', function () {
               var teamPanelOverlay = document.querySelector('.panel-container');
+              teamPanelOverlay.classList.remove('active');
+              document.querySelectorAll('.team-panel--content').forEach(function (panel) {
+                panel.classList.remove('active');
+              });
               if (scroll) {
-                scroll.stop();
+                scroll.start();
+
+                // Force update after starting
+                setTimeout(function () {
+                  scroll.update();
+                }, 100);
               }
-              teamPanelOverlay.classList.add('active');
-              teamPanelOverlay.style.top = scrollTop + 'px';
             });
-          });
+            document.querySelector('.team-panel--overlay').addEventListener('click', function () {
+              console.log('overlay clicked');
+              var teamPanelOverlay = document.querySelector('.panel-container');
+              teamPanelOverlay.classList.remove('active');
+              document.querySelectorAll('.team-panel--content').forEach(function (panel) {
+                panel.classList.remove('active');
+              });
+              if (scroll) {
+                scroll.start();
 
-          // Make sure all close/overlay click handlers properly restart Locomotive Scroll
-          document.querySelector('.team-panel--header .close').addEventListener('click', function () {
-            var teamPanelOverlay = document.querySelector('.panel-container');
-            teamPanelOverlay.classList.remove('active');
-            document.querySelectorAll('.team-panel--content').forEach(function (panel) {
-              panel.classList.remove('active');
-            });
-            if (scroll) {
-              scroll.start();
-
-              // Force update after starting
-              setTimeout(function () {
-                scroll.update();
-              }, 100);
-            }
-          });
-          document.querySelector('.team-panel--overlay').addEventListener('click', function () {
-            console.log('overlay clicked');
-            var teamPanelOverlay = document.querySelector('.panel-container');
-            teamPanelOverlay.classList.remove('active');
-            document.querySelectorAll('.team-panel--content').forEach(function (panel) {
-              panel.classList.remove('active');
-            });
-            if (scroll) {
-              scroll.start();
-
-              // Force update after starting
-              setTimeout(function () {
-                scroll.update();
-              }, 100);
-            }
-          });
-
-          // Add event listeners to handle resize events
-          window.addEventListener('resize', function () {
-            if (scroll) {
-              // Force Locomotive Scroll update on window resize
-              setTimeout(function () {
-                scroll.update();
-              }, 100);
-            }
-          });
-
-          // Ensure Locomotive Scroll continues to work when interacting with the Swiper
-          var teamCarousel = document.querySelector('.team-carousel');
-          if (teamCarousel) {
-            // When mouse enters the carousel, make sure scroll isn't stopped
-            teamCarousel.addEventListener('mouseenter', function () {
-              if (scroll && !document.querySelector('.panel-container.active')) {
-                scroll.update();
+                // Force update after starting
+                setTimeout(function () {
+                  scroll.update();
+                }, 100);
               }
             });
 
-            // When mouse leaves the carousel, make sure scroll is working
-            teamCarousel.addEventListener('mouseleave', function () {
-              if (scroll && !document.querySelector('.panel-container.active')) {
-                scroll.update();
+            // Add event listeners to handle resize events
+            window.addEventListener('resize', function () {
+              if (scroll) {
+                // Force Locomotive Scroll update on window resize
+                setTimeout(function () {
+                  scroll.update();
+                }, 100);
               }
             });
+
+            // Ensure Locomotive Scroll continues to work when interacting with the Swiper
+            var teamCarousel = document.querySelector('.team-carousel');
+            if (teamCarousel) {
+              // When mouse enters the carousel, make sure scroll isn't stopped
+              teamCarousel.addEventListener('mouseenter', function () {
+                if (scroll && !document.querySelector('.panel-container.active')) {
+                  scroll.update();
+                }
+              });
+
+              // When mouse leaves the carousel, make sure scroll is working
+              teamCarousel.addEventListener('mouseleave', function () {
+                if (scroll && !document.querySelector('.panel-container.active')) {
+                  scroll.update();
+                }
+              });
+            }
           }
         }, false);
       });

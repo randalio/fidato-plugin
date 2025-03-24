@@ -36,6 +36,18 @@ function register_blue_numeric_carousel_elementor_widget( $widgets_manager ) {
 add_action( 'elementor/widgets/register', 'register_blue_numeric_carousel_elementor_widget' );
 
 
+/* Learning Center Resources Slider */
+function register_learning_center_carousel_elementor_widget( $widgets_manager ) {
+    require_once( __DIR__ . '/widgets/learning-center-carousel.php' );
+    $widgets_manager->register( new \Elementor_Learning_Center_Carousel() );
+}
+add_action( 'elementor/widgets/register', 'register_learning_center_carousel_elementor_widget' );
+
+
+//Resource Card
+require_once( __DIR__ . '/template-functions/resource-card.php' );
+
+
 
 // Register Team Custom Post Type
 function custom_post_type() {
@@ -194,6 +206,58 @@ function custom_post_type() {
         'capability_type'       => 'page',
     );
     register_post_type( 'articles', $args );
+
+
+    // Videos
+    $labels = array(
+        'name'                  => _x( 'Videos', 'Post Type General Name', 'fidato-wealth' ),
+        'singular_name'         => _x( 'Video', 'Post Type Singular Name', 'fidato-wealth' ),
+        'menu_name'             => __( 'Videos', 'fidato-wealth' ),
+        'name_admin_bar'        => __( 'Videos', 'fidato-wealth' ),
+        'archives'              => __( 'Video Archives', 'fidato-wealth' ),
+        'attributes'            => __( 'Video Attributes', 'fidato-wealth' ),
+        'parent_item_colon'     => __( 'Parent Video:', 'fidato-wealth' ),
+        'all_items'             => __( 'All Videos', 'fidato-wealth' ),
+        'add_new_item'          => __( 'Add New Video', 'fidato-wealth' ),
+        'add_new'               => __( 'Add New', 'fidato-wealth' ),
+        'new_item'              => __( 'New Video', 'fidato-wealth' ),
+        'edit_item'             => __( 'Edit Video', 'fidato-wealth' ),
+        'update_item'           => __( 'Update Video', 'fidato-wealth' ),
+        'view_item'             => __( 'View Video', 'fidato-wealth' ),
+        'view_items'            => __( 'View Video', 'fidato-wealth' ),
+        'search_items'          => __( 'Search Video', 'fidato-wealth' ),
+        'not_found'             => __( 'Not found', 'fidato-wealth' ),
+        'not_found_in_trash'    => __( 'Not found in Trash', 'fidato-wealth' ),
+        'featured_image'        => __( 'Featured Image', 'fidato-wealth' ),
+        'set_featured_image'    => __( 'Set featured image', 'fidato-wealth' ),
+        'remove_featured_image' => __( 'Remove featured image', 'fidato-wealth' ),
+        'use_featured_image'    => __( 'Use as featured image', 'fidato-wealth' ),
+        'insert_into_item'      => __( 'Insert into Video', 'fidato-wealth' ),
+        'uploaded_to_this_item' => __( 'Uploaded to this Video', 'fidato-wealth' ),
+        'items_list'            => __( 'Video list', 'fidato-wealth' ),
+        'items_list_navigation' => __( 'Video list navigation', 'fidato-wealth' ),
+        'filter_items_list'     => __( 'Filter members list', 'fidato-wealth' ),
+    );
+    $args = array(
+        'label'                 => __( 'Video', 'fidato-wealth' ),
+        'description'           => __( 'Post Type Description', 'fidato-wealth' ),
+        'labels'                => $labels,
+        'supports'              => array( 'title', 'editor', 'excerpt' ),
+        'hierarchical'          => false,
+        'public'                => true,
+        'show_ui'               => true,
+        'show_in_menu'          => true,
+        'menu_position'         => 20,
+        'menu_icon'             => 'dashicons-format-video',
+        'show_in_admin_bar'     => true,
+        'show_in_nav_menus'     => true,
+        'can_export'            => true,
+        'has_archive'           => true,
+        'exclude_from_search'   => false,
+        'publicly_queryable'    => true,
+        'capability_type'       => 'page',
+    );
+    register_post_type( 'videos', $args );
 
 
 
