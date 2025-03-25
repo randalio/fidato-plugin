@@ -154,6 +154,7 @@ function custom_post_type() {
 		'capability_type'       => 'page',
 	);
 	register_post_type( 'podcasts', $args );
+    register_taxonomy_for_object_type( 'category', 'podcasts' );
 
 
     // Articles
@@ -206,6 +207,7 @@ function custom_post_type() {
         'capability_type'       => 'page',
     );
     register_post_type( 'articles', $args );
+    register_taxonomy_for_object_type( 'category', 'articles' );
 
 
     // Videos
@@ -258,7 +260,7 @@ function custom_post_type() {
         'capability_type'       => 'page',
     );
     register_post_type( 'videos', $args );
-
+    register_taxonomy_for_object_type( 'category', 'videos' );
 
 
 }
@@ -288,7 +290,6 @@ class MyPlugin {
             echo '  </div>';
             echo '</div>';
         });
-        
 
     }
 
@@ -345,7 +346,11 @@ class MyPlugin {
             array(),
             $this->version
         );
+
+
     }
+
+
 }
 new MyPlugin();
 

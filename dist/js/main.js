@@ -327,126 +327,97 @@ var FidatoPluginJS = /*#__PURE__*/function () {
               });
             }
           }
+          if (document.querySelectorAll('.fidato--resource-card.videos').length) {
+            //console.log(document.querySelectorAll('.fidato--resource-card.videos').length);
+
+            // First, let's create the play button element
+            var playButton = document.createElement('div');
+            playButton.className = 'play-button';
+            playButton.style.position = 'absolute'; // Changed from 'fixed' to 'absolute'
+            playButton.style.pointerEvents = 'none';
+            playButton.style.opacity = '0';
+            playButton.style.zIndex = '1000';
+            playButton.style.pointerEvents = 'none';
+            playButton.style.transition = 'left 0.15s ease-out, top 0.15s ease-out, opacity 0.5s ease'; // Add smooth transition
+
+            // You can add styling to the play button
+            playButton.innerHTML = "\n                    <span>Click To Play</span>\n                    ";
+
+            // Append the play button to the learning-center-carousel
+            var carousel = document.querySelector('.learning-center-carousel');
+            if (carousel) {
+              carousel.appendChild(playButton);
+              // Make sure the carousel has position relative or absolute for proper positioning
+              var carouselPosition = window.getComputedStyle(carousel).position;
+              if (carouselPosition === 'static') {
+                carousel.style.position = 'relative';
+              }
+            } else {
+              document.body.appendChild(playButton);
+            }
+
+            // Variable to store the timeout ID
+            var moveTimeout;
+
+            // Add event listeners to video elements
+            var videos = document.querySelectorAll('.fidato--resource-card.videos');
+            var _loop = function _loop(_i) {
+              videos[_i].addEventListener('mouseover', function (event) {
+                // Get mouse position relative to the carousel
+                var rect = carousel.getBoundingClientRect();
+                var x = event.clientX - rect.left;
+                var y = event.clientY - rect.top;
+                if (videos[_i].classList.contains('featured')) {
+                  playButton.classList.add('featured');
+                } else {
+                  playButton.classList.remove('featured');
+                }
+
+                // Position the play button at the cursor location immediately on hover
+                playButton.style.left = x - 20 + 'px';
+                playButton.style.top = y - 20 + 'px';
+
+                // Make the play button visible
+                playButton.style.opacity = '1';
+              });
+
+              // Track mouse movement while hovering over the video
+              videos[_i].addEventListener('mousemove', function (event) {
+                // Clear any existing timeout
+                clearTimeout(moveTimeout);
+
+                // Create a new timeout to delay the position update
+                moveTimeout = setTimeout(function () {
+                  // Get mouse position relative to the carousel
+                  var rect = carousel.getBoundingClientRect();
+                  var x = event.clientX - rect.left;
+                  var y = event.clientY - rect.top;
+
+                  // Update the play button position
+                  playButton.style.left = x - 20 + 'px';
+                  playButton.style.top = y - 20 + 'px';
+                }, 7); // 80ms delay (about 4-5 frames at 60fps)
+              });
+
+              // Hide the play button when mouse leaves the video card
+              videos[_i].addEventListener('mouseout', function () {
+                // Clear any pending timeout
+                clearTimeout(moveTimeout);
+
+                // Hide the play button
+                playButton.style.opacity = '0';
+              });
+            };
+            for (var _i = 0; _i < videos.length; _i++) {
+              _loop(_i);
+            }
+          }
         }, false);
       });
     }
   }]);
 }();
 new FidatoPluginJS();
-
-// // Add your JavaScript code here
-// class FidatoPluginJS {
-
-//     constructor() {
-//         this.init();
-//     }
-
-//     init() {
-//         // wait until DOM is ready
-
-//         document.addEventListener("DOMContentLoaded", function(event){
-//         console.log("DOM loaded");
-
-//             // add animation to all dividers
-//             const dividers = document.querySelectorAll('.elementor-widget-divider');
-//             for (let i = 0; i < dividers.length; i++) {
-//                 // Access each element using elements[i]
-//                 dividers[i].setAttribute('data-scroll', '');
-//                 dividers[i].setAttribute('data-scroll-repeat', '');
-//                 dividers[i].setAttribute('data-scroll-class', 'loco-in-view');
-//             }
-
-//             //wait until images, links, fonts, stylesheets, and js is loaded
-//             window.addEventListener("load", function(e){    
-//             console.log("window loaded");
-
-//                 const scroll = new LocomotiveScroll({
-//                     el: document.querySelector('[data-scroll-container]'),
-//                     smooth: true,
-//                     multiplier: 1,
-//                     class: 'loco-in-view',
-//                     lerp: 0.1
-//                 });
-
-//                 // Initialize the main Swiper with the same navigation buttons
-//                 var teamSwiper = new Swiper('.teamSwiper', {
-//                     slidesPerView: 1.5,
-//                     centeredSlides: true,
-//                     loop: true,
-//                     speed: 500,
-//                     spaceBetween: 72,
-//                     navigation: {
-//                         nextEl: '.team-swiper-button-next',
-//                         prevEl: '.team-swiper-button-prev',
-//                     },
-//                     breakpoints: {
-//                         768: {
-//                             slidesPerView: 2,
-//                         },
-//                         1024: {
-//                             slidesPerView: 3,
-//                         }
-//                     }
-//                 });
-//                 let scrollTop = 0;
-//                 scroll.on('scroll', (obj) => {
-//                     // Current vertical scroll position
-//                     scrollTop = obj.scroll.y;
-
-//                 });
-
-//                 // Select all link elements within swiper-slide elements that are inside team-carousel
-//                 document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(link => {
-//                     // Add click event listener to each link
-//                     link.addEventListener('click', function(e) {
-
-//                         e.preventDefault();
-
-//                         const linkHref = this.getAttribute('href').toString();
-//                         document.querySelector(linkHref).classList.add('active');
-//                         console.log(linkHref);
-//                         const teamPanelOverlay = document.querySelector('.panel-container');
-
-//                         scroll.stop();
-
-//                         teamPanelOverlay.classList.add('active');
-//                         teamPanelOverlay.style.top = scrollTop + 'px';
-
-//                     });
-//                 });
-
-//                 this.document.querySelector('.team-panel--header .close').addEventListener('click', function() {
-//                     const teamPanelOverlay = document.querySelector('.panel-container');
-
-//                     teamPanelOverlay.classList.remove('active');
-//                     document.querySelectorAll('.team-panel--content').forEach(link => {
-//                         link.classList.remove('active');
-//                     });
-
-//                     scroll.start();
-
-//                 });
-
-//                 this.document.querySelector('.team-panel--overlay').addEventListener('click', function() {
-//                     console.log('overlay clicked');
-//                     const teamPanelOverlay = document.querySelector('.panel-container');
-
-//                     teamPanelOverlay.classList.remove('active');
-//                     document.querySelectorAll('.team-panel--content').forEach(link => {
-//                         link.classList.remove('active');
-//                     });
-
-//                     scroll.start();
-
-//                 });
-
-//             }, false);
-
-//         });
-//     }
-// }
-
-// new FidatoPluginJS();
 })();
 
 // This entry needs to be wrapped in an IIFE because it needs to be in strict mode.

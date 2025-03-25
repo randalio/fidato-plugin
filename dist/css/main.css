@@ -508,16 +508,43 @@
   margin-top: 2rem;
 }
 
-.learningCenterSwiper .swiper-slide .slide-inner {
+.learning-center-carousel > .play-button.featured > span {
+  width: 11.125rem;
+  padding-bottom: 0;
+  justify-content: center;
+  align-items: center;
+}
+.learning-center-carousel > .play-button > span {
+  position: absolute;
+  aspect-ratio: 1;
+  background-color: rgba(17, 52, 82, 0.85);
+  backdrop-filter: blur(8.5px);
+  width: 6.5rem;
+  color: #fff;
+  font-size: 1rem;
+  text-transform: uppercase;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: center;
+  padding-bottom: 1.5rem;
+  text-shadow: 0px 0px 4px rgba(52, 143, 206, 0.25);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%; /* 1rem */
+  letter-spacing: 0.1rem;
+  transform: rotate(7.7deg);
+}
+.learning-center-carousel .learningCenterSwiper .swiper-slide .slide-inner {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 6.25rem;
+  gap: 11.88rem;
   row-gap: 2.5rem;
 }
-
-.fidato--resource-card {
+.learning-center-carousel .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card {
   background: #EDECEB;
   padding: 2.5rem;
   width: 100%;
@@ -525,8 +552,24 @@
   box-shadow: 5px 6px 13px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  object-position: center center;
 }
-.fidato--resource-card .post-date {
+.learning-center-carousel .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card.videos {
+  padding: 0;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  position: relative;
+  cursor: none;
+}
+.learning-center-carousel .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card.videos img {
+  object-fit: cover;
+  object-position: center;
+  width: 100%;
+  height: 100%;
+  transform: scale(1.01);
+}
+.learning-center-carousel .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card .post-date {
   color: #348FCE;
   /* H4 Drop Shadow */
   text-shadow: 0px 0px 4px rgba(52, 143, 206, 0.25);
@@ -539,17 +582,17 @@
   letter-spacing: 0.15rem;
   text-transform: uppercase;
 }
-.fidato--resource-card h3 {
+.learning-center-carousel .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card h3 {
   font-family: "Playfair Display", Sans-serif;
   font-size: 1.5rem;
   letter-spacing: 0.015rem;
   color: #E5684C;
   margin: 0.82rem 0rem 2rem 0rem;
 }
-.fidato--resource-card p.post-excerpt {
+.learning-center-carousel .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card p.post-excerpt {
   margin-bottom: 1.66rem;
 }
-.fidato--resource-card a.button {
+.learning-center-carousel .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card a.button {
   background-color: var(--e-global-color-2ae3c9d);
   font-family: "Lato", Sans-serif;
   font-size: 1.125rem;
@@ -560,12 +603,37 @@
   padding: 0.5rem 0rem 0.5rem 0rem;
   margin-top: auto;
 }
-.fidato--resource-card a.button > span {
+.learning-center-carousel .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card a.button > span {
   border-bottom: 1px solid #113452;
 }
-.fidato--resource-card a.button i {
+.learning-center-carousel .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card a.button i {
   vertical-align: -3px;
   margin-left: 0.66rem;
+}
+.learning-center-carousel.featured .learningCenterSwiper .swiper-slide .slide-inner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  row-gap: 0;
+}
+.learning-center-carousel.featured .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card {
+  background: #EDECEB;
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 62.6875rem;
+  box-shadow: 5px 6px 13px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  object-position: center center;
+}
+.learning-center-carousel.featured .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card.videos {
+  padding: 0;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: 0.75rem;
+  position: relative;
 }
 
 .learning-center-carousel .swiper-button-next,

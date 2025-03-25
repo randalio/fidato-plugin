@@ -19,13 +19,23 @@ class Elementor_Learning_Center_Carousel extends \Elementor\Widget_Base {
         
         return $options;
     }
-
-
+    
 
     protected function _register_controls() {
         $this->start_controls_section('content_section', [
             'label' => __('Content', 'fidato-wealth'),
             'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+        ]);
+
+        $this->add_control('display_style', [
+            'label' => esc_html__('Display Style', 'fidato-wealth'),
+            'type' => \Elementor\Controls_Manager::SELECT,
+            'options' => [
+                'featured' => 'Featured',
+                'grid' => 'Grid'
+            ],
+            'default' => 'grid',
+            'label_block' => true,
         ]);
 
         $this->add_control('resource_type', [
@@ -36,9 +46,31 @@ class Elementor_Learning_Center_Carousel extends \Elementor\Widget_Base {
             'label_block' => true,
         ]);
 
+        $this->add_control(
+			'list',
+			[
+				'label' => esc_html__( 'Choose Posts', 'textdomain' ),
+				'type' => \Elementor\Controls_Manager::SELECT2,
+				'label_block' => true,
+				'multiple' => true,
+				// 'options' => [
+				// 	'title'  => esc_html__( 'Title', 'textdomain' ),
+				// 	'description' => esc_html__( 'Description', 'textdomain' ),
+				// 	'button' => esc_html__( 'Button', 'textdomain' ),
+				// ],
+				'default' => [ 'title', 'description' ],
+                'condition' => [
+                    'display_style' => 'featured',
+                ],
+			]
+		);
+
         $this->add_control('rows', [
             'label' => __('Rows', 'fidato-wealth'),
             'type' => \Elementor\Controls_Manager::NUMBER,
+            'condition' => [
+                'display_style' => 'grid',
+            ],
             'default' => 1,
             'max' => 4,
         ]);
@@ -63,6 +95,10 @@ class Elementor_Learning_Center_Carousel extends \Elementor\Widget_Base {
             'fields' => 'ids',
         );
 
+        if( $settings['display_style'] == 'featured' ){
+            $args['category_name'] = 'featured';
+        }
+
         $posts_per_slide = $settings['rows'] * 2;
 
         $resources = get_posts( $args );
@@ -74,21 +110,21 @@ class Elementor_Learning_Center_Carousel extends \Elementor\Widget_Base {
         $totalResources = count($resources);
 
         ?>
-        <div class="learning-center-carousel">
+        <div class="learning-center-carousel <?php echo  $settings['resource_type'].' '. $settings['display_style'];?>">
             <div class="learningCenterSwiper swiper">
                 <div class="swiper-wrapper">
 
                     <?php
                     foreach ($resources as $index => $resource) {
                         // Open a new div at the start of each group
-                        if ($counter % $groupSize == 0) {
+                        if ($counter % ($groupSize ?: 1) == 0) {
                             echo '<div class="swiper-slide"><div class="slide-inner">';
                         }
 
-                        echo output_resource_card( $resource, $settings['resource_type'], $settings['button'] );
+                        echo output_resource_card( $resource, $settings['resource_type'], $settings['button'], $settings['display_style'] );
                         
                         // Close the div at the end of each group or at the end of all resources
-                        if (($counter % $groupSize == ($groupSize - 1)) || ($index == $totalResources - 1)) {
+                        if ((($counter % ($groupSize ?: 1)) == (($groupSize ?: 1) - 1)) || ($index == $totalResources - 1)) {
                             echo '</div></div>';
                         }
 
