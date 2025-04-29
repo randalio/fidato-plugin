@@ -30,48 +30,42 @@
 }
 
 
-    h1.blue-grade,
-    h2.blue-grade,
-    h3.blue-grade,
-    h4.blue-grade,
-    h5.blue-grade,
-    h6.blue-grade,
-    p.blue-grade{
-        background: $fidatoBlueGrade;
-        background-clip: border-box;
-        background-clip: text !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-    }
+h1.blue-grade,
+h2.blue-grade,
+h3.blue-grade,
+h4.blue-grade,
+h5.blue-grade,
+h6.blue-grade,
+p.blue-grade{
+    background: $fidatoBlueGrade;
+    background-clip: border-box;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+body main .fidato-section-heading{
+    & .elementor-heading-title{
+        color: #348FCE !important;
+        text-shadow: 0px 0px 4px rgba(52, 143, 206, 0.25) !important;
+        font-family: 'Lato' !important;
+        font-size: 1rem !important;
+        font-style: normal !important;
+        font-weight: 700 !important;
+        line-height: 100% !important;
+        letter-spacing: 0.15rem !important;
+        text-transform: uppercase !important;
 
 
+        // Override Blue Gradient
+        background: unset !important;
+        background-clip: unset !important;
+        -webkit-background-clip: unset !important;
+        -webkit-text-fill-color: unset !important;
 
+    };
 
-
-    body main .fidato-section-heading{
-        & .elementor-heading-title{
-            color: #348FCE !important;
-            text-shadow: 0px 0px 4px rgba(52, 143, 206, 0.25) !important;
-            font-family: 'Lato' !important;
-            font-size: 1rem !important;
-            font-style: normal !important;
-            font-weight: 700 !important;
-            line-height: 100% !important;
-            letter-spacing: 0.15rem !important;
-            text-transform: uppercase !important;
-
-
-            // Override Blue Gradient
-            background: unset !important;
-            background-clip: unset !important;
-            -webkit-background-clip: unset !important;
-            -webkit-text-fill-color: unset !important;
-
-        };
-
-
-
-    }
+}
 
 
 
@@ -112,11 +106,25 @@ body .elementor-element .elementor-widget-n-accordion .e-n-accordion .e-n-accord
     line-height: 1.15em;
   }
 
-  body .elementor-widget-text-editor{
+body .elementor-widget-text-editor{
     & ul{
         padding-left: 1.5rem
     }
     & h4{
         margin-bottom: 0.25rem;
     }
-  }
+}
+
+body .big-next-link.blue-grade p{
+    background-image: linear-gradient(45deg,rgba(17, 52, 82, 1) 0%, rgba(38, 117, 184, 1) 50%, rgba(229, 104, 76, 1) 60%, rgba(255, 70, 28, 1) 100%) !important;
+    background-position: left;
+    background-size: 275%;
+    transition: background 0.75s ease;
+}
+
+
+body .big-next-link.blue-grade{
+    &:hover p{
+        background-position: right;
+    }
+}

@@ -114,6 +114,7 @@
   justify-content: center;
   margin-bottom: 2rem;
   margin-top: -8rem;
+  margin-bottom: 4rem;
 }
 
 .team-carousel .swiper.teamSwiper .swiper-slide img,
@@ -916,6 +917,17 @@ body .elementor-widget-text-editor ul {
 }
 body .elementor-widget-text-editor h4 {
   margin-bottom: 0.25rem;
+}
+
+body .big-next-link.blue-grade p {
+  background-image: linear-gradient(45deg, rgb(17, 52, 82) 0%, rgb(38, 117, 184) 50%, rgb(229, 104, 76) 60%, rgb(255, 70, 28) 100%) !important;
+  background-position: left;
+  background-size: 275%;
+  transition: background 0.75s ease;
+}
+
+body .big-next-link.blue-grade:hover p {
+  background-position: right;
 }
 
 /*# sourceMappingURL=main.css.map*/
