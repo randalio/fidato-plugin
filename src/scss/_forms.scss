@@ -1,0 +1,185 @@
+.gravity-theme{
+
+    &.fidato-wealth_wrapper{
+
+
+
+        & .gform_heading{
+            //display: none;
+        }
+
+        & form.fidato-wealth{
+
+            & .gform_fields{
+                grid-column-gap: 2.5rem;
+            }
+
+            & .gfield{
+                margin-bottom: 2rem;
+            }
+
+            .gfield label:not(.gform-field-label--type-inline),
+            .gfield legend{
+                border-bottom: 1px solid #113452; // Border color
+                width: 100%;
+                margin-bottom: 0;
+                padding: 0.5rem 0;
+                font-weight: 400;
+                color: #113452;
+
+                & .gfield_required.gfield_required_asterisk{
+                    color: #E5684C;
+                    font-size: 1rem;
+                }
+            }
+
+            .gfield legend{
+                margin-bottom: 0.5rem;
+            }
+
+            .gfield input[type="checkbox"]{
+                background-color: transparent;
+                border: 1px solid #113452;
+                box-shadow: unset;
+                appearance: none;
+                width: 1rem;
+                height: 1rem;
+                position: relative;
+
+                &:before{
+                    content: '\2714';
+                    position: absolute;
+                    top: -1px;
+                    left: 1px;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transform: scale(0);
+                    
+                }
+
+                &:focus{
+                    outline: none;
+                }
+
+                &:checked{
+                    background-color:  #113452;
+                    &:before {
+                        color:#fff !important;
+                        transform: scale(0.8);
+                    }
+                }
+
+                & + label{
+                    color: #113452;
+                    //font-family: $dmSans;
+                    font-style: normal;
+                    line-height: 1;
+                    margin-left: 0.5rem;
+                }
+            }
+
+
+            .gfield input[type="text"],
+            .gfield input[type="email"],
+            .gfield input[type="tel"],
+            .gfield input[type="url"],
+            .gfield textarea,
+            .gfield select {
+              background-color: transparent;
+              box-shadow: none;
+              border: 0px solid transparent;
+              
+              color: #113452; // Text color
+              padding: 10px 0;
+              border-radius: 0px;
+              width: 100%;
+
+              &::placeholder{
+                color:transparentize(#113452, 0.5);
+              }
+          
+              &:focus {
+                  //border-color: #0073aa; // Change border color on focus
+                  outline: none;
+              }
+          
+              &::placeholder {
+                font-size: 16px;
+                opacity: 1; // Full opacity for placeholders
+              }
+            }
+
+            & .gform_footer{
+                display: flex;
+                justify-content: space-between;
+            }
+
+            & .gform_submit_button{
+
+                padding: 0.25rem 0 !important;
+                min-height: unset !important;
+                position: relative !important;
+                display: inline-block !important;
+                padding-right: 0 !important;
+
+                & svg{
+                    padding-top: 3px;
+                }
+            
+                // &:after{
+                //     content: "-->";
+                //     font-size: 1rem;
+                //     color:#E5684C;
+                //     position: absolute;
+                //     top: 50%;
+                //     transform:translateY(-50%) translateX(100%);
+                //     right: 0%;
+                //     transition: all 0.25s ease-out;
+                // }
+        
+                & .gform_button{
+                    background-color: transparent !important;
+                    border-radius: 0 !important;
+                    font-size: 1.125rem !important;
+                    padding: 0 !important;
+                    box-shadow: none !important;
+                    color:#E5684C !important;
+                    border: unset !important;
+                    text-decoration: underline;
+                }
+        
+        
+        
+        
+            }
+
+
+        }
+
+
+
+        // Specific to Consultation Form
+        &.fidato-wealth--consultation_wrapper{
+
+            //Topics Checkbox Container
+            fieldset#field_10_10{
+                max-width: 50%;
+
+                & label{
+                    white-space: nowrap;
+                }
+            }
+
+            div#field_10_12,
+            div#field_10_14{
+                max-width: 50%;
+            }
+            
+        }
+
+
+    }
+
+}

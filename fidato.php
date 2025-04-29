@@ -2,13 +2,14 @@
 /**
  * Plugin Name: Fidato Wealth
  * Description: Plugin with Webpack build system
- * Version: 1.0.21
+ * Version: 1.0.22
  * Author: Randal Pope
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
+
 
 
 
@@ -46,6 +47,49 @@ add_action( 'elementor/widgets/register', 'register_learning_center_carousel_ele
 
 //Resource Card
 require_once( __DIR__ . '/template-functions/resource-card.php' );
+
+
+// add wrapper to gform buttons
+function add_button_wrapper_with_class( $button, $form ) {
+    // Return without changes for the admin back-end.
+    if ( is_admin() ){
+        return $button;
+    }
+    return '<span class="gform_submit_button">'.$button . '
+        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" viewBox="0 0 21 14" fill="none">
+            <path d="M-2.62268e-07 7L20 7M20 7L13.5714 1M20 7L13.5714 13" stroke="#E5684C"/>
+        </svg>
+    </span>';
+}
+add_filter( 'gform_submit_button', 'add_button_wrapper_with_class', 10, 2 );
+
+/**
+ * Change the Gravity Forms required legend message
+ */
+add_filter('gform_required_legend', 'custom_required_legend', 10, 2);
+function custom_required_legend($legend, $form) {
+    // Change this text to whatever message you want
+    return '<span class="gfield_required gfield_required_asterisk">*</span> All fields are required.';
+}
+
+
+add_action('wp_footer', function () {
+    ?>
+    <script>
+      jQuery(document).ready(function($) {
+        $('.gform_wrapper').each(function() {
+          var $formWrapper = $(this);
+          var $legend = $formWrapper.find('.gform_required_legend');
+  
+          if ($legend.length) {
+            $formWrapper.find('.gform-footer').append($legend);
+          }
+        });
+      });
+    </script>
+    <?php
+  });
+
 
 
 
@@ -276,7 +320,7 @@ add_action('admin_init', 'fidato_increase_memory_limit');
 
 
 class MyPlugin {
-    private $version = '1.0.21';
+    private $version = '1.0.22';
 
     public function __construct() {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
