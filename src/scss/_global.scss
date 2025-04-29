@@ -111,3 +111,12 @@ body .elementor-element .elementor-widget-n-accordion .e-n-accordion .e-n-accord
     font-weight: 400;
     line-height: 1.15em;
   }
+
+  body .elementor-widget-text-editor{
+    & ul{
+        padding-left: 1.5rem
+    }
+    & h4{
+        margin-bottom: 0.25rem;
+    }
+  }

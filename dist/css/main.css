@@ -289,7 +289,7 @@
 .overflowSwiper h3.name > span {
   font-family: "Playfair Display", serif;
   font-size: 2.25rem;
-  font-weight: 600;
+  font-weight: 400;
   margin-top: 1.5rem;
   margin-bottom: 1rem;
   text-shadow: 0px 0px 5px rgba(17, 52, 82, 0.25);
@@ -372,6 +372,15 @@
   font-family: "Lato", sans-serif;
   aspect-ratio: 4/3;
   box-shadow: 5px 6px 13px rgba(0, 0, 0, 0.1);
+}
+.blueNumericSwiper .swiper-slide:nth-child(2) {
+  background: linear-gradient(200deg, #113452 -3.01%, #2675B8 102.59%);
+}
+.blueNumericSwiper .swiper-slide:nth-child(3) {
+  background: var(--Fidato-Graadient, linear-gradient(98deg, #113452 0.4%, #2675B8 74.97%));
+}
+.blueNumericSwiper .swiper-slide:nth-child(4) {
+  background: linear-gradient(200deg, #113452 -3.01%, #2675B8 102.59%);
 }
 @media screen and (max-width: 768px) {
   .blueNumericSwiper .swiper-slide {
@@ -765,6 +774,13 @@ body .elementor-element .elementor-widget-n-accordion .e-n-accordion .e-n-accord
   font-size: 1.5rem;
   font-weight: 400;
   line-height: 1.15em;
+}
+
+body .elementor-widget-text-editor ul {
+  padding-left: 1.5rem;
+}
+body .elementor-widget-text-editor h4 {
+  margin-bottom: 0.25rem;
 }
 
 /*# sourceMappingURL=main.css.map*/

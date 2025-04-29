@@ -46,24 +46,24 @@ class Elementor_Learning_Center_Carousel extends \Elementor\Widget_Base {
             'label_block' => true,
         ]);
 
-        $this->add_control(
-			'list',
-			[
-				'label' => esc_html__( 'Choose Posts', 'textdomain' ),
-				'type' => \Elementor\Controls_Manager::SELECT2,
-				'label_block' => true,
-				'multiple' => true,
-				// 'options' => [
-				// 	'title'  => esc_html__( 'Title', 'textdomain' ),
-				// 	'description' => esc_html__( 'Description', 'textdomain' ),
-				// 	'button' => esc_html__( 'Button', 'textdomain' ),
-				// ],
-				'default' => [ 'title', 'description' ],
-                'condition' => [
-                    'display_style' => 'featured',
-                ],
-			]
-		);
+        // $this->add_control(
+		// 	'list',
+		// 	[
+		// 		'label' => esc_html__( 'Choose Posts', 'textdomain' ),
+		// 		'type' => \Elementor\Controls_Manager::SELECT2,
+		// 		'label_block' => true,
+		// 		'multiple' => true,
+		// 		// 'options' => [
+		// 		// 	'title'  => esc_html__( 'Title', 'textdomain' ),
+		// 		// 	'description' => esc_html__( 'Description', 'textdomain' ),
+		// 		// 	'button' => esc_html__( 'Button', 'textdomain' ),
+		// 		// ],
+		// 		'default' => [ 'title', 'description' ],
+        //         'condition' => [
+        //             'display_style' => 'featured',
+        //         ],
+		// 	]
+		// );
 
         $this->add_control('rows', [
             'label' => __('Rows', 'fidato-wealth'),
