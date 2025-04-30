@@ -116,6 +116,12 @@
   margin-top: -8rem;
   margin-bottom: 4rem;
 }
+@media screen and (max-width: 1024px) {
+  .team-carousel .swiper-navigation {
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+  }
+}
 
 .team-carousel .swiper.teamSwiper .swiper-slide img,
 .team-panel .team-panel--content img {
@@ -184,11 +190,23 @@
   opacity: 1;
   font-family: "Lato", sans-serif;
 }
+@media screen and (max-width: 1024px) {
+  .team-carousel .swiper.teamSwiper .swiper-slide {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
 
 .team-carousel .swiper.teamSwiper .swiper-slide.swiper-slide-next {
   padding-top: 0;
   padding-bottom: 150px;
   opacity: 1;
+}
+@media screen and (max-width: 1024px) {
+  .team-carousel .swiper.teamSwiper .swiper-slide.swiper-slide-next {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 .panel-container {
@@ -757,6 +775,7 @@
   margin-left: 0.5rem;
 }
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=text],
+.gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=number],
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=email],
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=tel],
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=url],
@@ -771,6 +790,7 @@
   width: 100%;
 }
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=text]::placeholder,
+.gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=number]::placeholder,
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=email]::placeholder,
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=tel]::placeholder,
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=url]::placeholder,
@@ -779,6 +799,7 @@
   color: rgba(17, 52, 82, 0.5);
 }
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=text]:focus,
+.gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=number]:focus,
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=email]:focus,
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=tel]:focus,
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=url]:focus,
@@ -787,6 +808,7 @@
   outline: none;
 }
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=text]::placeholder,
+.gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=number]::placeholder,
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=email]::placeholder,
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=tel]::placeholder,
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gfield input[type=url]::placeholder,

@@ -88,6 +88,11 @@
     margin-bottom: 2rem;
     margin-top: -8rem;
     margin-bottom: 4rem;
+
+    @media screen and (max-width: 1024px){
+        margin-top: -1rem;
+        margin-bottom: 1rem;
+    }
 }
 
 
@@ -161,12 +166,21 @@
     transition: all 0.75s ease; /* Keep your original transition */
     opacity: 1;
     font-family: 'Lato', sans-serif;
+    @media screen and (max-width: 1024px){
+        padding-top: 0;
+        padding-bottom: 0;
+    }
   }
   
   .team-carousel .swiper.teamSwiper .swiper-slide.swiper-slide-next {
     padding-top: 0;
     padding-bottom: 150px;
     opacity: 1;
+
+    @media screen and (max-width: 1024px){
+        padding-top: 0;
+        padding-bottom: 0;
+    }
   }
 
 
