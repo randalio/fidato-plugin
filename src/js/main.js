@@ -136,6 +136,35 @@ class FidatoPluginJS {
                     // }
                 });
 
+                var blueValuesSwiper = new Swiper('.blueValuesSwiper', {
+                    slidesPerView: 1.33,
+                    centeredSlides: true,
+                    loop: false,
+                    speed: 500,
+                    spaceBetween: 16,
+                    mousewheel: false,
+                    keyboard: {
+                        enabled: true,
+                        onlyInViewport: true,
+                    },
+                    navigation: {
+                        nextEl: '.blue-values-swiper-button-next',
+                        prevEl: '.blue-values-swiper-button-prev',
+                    },
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 2,
+                            centeredSlides: false,
+                            spaceBetween: 36,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            centeredSlides: false,
+                            spaceBetween: 36,
+                        }
+                    },
+                });
+
                 var learningCenterSwiper = new Swiper('.learningCenterSwiper', {
                     slidesPerView: 1,
                     centeredSlides: false,
