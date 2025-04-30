@@ -214,10 +214,29 @@ body{
     
         &:hover{
             & > span{
+                color: #E5684C;
                 margin-right: 0.75rem !important;
+            }
+
+            & svg *{
+                fill: #E5684C;
+                stroke: #E5684C;
             }
         }
     
+    }
+
+    .blueNumericSwiper{
+        a.link{
+            & > span{
+                color: #fff;
+            }
+
+            & svg *{
+                fill: #fff;
+                stroke: #fff;
+            }
+        }  
     }
 }
 
