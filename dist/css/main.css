@@ -930,4 +930,41 @@ body .big-next-link.blue-grade:hover p {
   background-position: right;
 }
 
+@keyframes buttonAnimSpin {
+  0% {
+    transform: rotate(0);
+    padding-left: 0rem;
+    margin-right: 0rem;
+  }
+  100% {
+    transform: rotate(360deg);
+    padding-left: 0rem;
+    margin-right: 0rem;
+  }
+}
+body :not(button-hover-spin) .elementor-button-wrapper .elementor-button-icon {
+  padding-left: 0rem;
+  margin-right: 0rem;
+  transition: all 0.15s ease-in-out;
+}
+body :not(button-hover-spin) .elementor-button-wrapper:hover .elementor-button-icon {
+  padding-left: 0.25rem;
+  margin-right: -0.25rem;
+}
+body .button-hover-spin .elementor-button-wrapper .elementor-button-icon {
+  transition: all 0.15s ease-in-out;
+}
+body .button-hover-spin .elementor-button-wrapper:hover .elementor-button-icon i {
+  animation-name: buttonAnimSpin;
+  animation-duration: 0.66s;
+}
+
+body a.link span {
+  margin-right: 0.5rem;
+  transition: all 0.15s ease-in-out;
+}
+body a.link:hover > span {
+  margin-right: 0.75rem !important;
+}
+
 /*# sourceMappingURL=main.css.map*/
