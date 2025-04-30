@@ -34,6 +34,13 @@ function register_blue_numeric_carousel_elementor_widget( $widgets_manager ) {
 }
 add_action( 'elementor/widgets/register', 'register_blue_numeric_carousel_elementor_widget' );
 
+/* Overflow Blue Values Slider */
+function register_blue_values_carousel_elementor_widget( $widgets_manager ) {
+    require_once( __DIR__ . '/widgets/blue-values-carousel.php' );
+    $widgets_manager->register( new \Elementor_Blue_Values_Carousel() );
+}
+add_action( 'elementor/widgets/register', 'register_blue_values_carousel_elementor_widget' );
+
 
 /* Learning Center Resources Slider */
 function register_learning_center_carousel_elementor_widget( $widgets_manager ) {
