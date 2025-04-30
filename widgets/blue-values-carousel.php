@@ -45,7 +45,7 @@ class Elementor_Blue_Values_Carousel extends \Elementor\Widget_Base {
         $settings = $this->get_settings_for_display();
         ?>
         <div class="blue-values-carousel">
-            <div class="blueNumericSwiper">
+            <div class="blueValuesSwiper">
                 <div class="swiper-wrapper">
                     <?php foreach ($settings['slides'] as $i => $slide): ?>
                         <div class="swiper-slide">
