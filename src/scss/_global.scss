@@ -210,6 +210,9 @@ body{
         & span{
             margin-right: 0.5rem;
             transition: all 0.15s ease-in-out;
+            & svg *{
+                transition: all 0.15s ease-in-out;  
+            }
         }
     
         &:hover{

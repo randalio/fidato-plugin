@@ -99,6 +99,25 @@ class Elementor_Learning_Center_Carousel extends \Elementor\Widget_Base {
             $args['category_name'] = 'featured';
         }
 
+        if( $settings['resource_type'] == 'articles' ){
+            $args['post_type'] = 'post';
+            if( array_key_exists('category_name', $args) ){
+                $args['category_name'] .= '+article';
+            } else {
+                $args['category_name'] = 'article';
+            }
+        }
+
+        if( $settings['resource_type'] == 'post' ){
+            $args['post_type'] = 'post';
+            if( array_key_exists('category_name', $args) ){
+                $args['category_name'] .= '+blog';
+            } else {
+                $args['category_name'] = 'blog';
+
+            }
+        }
+
         $posts_per_slide = $settings['rows'] * 2;
 
         $resources = get_posts( $args );

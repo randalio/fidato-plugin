@@ -969,6 +969,9 @@ body a.link span {
   margin-right: 0.5rem;
   transition: all 0.15s ease-in-out;
 }
+body a.link span svg * {
+  transition: all 0.15s ease-in-out;
+}
 body a.link:hover > span {
   color: #E5684C;
   margin-right: 0.75rem !important;
