@@ -942,12 +942,15 @@ body .big-next-link.blue-grade:hover p {
     margin-right: 0rem;
   }
 }
-body :not(button-hover-spin) .elementor-button-wrapper .elementor-button-icon {
+body :not(.button-hover-spin) .elementor-button-wrapper .elementor-button-icon {
   padding-left: 0rem;
   margin-right: 0rem;
   transition: all 0.15s ease-in-out;
 }
-body :not(button-hover-spin) .elementor-button-wrapper:hover .elementor-button-icon {
+body :not(.button-hover-spin) .elementor-button-wrapper:hover a {
+  color: #E5684C !important;
+}
+body :not(.button-hover-spin) .elementor-button-wrapper:hover .elementor-button-icon {
   padding-left: 0.25rem;
   margin-right: -0.25rem;
 }
@@ -957,6 +960,9 @@ body .button-hover-spin .elementor-button-wrapper .elementor-button-icon {
 body .button-hover-spin .elementor-button-wrapper:hover .elementor-button-icon i {
   animation-name: buttonAnimSpin;
   animation-duration: 0.66s;
+}
+body .button-orange .elementor-button-wrapper:hover a {
+  color: #113452 !important;
 }
 
 body a.link span {

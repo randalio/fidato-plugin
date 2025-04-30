@@ -143,8 +143,9 @@ body .big-next-link.blue-grade{
 }
 
 body{
-    :not(button-hover-spin){
+    :not(.button-hover-spin){
         .elementor-button-wrapper{
+
 
             & .elementor-button-icon{
                 padding-left: 0rem;
@@ -152,6 +153,10 @@ body{
                 transition: all 0.15s ease-in-out;
             }
             &:hover{
+
+                & a{
+                    color: #E5684C !important;
+                }
                 & .elementor-button-icon{
                     padding-left: 0.25rem;
                     margin-right: -0.25rem;
@@ -161,8 +166,6 @@ body{
         }
     }
     
-
-
     .button-hover-spin{
         & .elementor-button-wrapper{
 
@@ -180,6 +183,24 @@ body{
 
         }
     }
+
+
+    .button-orange{
+        & .elementor-button-wrapper{
+
+            &:hover{
+                & a{
+                    color: #113452 !important;
+                }
+                
+                    
+            }
+
+        }
+    }
+
+
+
 
 }
 
@@ -199,3 +220,5 @@ body{
     
     }
 }
+
+
