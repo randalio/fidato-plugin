@@ -244,3 +244,11 @@ body{
 }
 
 
+.elementor-editor-active{
+
+    & .swiper-slide{
+        max-width: 300px;
+    }
+
+
+}

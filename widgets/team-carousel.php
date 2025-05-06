@@ -115,13 +115,18 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
                                 <p class="position"><?php echo $slide['position'];?></p>
 
                                 <hr/>
-
+                                <?php   
+                                    $member = get_post( $member_id);
+                                    $content = apply_filters('the_content',$member->post_content);
+                                ?>
+                                <?php if( $content != '' ): ?>
                                 <a class="link" href="#<?php echo $slug; ?>">
                                     <span>More Information</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" viewBox="0 0 21 14" fill="none">
                                         <path d="M-2.62268e-07 7L20 7M20 7L13.5714 1M20 7L13.5714 13" stroke="#113452"/>
                                     </svg>
                                 </a>
+                                <?php endif; ?>
 
                             </div>
                         </div>

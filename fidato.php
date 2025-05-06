@@ -325,7 +325,7 @@ add_action('admin_init', 'fidato_increase_memory_limit');
 
 
 class MyPlugin {
-    private $version = '1.0.80';
+    private $version = '1.0.82';
 
     public function __construct() {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
@@ -349,7 +349,7 @@ class MyPlugin {
             'fidato-admin',
             plugin_dir_url(__FILE__) . 'dist/css/main.css',
             array(),
-            $this->version
+            $this->version . '' . time()
         );
     }
 
@@ -358,21 +358,21 @@ class MyPlugin {
             'fidato-frontend',
             plugin_dir_url(__FILE__) . 'dist/css/main.css',
             array(),
-            $this->version
+            $this->version. '' . time()
         );
 
         wp_enqueue_style(
             'locomotive-scroll-css',
             plugin_dir_url(__FILE__) . 'dist/css/locomotive-scroll.min.css',
             array(),
-            $this->version
+            $this->version. '' . time()
         );
 
         wp_enqueue_script(
             'locomotive-scroll-js',
             plugin_dir_url(__FILE__) . 'dist/js/locomotive-scroll.min.js',
             array(),
-            $this->version,
+            $this->version . '' . time(),
             true
         );
 
@@ -380,7 +380,7 @@ class MyPlugin {
             'fidato-frontend',
             plugin_dir_url(__FILE__) . 'dist/js/main.js',
             array('jquery', 'locomotive-scroll-js'),
-            $this->version,
+            $this->version. '' . time(),
             true
         );
 
@@ -393,7 +393,7 @@ class MyPlugin {
             'swiper-styles',
             plugin_dir_url(__FILE__) . 'dist/css/swiper.css',
             array(),
-            $this->version
+            $this->version. '' . time()
         );
 
 
