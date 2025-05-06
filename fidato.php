@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Fidato Wealth
  * Description: Plugin with Webpack build system
- * Version: 1.0.80
+ * Version: 1.0.90
  * Author: Randal Pope
  */
 
@@ -325,7 +325,7 @@ add_action('admin_init', 'fidato_increase_memory_limit');
 
 
 class MyPlugin {
-    private $version = '1.0.82';
+    private $version = '1.0.90';
 
     public function __construct() {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
