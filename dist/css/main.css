@@ -150,7 +150,7 @@
   font-size: 1rem;
   font-style: normal;
   font-weight: 700 !important;
-  line-height: 100%; /* 1rem */
+  line-height: 1.2;
   letter-spacing: 0.15rem;
   text-transform: uppercase;
 }
@@ -731,7 +731,6 @@
   overflow: hidden;
   border-radius: 0.75rem;
   position: relative;
-  cursor: none;
 }
 .learning-center-carousel .learningCenterSwiper .swiper-slide .slide-inner .fidato--resource-card.videos img {
   object-fit: cover;
@@ -961,6 +960,9 @@
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gform_footer {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
+  padding: 8px 0;
+  border-top: 1px solid #113452;
 }
 .gravity-theme.fidato-wealth_wrapper form.fidato-wealth .gform_submit_button {
   padding: 0.25rem 0 !important;
@@ -1093,13 +1095,13 @@ body .big-next-link.blue-grade:hover p {
 @keyframes buttonAnimSpin {
   0% {
     transform: rotate(0);
-    padding-left: 0rem;
-    margin-right: 0rem;
+    padding-left: 0rem !important;
+    margin-right: 0rem !important;
   }
   100% {
-    transform: rotate(360deg);
-    padding-left: 0rem;
-    margin-right: 0rem;
+    transform: rotate(0);
+    padding-left: 0rem !important;
+    margin-right: 0rem !important;
   }
 }
 body :not(.button-hover-spin) .elementor-button-wrapper .elementor-button-icon {
@@ -1146,6 +1148,10 @@ body .blueNumericSwiper a.link > span {
 body .blueNumericSwiper a.link svg * {
   fill: #fff;
   stroke: #fff;
+}
+
+.elementor-editor-active .swiper-slide {
+  max-width: 300px;
 }
 
 /*# sourceMappingURL=main.css.map*/

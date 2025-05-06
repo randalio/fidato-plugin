@@ -340,98 +340,98 @@ class FidatoPluginJS {
 
                 }
 
-                if( document.querySelectorAll('.fidato--resource-card.videos').length ){
-                    //console.log(document.querySelectorAll('.fidato--resource-card.videos').length);
+                // if( document.querySelectorAll('.fidato--resource-card.videos').length ){
+                //     //console.log(document.querySelectorAll('.fidato--resource-card.videos').length);
 
-                    // First, let's create the play button element
-                    const playButton = document.createElement('div');
-                    playButton.className = 'play-button';
-                    playButton.style.position = 'absolute'; // Changed from 'fixed' to 'absolute'
-                    playButton.style.pointerEvents = 'none';
-                    playButton.style.opacity = '0';
-                    playButton.style.zIndex = '1000';
-                    playButton.style.pointerEvents = 'none';
-                    playButton.style.transition = 'left 0.15s ease-out, top 0.15s ease-out, opacity 0.5s ease'; // Add smooth transition
+                //     // First, let's create the play button element
+                //     const playButton = document.createElement('div');
+                //     playButton.className = 'play-button';
+                //     playButton.style.position = 'absolute'; // Changed from 'fixed' to 'absolute'
+                //     playButton.style.pointerEvents = 'none';
+                //     playButton.style.opacity = '0';
+                //     playButton.style.zIndex = '1000';
+                //     playButton.style.pointerEvents = 'none';
+                //     playButton.style.transition = 'left 0.15s ease-out, top 0.15s ease-out, opacity 0.5s ease'; // Add smooth transition
 
-                    // You can add styling to the play button
-                    playButton.innerHTML = `
-                    <span>Click To Play</span>
-                    `;
+                //     // You can add styling to the play button
+                //     playButton.innerHTML = `
+                //     <span>Click To Play</span>
+                //     `;
 
-                    // Append the play button to the learning-center-carousel
-                    const carousel = document.querySelector('.learning-center-carousel');
-                        if (carousel) {
-                            carousel.appendChild(playButton);
-                            // Make sure the carousel has position relative or absolute for proper positioning
-                            const carouselPosition = window.getComputedStyle(carousel).position;
+                //     // Append the play button to the learning-center-carousel
+                //     const carousel = document.querySelector('.learning-center-carousel');
+                //         if (carousel) {
+                //             carousel.appendChild(playButton);
+                //             // Make sure the carousel has position relative or absolute for proper positioning
+                //             const carouselPosition = window.getComputedStyle(carousel).position;
 
-                            if (carouselPosition === 'static') {
-                                carousel.style.position = 'relative';
-                            }
-                    } else {
-                        document.body.appendChild(playButton);
-                    }
+                //             if (carouselPosition === 'static') {
+                //                 carousel.style.position = 'relative';
+                //             }
+                //     } else {
+                //         document.body.appendChild(playButton);
+                //     }
 
-                    // Variable to store the timeout ID
-                    let moveTimeout;
+                //     // Variable to store the timeout ID
+                //     let moveTimeout;
 
-                    // Add event listeners to video elements
-                    const videos = document.querySelectorAll('.fidato--resource-card.videos');
-                    for (let i = 0; i < videos.length; i++) {
-                    videos[i].addEventListener('mouseover', function(event) {
-                        // Get mouse position relative to the carousel
-                        const rect = carousel.getBoundingClientRect();
-                        const x = event.clientX - rect.left;
-                        const y = event.clientY - rect.top;
+                //     // Add event listeners to video elements
+                //     const videos = document.querySelectorAll('.fidato--resource-card.videos');
+                //     for (let i = 0; i < videos.length; i++) {
+                //     videos[i].addEventListener('mouseover', function(event) {
+                //         // Get mouse position relative to the carousel
+                //         const rect = carousel.getBoundingClientRect();
+                //         const x = event.clientX - rect.left;
+                //         const y = event.clientY - rect.top;
 
-                        if( videos[i].classList.contains('featured') ){
-                            playButton.classList.add('featured');
-                        }else{
-                            playButton.classList.remove('featured');
-                        }
+                //         if( videos[i].classList.contains('featured') ){
+                //             playButton.classList.add('featured');
+                //         }else{
+                //             playButton.classList.remove('featured');
+                //         }
 
                         
-                        // Position the play button at the cursor location immediately on hover
-                        playButton.style.left = (x - 20) + 'px';
-                        playButton.style.top = (y - 20) + 'px';
+                //         // Position the play button at the cursor location immediately on hover
+                //         playButton.style.left = (x - 20) + 'px';
+                //         playButton.style.top = (y - 20) + 'px';
                         
-                        // Make the play button visible
-                        playButton.style.opacity = '1';
-                    });
+                //         // Make the play button visible
+                //         playButton.style.opacity = '1';
+                //     });
                     
-                    // Track mouse movement while hovering over the video
-                    videos[i].addEventListener('mousemove', function(event) {
-                        // Clear any existing timeout
-                        clearTimeout(moveTimeout);
+                //     // Track mouse movement while hovering over the video
+                //     videos[i].addEventListener('mousemove', function(event) {
+                //         // Clear any existing timeout
+                //         clearTimeout(moveTimeout);
                         
-                        // Create a new timeout to delay the position update
-                        moveTimeout = setTimeout(() => {
-                        // Get mouse position relative to the carousel
-                        const rect = carousel.getBoundingClientRect();
-                        const x = event.clientX - rect.left;
-                        const y = event.clientY - rect.top;
+                //         // Create a new timeout to delay the position update
+                //         moveTimeout = setTimeout(() => {
+                //         // Get mouse position relative to the carousel
+                //         const rect = carousel.getBoundingClientRect();
+                //         const x = event.clientX - rect.left;
+                //         const y = event.clientY - rect.top;
                         
-                        // Update the play button position
-                        playButton.style.left = (x - 20) + 'px';
-                        playButton.style.top = (y - 20) + 'px';
-                        }, 7); // 80ms delay (about 4-5 frames at 60fps)
-                    });
+                //         // Update the play button position
+                //         playButton.style.left = (x - 20) + 'px';
+                //         playButton.style.top = (y - 20) + 'px';
+                //         }, 7); // 80ms delay (about 4-5 frames at 60fps)
+                //     });
                     
-                    // Hide the play button when mouse leaves the video card
-                    videos[i].addEventListener('mouseout', function() {
-                        // Clear any pending timeout
-                        clearTimeout(moveTimeout);
+                //     // Hide the play button when mouse leaves the video card
+                //     videos[i].addEventListener('mouseout', function() {
+                //         // Clear any pending timeout
+                //         clearTimeout(moveTimeout);
                         
-                        // Hide the play button
-                        playButton.style.opacity = '0';
-                    });
-                    }
+                //         // Hide the play button
+                //         playButton.style.opacity = '0';
+                //     });
+                //     }
 
 
 
 
 
-                }
+                // }
             
 
 

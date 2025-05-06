@@ -115,6 +115,10 @@
             & .gform_footer{
                 display: flex;
                 justify-content: space-between;
+                align-items: flex-end;
+
+                padding: 8px 0;
+                border-top: 1px solid #113452;
             }
 
             & .gform_submit_button{

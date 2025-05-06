@@ -132,13 +132,13 @@ body .big-next-link.blue-grade{
 @keyframes buttonAnimSpin{
     0%{
        transform: rotate(0);
-       padding-left: 0rem; 
-       margin-right: 0rem;
+       padding-left: 0rem !important; 
+       margin-right: 0rem !important; 
     }
     100%{
-        transform: rotate(360deg);
-        padding-left: 0rem; 
-        margin-right: 0rem;
+        transform: rotate(0);
+        padding-left: 0rem !important; 
+        margin-right: 0rem !important; 
     }
 }
 
