@@ -92,7 +92,7 @@ class Elementor_Blue_Numeric_Carousel extends \Elementor\Widget_Base {
 
                                 <div class="swiper-slide--footer">
                                     <hr/>
-                                    <a class="link" href="#<?php echo $slug; ?>">
+                                    <a class="link" href="<?php echo $slide['link']['url'];?>">
                                         <span>Learn More</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" viewBox="0 0 21 14" fill="none">
                                             <path d="M-2.62268e-07 7L20 7M20 7L13.5714 1M20 7L13.5714 13" stroke="#113452"/>

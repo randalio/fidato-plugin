@@ -451,6 +451,7 @@
   display: flex;
   justify-content: space-between;
   align-items: start;
+  position: relative;
 }
 @media screen and (max-width: 768px) {
   .blueNumericSwiper .swiper-slide--header-decoration {
@@ -459,6 +460,9 @@
 }
 .blueNumericSwiper .swiper-slide--header-decoration img {
   max-width: 3rem;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .blueNumericSwiper .swiper-slide--header-decoration .counter {
   font-weight: 700;

@@ -43,6 +43,7 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: start;
+                position: relative;
 
                 @media screen and (max-width: 768px){
                     align-items: center;
@@ -51,6 +52,9 @@
 
                 & img{
                     max-width: 3rem;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
                 }
 
                 & .counter{
