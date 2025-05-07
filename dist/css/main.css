@@ -303,12 +303,25 @@
 .overflowSwiper {
   font-family: "Lato", sans-serif;
 }
+.overflowSwiper .swiper-wrapper {
+  align-items: stretch; /* Make all slides stretch to match tallest */
+}
 .overflowSwiper .swiper-slide {
-  align-self: stretch;
+  height: auto !important; /* Override any fixed heights */
+}
+.overflowSwiper .swiper-slide .slide-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Take full height of parent */
+  box-sizing: border-box;
+  /* Remove justify-content: space-between from here */
 }
 .overflowSwiper .swiper-slide .slide-inner img {
   border-radius: 1rem;
   box-shadow: 5px 6px 13px rgba(0, 0, 0, 0.1);
+}
+.overflowSwiper h3.name {
+  margin-bottom: auto; /* Add space after the h3.name */
 }
 .overflowSwiper h3.name > span {
   font-family: "Playfair Display", serif;
@@ -325,6 +338,16 @@
 .overflowSwiper hr {
   color: #113452;
   border-bottom: 0px solid transparent;
+  width: 100%;
+  margin-top: auto; /* Push hr down */
+  margin-bottom: 0.4rem !important; /* Remove bottom margin */
+}
+.overflowSwiper .link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  margin-top: 0; /* Remove top margin to keep close to hr */
 }
 .overflowSwiper a {
   color: #113452;
