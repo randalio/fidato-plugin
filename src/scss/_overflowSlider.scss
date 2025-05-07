@@ -10,6 +10,10 @@
 
     // }
 
+    & .swiper-slide{
+        align-self: stretch;
+    }
+
     & .swiper-slide .slide-inner img{
         border-radius: 1rem ;
         box-shadow: 5px 6px 13px rgba(0, 0, 0, 0.10);
