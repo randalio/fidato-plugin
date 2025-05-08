@@ -1,3 +1,7 @@
+html{
+    scroll-behavior: auto !important;
+}
+
 
 .elementor-widget-heading:not(.no-grade){
     h2{
@@ -145,7 +149,6 @@ body .big-next-link.blue-grade{
 body{
     :not(.button-hover-spin){
         .elementor-button-wrapper{
-
 
             & .elementor-button-icon{
                 padding-left: 0rem;

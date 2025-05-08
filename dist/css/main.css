@@ -1025,6 +1025,10 @@
   max-width: 50%;
 }
 
+html {
+  scroll-behavior: auto !important;
+}
+
 .elementor-widget-heading:not(.no-grade) h2 {
   background: linear-gradient(98deg, #113452 0.4%, #2675B8 74.97%);
   background-clip: border-box;
