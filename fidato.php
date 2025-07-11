@@ -10,6 +10,59 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/* Team ACF Fields */
+add_action( 'acf/include_fields', function() {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+		return;
+	}
+
+	acf_add_local_field_group( array(
+        'key' => 'group_68710a60f3c7c',
+        'title' => 'Team Member Video',
+        'fields' => array(
+            array(
+                'key' => 'field_68710a61d4263',
+                'label' => 'Team Member Video',
+                'name' => 'team_video',
+                'aria-label' => '',
+                'type' => 'url',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'allow_in_bindings' => 0,
+                'placeholder' => '',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'our-team',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'acf_after_title',
+        'style' => 'seamless',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+        'show_in_rest' => 0,
+    ) );
+} );
+
+
+
+
 
 /* Team Slider */
 function register_team_carousel_elementor_widget( $widgets_manager ) {

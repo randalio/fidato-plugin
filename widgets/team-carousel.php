@@ -118,15 +118,28 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
                                 <?php   
                                     $member = get_post( $member_id);
                                     $content = apply_filters('the_content',$member->post_content);
+                                    $video =  get_field( 'team_video', $member_id); // 'https://vimeo.com/1079623899';
                                 ?>
-                                <?php if( $content != '' ): ?>
-                                <a class="link" href="#<?php echo $slug; ?>">
-                                    <span>More Information</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" viewBox="0 0 21 14" fill="none">
-                                        <path d="M-2.62268e-07 7L20 7M20 7L13.5714 1M20 7L13.5714 13" stroke="#113452"/>
-                                    </svg>
-                                </a>
-                                <?php endif; ?>
+
+                                <div class="links-row">
+                                    <?php if( $content != '' ): ?>
+                                        <a class="link" href="#<?php echo $slug; ?>">
+                                            <span>More Information</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" viewBox="0 0 21 14" fill="none">
+                                                <path d="M-2.62268e-07 7L20 7M20 7L13.5714 1M20 7L13.5714 13" stroke="#113452"/>
+                                            </svg>
+                                        </a>
+                                    <?php endif; ?>
+
+                                    <?php if( $video != '' ): ?>
+                                        <a class="video-icon" href="#<?php echo $slug; ?>">
+                                            <i aria-hidden="true" class="fas fa-play-circle"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+
+
+                                    
 
                             </div>
                         </div>
@@ -191,37 +204,57 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
                     }
                     $slug = preg_replace("/[^A-Za-z0-9 ]/", '',strtolower(str_replace(' ', '', $name)));
                     ?>
-                    <div class="team-panel--content" id="<?php echo $slug;?>">
-                    <?php 
-                    // Add error checking before using the image
-                    if (!empty($slide['image']['id'])) {
-                        echo wp_get_attachment_image($slide['image']['id'], 'large');
-                    } else {
-                        // Show a placeholder or nothing
-                        echo '<div class="no-image"></div>';
-                    }
-                    ?>
+                <div class="team-panel--content" id="<?php echo $slug;?>">
 
- 
-                    <h3 class="name"><span class="blue-grade"><?php echo $name;?></span></h3>
-                    <p class="position"><?php echo $slide['position'];?></p>
+                        <?php $video =  get_field( 'team_video', $member_id); // 'https://vimeo.com/1079623899'; ?>
 
-                    <hr/>
-                    <?php
-                    $member = get_post( $member_id);
-                    $content = apply_filters('the_content',$member->post_content);
-                    echo $content; ?>
-                    <hr/>
+                        <?php if( $video != '' ): ?>
 
-                    <?php if( $url == 'hide this' ): ?>
-                    <a class="link" href="<?php echo $url; ?>">
-                        <span>More Information</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" viewBox="0 0 21 14" fill="none">
-                            <path d="M-2.62268e-07 7L20 7M20 7L13.5714 1M20 7L13.5714 13" stroke="#113452"/>
-                        </svg>
-                    </a>
-                    <?php endif; ?>
+                            <?php
+                            // convert video URL to vimeo link
+                            // <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1079623899?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="La Perra"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+                            $video = str_replace('vimeo.com/', 'player.vimeo.com/video/', $video);
+                            $video .= '?badge=0&autopause=0&player_id=0&app_id=58479" width="1024" height="640" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share';
+                            $video_embed = '<iframe src="' . $video . '" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>';
 
+                            ?>
+
+                        <div class="video-container">
+                            <?php echo $video_embed; ?>
+                        </div>
+                        <?php endif; ?>
+
+                        <div class="panel-info-content">
+                            <?php 
+                            // Add error checking before using the image
+                            if (!empty($slide['image']['id'])) {
+                                echo wp_get_attachment_image($slide['image']['id'], 'large');
+                            } else {
+                                // Show a placeholder or nothing
+                                echo '<div class="no-image"></div>';
+                            }
+                            ?>
+
+        
+                            <h3 class="name"><span class="blue-grade"><?php echo $name;?></span></h3>
+                            <p class="position"><?php echo $slide['position'];?></p>
+
+                            <hr/>
+                            <?php
+                            $member = get_post( $member_id);
+                            $content = apply_filters('the_content',$member->post_content);
+                            echo $content; ?>
+                            <hr/>
+
+                            <?php if( $url == 'hide this' ): ?>
+                            <a class="link" href="<?php echo $url; ?>">
+                                <span>More Information</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="14" viewBox="0 0 21 14" fill="none">
+                                    <path d="M-2.62268e-07 7L20 7M20 7L13.5714 1M20 7L13.5714 13" stroke="#113452"/>
+                                </svg>
+                            </a>
+                            <?php endif; ?>
+                        </div>
 
 
                     </div>

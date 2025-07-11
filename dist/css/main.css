@@ -159,8 +159,16 @@
   color: #113452;
   border-bottom: 0px solid transparent;
 }
-.team-carousel .swiper.teamSwiper .swiper-slide .link,
-.team-panel .team-panel--content .link {
+.team-carousel .swiper.teamSwiper .swiper-slide .links-row,
+.team-panel .team-panel--content .links-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 3.5rem;
+}
+.team-carousel .swiper.teamSwiper .swiper-slide .links-row .link,
+.team-panel .team-panel--content .links-row .link {
   font-family: "Lato", sans-serif;
   color: #113452;
   text-align: right;
@@ -169,18 +177,22 @@
   font-weight: 400;
   line-height: 100%;
   letter-spacing: -0.01125rem;
-  margin-top: 1.1rem;
   display: inline-block;
 }
-.team-carousel .swiper.teamSwiper .swiper-slide .link > span,
-.team-panel .team-panel--content .link > span {
+.team-carousel .swiper.teamSwiper .swiper-slide .links-row .link > span,
+.team-panel .team-panel--content .links-row .link > span {
   border-bottom: 1px solid #113452;
   display: inline-block;
   margin-right: 0.5rem;
 }
-.team-carousel .swiper.teamSwiper .swiper-slide .link > svg,
-.team-panel .team-panel--content .link > svg {
+.team-carousel .swiper.teamSwiper .swiper-slide .links-row .link > svg,
+.team-panel .team-panel--content .links-row .link > svg {
   vertical-align: -2px;
+}
+.team-carousel .swiper.teamSwiper .swiper-slide .links-row .video-icon,
+.team-panel .team-panel--content .links-row .video-icon {
+  color: #E5684C;
+  font-size: 2.5rem;
 }
 
 .team-carousel .swiper.teamSwiper .swiper-slide {
@@ -291,6 +303,44 @@
   background: rgba(17, 52, 82, 0.85);
   backdrop-filter: blur(8.5px);
   z-index: 10000;
+}
+.panel-container.video-view .close svg * {
+  stroke: #fff;
+}
+.panel-container.video-view .team-panel {
+  transition: none;
+  max-width: 100%;
+  background-color: transparent;
+  border-radius: 0;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+}
+.panel-container.video-view .team-panel--content {
+  padding: 0;
+  display: flex;
+}
+.panel-container.video-view .team-panel--content.active {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10rem;
+}
+.panel-container.video-view .team-panel .panel-info-content {
+  display: none;
+}
+.panel-container.video-view iframe {
+  min-width: 1024px;
+}
+@media screen and (max-width: 1024px) {
+  .panel-container.video-view iframe {
+    min-width: 100%;
+  }
 }
 
 .elementor-editor-active .swiper.teamSwiper .swiper-slide {

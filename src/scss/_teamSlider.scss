@@ -134,28 +134,44 @@
         border-bottom: 0px solid transparent;
     }
 
-    & .link{
-        font-family: 'Lato', sans-serif;
-        color: #113452;
-        text-align: right;
-        font-size: 1.125rem;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 100%;
-        letter-spacing: -0.01125rem;
-        margin-top: 1.1rem;
-        display: inline-block;
-        
-        & > span{
-            border-bottom: 1px solid  #113452;
+    & .links-row{
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 3.5rem;
+
+        & .link{
+            font-family: 'Lato', sans-serif;
+            color: #113452;
+            text-align: right;
+            font-size: 1.125rem;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 100%;
+            letter-spacing: -0.01125rem;
+            //margin-top: 1.1rem;
             display: inline-block;
-            margin-right: 0.5rem;
-        }
-        & > svg{
-            vertical-align: -2px;
+            
+            & > span{
+                border-bottom: 1px solid  #113452;
+                display: inline-block;
+                margin-right: 0.5rem;
+            }
+            & > svg{
+                vertical-align: -2px;
+            }
+    
         }
 
+        & .video-icon{
+            color: #E5684C;
+            font-size: 2.5rem;
+        }
     }
+
+
 }
 
 
@@ -195,6 +211,8 @@
     pointer-events: none;
     width: 100%;
     height: 100%;
+
+
 
 
     &.active{
@@ -279,6 +297,57 @@
         background: rgba(17, 52, 82, 0.85);
         backdrop-filter: blur(8.5px);   
         z-index: 10000;
+    }
+
+
+
+    &.video-view{
+
+        & .close svg *{
+            stroke: #fff;
+        }
+
+        & .team-panel{
+            transition: none;
+            max-width: 100%;
+            background-color: transparent;
+            border-radius: 0;
+            overflow-y: hidden;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+            width: 100%;
+
+            &--content{
+                padding: 0;
+                display: flex;
+
+
+                &.active{
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    padding-bottom: 10rem;
+
+                }
+            }
+
+            & .panel-info-content{
+                display: none;
+            }
+        }
+
+        & iframe{
+            min-width: 1024px;
+
+            @media screen and (max-width: 1024px){
+                min-width: 100%;
+            }
+        }
     }
 
 
