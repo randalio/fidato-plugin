@@ -36,23 +36,21 @@ var FidatoPluginJS = /*#__PURE__*/function () {
   return _createClass(FidatoPluginJS, [{
     key: "init",
     value: function init() {
-      // wait until DOM is ready
-      document.addEventListener("DOMContentLoaded", function (event) {
+      // Wait until DOM is ready
+      document.addEventListener("DOMContentLoaded", function () {
         console.log("DOM loaded");
 
-        // add animation to all dividers
+        // Add animation to all dividers
         var dividers = document.querySelectorAll('.elementor-widget-divider');
         for (var i = 0; i < dividers.length; i++) {
-          // Access each element using elements[i]
           dividers[i].setAttribute('data-scroll', '');
           dividers[i].setAttribute('data-scroll-repeat', '');
           dividers[i].setAttribute('data-scroll-class', 'loco-in-view');
         }
 
-        // get every element with an ID
+        // Get every element with an ID
         var elements = document.querySelectorAll('[id]');
         for (var _i = 0; _i < elements.length; _i++) {
-          // Access each element using elements[i]
           elements[_i].setAttribute('data-scroll', '');
           elements[_i].setAttribute('data-scroll-id', elements[_i].id);
         }
@@ -65,21 +63,35 @@ var FidatoPluginJS = /*#__PURE__*/function () {
         function initScroll() {
           // Only initialize if not already initialized
           if (scroll === null) {
-            scroll = new LocomotiveScroll({
-              el: document.querySelector('[data-scroll-container]'),
-              smooth: true,
-              multiplier: 1,
-              "class": 'loco-in-view',
-              lerp: 0.05,
-              scrollingClass: 'has-scroll-scrolling',
-              draggingClass: 'has-scroll-dragging'
-            });
+            var scrollContainer = document.querySelector('[data-scroll-container]');
 
-            // Track scroll position
-            scroll.on('scroll', function (obj) {
-              scrollTop = obj.scroll.y;
-            });
-            return scroll;
+            // Debug: Check if scroll container exists
+            if (!scrollContainer) {
+              console.error('Locomotive Scroll: No element with [data-scroll-container] found!');
+              console.log('Available elements:', document.querySelectorAll('[data-scroll]'));
+              return null;
+            }
+            console.log('Initializing Locomotive Scroll on:', scrollContainer);
+            try {
+              scroll = new LocomotiveScroll({
+                el: scrollContainer,
+                smooth: true,
+                multiplier: 1,
+                "class": 'loco-in-view',
+                lerp: 0.05,
+                scrollingClass: 'has-scroll-scrolling',
+                draggingClass: 'has-scroll-dragging'
+              });
+
+              // Track scroll position
+              scroll.on('scroll', function (obj) {
+                scrollTop = obj.scroll.y;
+              });
+              console.log('Locomotive Scroll initialized successfully:', scroll);
+            } catch (error) {
+              console.error('Error initializing Locomotive Scroll:', error);
+              return null;
+            }
           }
           return scroll;
         }
@@ -137,32 +149,35 @@ var FidatoPluginJS = /*#__PURE__*/function () {
           }
         }
 
-        // Wait until DOM is fully loaded before initializing anything
-        document.addEventListener('DOMContentLoaded', function () {
-          // Initialize scroll first
-          initScroll();
+        // Initialize scroll immediately when DOM is ready
+        initScroll();
 
-          // Then set up the hash links
-          setupHashLinks();
+        // Then set up the hash links
+        setupHashLinks();
 
-          // Update the scroll instance
-          if (scroll) scroll.update();
-        });
+        // Update the scroll instance
+        if (scroll) {
+          scroll.update();
+        }
 
         // Handle scrolling to hash ONLY when user explicitly requests it
-        // Add this flag to check if it's the initial load
         var isInitialLoad = true;
         window.addEventListener('load', function () {
+          console.log('Window loaded, updating scroll...');
+
           // Update scroll on complete page load
-          if (scroll) scroll.update();
+          if (scroll) {
+            scroll.update();
+          } else {
+            console.warn('Scroll not initialized, attempting to initialize...');
+            initScroll();
+          }
 
           // Get hash from URL
           var hash = window.location.hash.substring(1);
 
           // IMPORTANT: Only scroll to hash if this isn't the initial page load
-          // or if you specifically want to allow initial hash scrolling (remove the condition)
           if (!isInitialLoad && hash) {
-            // Delay slightly to let everything settle
             setTimeout(function () {
               scrollToHash(hash);
             }, 200);
@@ -171,7 +186,11 @@ var FidatoPluginJS = /*#__PURE__*/function () {
         });
 
         // Apply fix every 2 seconds instead of every second (less resource intensive)
-        setInterval(fixTopCutoff, 2000);
+        setInterval(function () {
+          if (scroll) {
+            fixTopCutoff();
+          }
+        }, 2000);
 
         // Handle resize events
         window.addEventListener('resize', function () {
@@ -284,12 +303,36 @@ var FidatoPluginJS = /*#__PURE__*/function () {
           }
         });
         if (document.querySelectorAll('.team-carousel').length) {
+          // Function to close team panel modal
+          var closeTeamPanel = function closeTeamPanel() {
+            var teamPanelOverlay = document.querySelector('.panel-container');
+            if (teamPanelOverlay) {
+              teamPanelOverlay.classList.remove('active');
+              teamPanelOverlay.classList.remove('video-view');
+            }
+            document.querySelectorAll('.team-panel--content').forEach(function (panel) {
+              panel.classList.remove('active');
+
+              // Stop any videos by replacing iframe
+              var iframe = panel.querySelector('iframe');
+              if (iframe) {
+                var original_frame = iframe.cloneNode(true);
+                iframe.remove();
+                panel.appendChild(original_frame);
+              }
+            });
+            if (scroll) {
+              scroll.start();
+              setTimeout(function () {
+                scroll.update();
+              }, 100);
+            }
+          }; // Close button handler
           // Initialize the Swiper with proper configuration to avoid jump on loop
           var teamSwiper = new Swiper('.teamSwiper', {
             slidesPerView: 1.5,
             loop: true,
             speed: 750,
-            // Match your CSS transition speed
             centeredSlides: true,
             spaceBetween: 32,
             mousewheel: false,
@@ -313,25 +356,17 @@ var FidatoPluginJS = /*#__PURE__*/function () {
                 centeredSlides: false
               }
             },
-            // These are the key fixes for smooth looping
             loopAdditionalSlides: 5,
-            // Add more cloned slides
             loopedSlides: 5,
-            // Number of looped slides
-            // This is critical for smooth animation
             allowTouchMove: false,
-            // Disable touch movement to prevent jump issues
             on: {
-              // Important: Update Locomotive Scroll after swiper events
               slideChangeTransitionEnd: function slideChangeTransitionEnd() {
                 if (scroll) {
-                  // Force Locomotive Scroll to update
                   scroll.update();
                 }
               },
               touchEnd: function touchEnd() {
                 if (scroll) {
-                  // Make sure Locomotive Scroll is updated after touch interactions
                   setTimeout(function () {
                     scroll.update();
                   }, 100);
@@ -340,114 +375,77 @@ var FidatoPluginJS = /*#__PURE__*/function () {
             }
           });
 
-          // If you need touch movement, add this to handle navigation via buttons only:
-          document.querySelector('.team-swiper-button-next').addEventListener('click', function () {
-            teamSwiper.slideNext();
-          });
-          document.querySelector('.team-swiper-button-prev').addEventListener('click', function () {
-            teamSwiper.slidePrev();
-          });
+          // Button navigation
+          var nextBtn = document.querySelector('.team-swiper-button-next');
+          var prevBtn = document.querySelector('.team-swiper-button-prev');
+          if (nextBtn) {
+            nextBtn.addEventListener('click', function () {
+              teamSwiper.slideNext();
+            });
+          }
+          if (prevBtn) {
+            prevBtn.addEventListener('click', function () {
+              teamSwiper.slidePrev();
+            });
+          }
 
-          // Select all link elements within swiper-slide elements that are inside team-carousel
+          // Team panel handlers
           document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(function (link) {
-            // Add click event listener to each link
             link.addEventListener('click', function (e) {
               e.preventDefault();
               var linkHref = this.getAttribute('href').toString();
-              document.querySelector(linkHref).classList.add('active');
-              console.log(linkHref);
+              var targetPanel = document.querySelector(linkHref);
               var teamPanelOverlay = document.querySelector('.panel-container');
+              if (targetPanel) {
+                targetPanel.classList.add('active');
+              }
               if (scroll) {
                 scroll.stop();
               }
-              teamPanelOverlay.classList.add('active');
-              teamPanelOverlay.style.top = scrollTop + 'px';
+              if (teamPanelOverlay) {
+                teamPanelOverlay.classList.add('active');
+                teamPanelOverlay.style.top = scrollTop + 'px';
+              }
             });
           });
-
-          // Select all link elements within swiper-slide elements that are inside team-carousel
           document.querySelectorAll('.team-carousel .swiper-slide .video-icon').forEach(function (link) {
-            // Add click event listener to each link
             link.addEventListener('click', function (e) {
               e.preventDefault();
               var linkHref = this.getAttribute('href').toString();
-              document.querySelector(linkHref).classList.add('active');
-              console.log(linkHref);
+              var targetPanel = document.querySelector(linkHref);
               var teamPanelOverlay = document.querySelector('.panel-container');
+              if (targetPanel) {
+                targetPanel.classList.add('active');
+              }
               if (scroll) {
                 scroll.stop();
               }
-              teamPanelOverlay.classList.add('active');
-              teamPanelOverlay.classList.add('video-view');
-              teamPanelOverlay.style.top = scrollTop + 'px';
-            });
-          });
-
-          // Make sure all close/overlay click handlers properly restart Locomotive Scroll
-          document.querySelector('.team-panel--header .close').addEventListener('click', function () {
-            var teamPanelOverlay = document.querySelector('.panel-container');
-            teamPanelOverlay.classList.remove('active');
-            teamPanelOverlay.classList.remove('video-view');
-            document.querySelectorAll('.team-panel--content').forEach(function (panel) {
-              panel.classList.remove('active');
-
-              // find the iframe inside the panel, store it in a variable.
-              var iframe = panel.querySelector('iframe');
-
-              // remove, then replace the iframe to stop the video
-              if (iframe) {
-                var original_frame = iframe;
-                iframe.remove();
-                panel.appendChild(original_frame);
+              if (teamPanelOverlay) {
+                teamPanelOverlay.classList.add('active');
+                teamPanelOverlay.classList.add('video-view');
+                teamPanelOverlay.style.top = scrollTop + 'px';
               }
             });
-            if (scroll) {
-              scroll.start();
-
-              // Force update after starting
-              setTimeout(function () {
-                scroll.update();
-              }, 100);
-            }
           });
-          document.querySelector('.team-panel--overlay').addEventListener('click', function () {
-            console.log('overlay clicked');
-            var teamPanelOverlay = document.querySelector('.panel-container');
-            teamPanelOverlay.classList.remove('active');
-            document.querySelectorAll('.team-panel--content').forEach(function (panel) {
-              panel.classList.remove('active');
-            });
-            if (scroll) {
-              scroll.start();
+          var closeBtn = document.querySelector('.team-panel--header .close');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', closeTeamPanel);
+          }
 
-              // Force update after starting
-              setTimeout(function () {
-                scroll.update();
-              }, 100);
-            }
-          });
+          // Overlay click handler
+          var overlay = document.querySelector('.team-panel--overlay');
+          if (overlay) {
+            overlay.addEventListener('click', closeTeamPanel);
+          }
 
-          // Add event listeners to handle resize events
-          window.addEventListener('resize', function () {
-            if (scroll) {
-              // Force Locomotive Scroll update on window resize
-              setTimeout(function () {
-                scroll.update();
-              }, 100);
-            }
-          });
-
-          // Ensure Locomotive Scroll continues to work when interacting with the Swiper
+          // Team carousel mouse event handlers
           var teamCarousel = document.querySelector('.team-carousel');
           if (teamCarousel) {
-            // When mouse enters the carousel, make sure scroll isn't stopped
             teamCarousel.addEventListener('mouseenter', function () {
               if (scroll && !document.querySelector('.panel-container.active')) {
                 scroll.update();
               }
             });
-
-            // When mouse leaves the carousel, make sure scroll is working
             teamCarousel.addEventListener('mouseleave', function () {
               if (scroll && !document.querySelector('.panel-container.active')) {
                 scroll.update();

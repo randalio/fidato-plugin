@@ -270,11 +270,6 @@
   display: flex;
   justify-content: end;
 }
-@media screen and (min-width: 1025px) {
-  .panel-container .team-panel--header .close {
-    justify-content: start;
-  }
-}
 .panel-container .team-panel--content {
   padding: 1rem 3rem 12rem;
   display: none;
