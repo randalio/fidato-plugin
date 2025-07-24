@@ -254,12 +254,7 @@
   transform: translate3d(50%, 0, 0);
   overflow-y: scroll;
   transition: all 0.5s ease;
-  top: 0;
-}
-@media screen and (min-width: 1025px) {
-  .panel-container .team-panel {
-    top: unset;
-  }
+  top: unset;
 }
 .panel-container .team-panel--header {
   padding: 2.5rem;
@@ -299,26 +294,30 @@
   backdrop-filter: blur(8.5px);
   z-index: 10000;
 }
-.panel-container.video-view .close svg * {
+.panel-container.active:not(.video-view) iframe {
+  display: none;
+}
+.panel-container.video-view.active .close svg * {
   stroke: #fff;
 }
-.panel-container.video-view .team-panel {
+.panel-container.video-view.active .team-panel {
   transition: none;
   max-width: 100%;
   background-color: transparent;
   border-radius: 0;
   overflow-y: hidden;
+  pointer-events: none;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
   width: 100%;
 }
-.panel-container.video-view .team-panel--content {
+.panel-container.video-view.active .team-panel--content {
   padding: 0;
   display: flex;
 }
-.panel-container.video-view .team-panel--content.active {
+.panel-container.video-view.active .team-panel--content.active {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -326,14 +325,15 @@
   align-items: center;
   padding-bottom: 10rem;
 }
-.panel-container.video-view .team-panel .panel-info-content {
+.panel-container.video-view.active .team-panel .panel-info-content {
   display: none;
 }
-.panel-container.video-view iframe {
+.panel-container.video-view.active iframe {
+  pointer-events: all;
   min-width: 1024px;
 }
 @media screen and (max-width: 1024px) {
-  .panel-container.video-view iframe {
+  .panel-container.video-view.active iframe {
     min-width: 100%;
   }
 }

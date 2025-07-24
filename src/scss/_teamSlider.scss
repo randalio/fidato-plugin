@@ -241,11 +241,12 @@
         transform: translate3d(50%,0,0);
         overflow-y: scroll;
         transition: all 0.5s ease;
-        top:0;
+        top: unset;
+        // top:0;
 
-        @media screen and (min-width: 1025px){
-            top: unset;
-        }
+        // @media screen and (min-width: 1025px){
+        //     top: unset;
+        // }
     
         &--header{
             padding: 2.5rem;
@@ -300,8 +301,12 @@
     }
 
 
-
-    &.video-view{
+    &.active:not(.video-view){
+        & iframe{
+            display: none;
+        }
+    }
+    &.video-view.active{
 
         & .close svg *{
             stroke: #fff;
@@ -313,6 +318,7 @@
             background-color: transparent;
             border-radius: 0;
             overflow-y: hidden;
+            pointer-events: none;
 
             display: flex;
             flex-direction: column;
@@ -342,6 +348,7 @@
         }
 
         & iframe{
+            pointer-events: all;
             min-width: 1024px;
 
             @media screen and (max-width: 1024px){
