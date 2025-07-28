@@ -282,13 +282,7 @@
             }
         }
         
-        & .video-container{
-            aspect-ratio: 16/9;
-            max-width: 1024px;
-            margin-left: 4rem;
-            margin-right: 4rem;
-            display: none;
-        }
+        
     
     
     }
@@ -312,9 +306,6 @@
             display: none;
         }
     }
-
-
-
     &.video-view.active{
 
         & .close svg *{
@@ -348,6 +339,12 @@
                     align-items: center;
                     padding-bottom: 10rem;
 
+                    & .video-container{
+                        width: 100%;
+                        max-width: 1024px;
+                    }
+
+
                 }
             }
 
@@ -358,11 +355,7 @@
 
         & iframe{
             pointer-events: all;
-            max-width: 1024px;
-            margin-left: auto;
-            margin-right: auto;
-            left: 50% !important;
-            transform: translateX(-50%);
+            min-width: 1024px;
 
             @media screen and (max-width: 1024px){
                 min-width: 100%;

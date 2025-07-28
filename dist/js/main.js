@@ -314,12 +314,12 @@ var FidatoPluginJS = /*#__PURE__*/function () {
               panel.classList.remove('active');
 
               // Stop any videos by replacing iframe
-              var iframe = panel.querySelector('iframe');
-              if (iframe) {
-                var original_frame = iframe.cloneNode(true);
-                iframe.remove();
-                panel.appendChild(original_frame);
-              }
+              //const iframe = panel.querySelector('iframe');
+              // if (iframe) {
+              //     const original_frame = iframe.cloneNode(true);
+              //     iframe.remove();
+              //     panel.appendChild(original_frame);
+              // }
             });
             if (scroll) {
               scroll.start();

@@ -383,6 +383,7 @@ class FidatoPluginJS {
                             teamPanelOverlay.classList.add('video-view');
                             teamPanelOverlay.style.top = scrollTop + 'px';
                         }
+                        
                     });
                 });
 
@@ -399,12 +400,12 @@ class FidatoPluginJS {
                         panel.classList.remove('active');
 
                         // Stop any videos by replacing iframe
-                        const iframe = panel.querySelector('iframe');
-                        if (iframe) {
-                            const original_frame = iframe.cloneNode(true);
-                            iframe.remove();
-                            panel.appendChild(original_frame);
-                        }
+                        //const iframe = panel.querySelector('iframe');
+                        // if (iframe) {
+                        //     const original_frame = iframe.cloneNode(true);
+                        //     iframe.remove();
+                        //     panel.appendChild(original_frame);
+                        // }
                     });
 
                     if (scroll) {
