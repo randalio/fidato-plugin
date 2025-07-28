@@ -6,7 +6,6 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
     public function get_icon() { return 'eicon-device-mobile'; }
     public function get_categories() { return ['general']; }
 
-
     // Function to get team members for the dropdown
     private function get_team_members_options() {
         $team_members = get_posts([
@@ -84,6 +83,9 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
 
     protected function render() {
         $settings = $this->get_settings_for_display();
+
+
+
         ?>
         <div class="team-carousel">
             <div class="swiper teamSwiper">
@@ -109,6 +111,7 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
                                     $name = get_the_title($member_id);
                                     $url = get_the_permalink($member_id);
                                 }
+
                                 $slug = preg_replace("/[^A-Za-z0-9 ]/", '',strtolower(str_replace(' ', '', $name)));
                                 ?>
                                 <h3 class="name blue-grade"><?php echo $name;?></h3>
@@ -206,22 +209,12 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
                     ?>
                 <div class="team-panel--content" id="<?php echo $slug;?>">
 
-                        <?php $video =  get_field( 'team_video', $member_id); // 'https://vimeo.com/1079623899'; ?>
+                        <?php $video =  get_field( 'team_video', $member_id);?>
 
                         <?php if( $video != '' ): ?>
-
-                            <?php
-                            // convert video URL to vimeo link
-                            // <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1079623899?badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="La Perra"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
-                            $video = str_replace('vimeo.com/', 'player.vimeo.com/video/', $video);
-                            $video .= '?badge=0&autopause=0&player_id=0&app_id=58479" width="1024" height="640" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share';
-                            $video_embed = '<iframe src="' . $video . '" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>';
-
-                            ?>
-
-                        <div class="video-container">
-                            <?php echo $video_embed; ?>
-                        </div>
+                            <div class="video-container">
+                                <?php  echo $video; // echo $video_embed; ?>
+                            </div>
                         <?php endif; ?>
 
                         <div class="panel-info-content">

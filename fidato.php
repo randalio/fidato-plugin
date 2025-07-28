@@ -25,7 +25,7 @@ add_action( 'acf/include_fields', function() {
                 'label' => 'Team Member Video',
                 'name' => 'team_video',
                 'aria-label' => '',
-                'type' => 'url',
+                'type' => 'textarea',
                 'instructions' => '',
                 'required' => 0,
                 'conditional_logic' => 0,
