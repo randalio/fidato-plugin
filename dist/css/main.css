@@ -294,7 +294,8 @@
   backdrop-filter: blur(8.5px);
   z-index: 10000;
 }
-.panel-container.active:not(.video-view) iframe {
+.panel-container.active:not(.video-view) iframe,
+.panel-container.active:not(.video-view) .video-container {
   display: none;
 }
 .panel-container.video-view.active .close svg * {
@@ -328,6 +329,7 @@
 .panel-container.video-view.active .team-panel--content.active .video-container {
   width: 100%;
   max-width: 1024px;
+  display: block;
 }
 .panel-container.video-view.active .team-panel .panel-info-content {
   display: none;

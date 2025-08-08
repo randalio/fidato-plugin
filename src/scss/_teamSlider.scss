@@ -302,9 +302,11 @@
 
 
     &.active:not(.video-view){
-        & iframe{
+        & iframe,
+        .video-container{
             display: none;
         }
+        
     }
     &.video-view.active{
 
@@ -342,6 +344,7 @@
                     & .video-container{
                         width: 100%;
                         max-width: 1024px;
+                        display: block;
                     }
 
 
