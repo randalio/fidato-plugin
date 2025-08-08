@@ -54,81 +54,70 @@ var FidatoPluginJS = /*#__PURE__*/function () {
           elements[_i].setAttribute('data-scroll', '');
           elements[_i].setAttribute('data-scroll-id', elements[_i].id);
         }
-
-        // Initialize scroll as null
         var scroll = null;
         var scrollTop = 0;
 
-        // Function to initialize Locomotive Scroll
+        // Prevent browser from auto-scrolling to hash on load
+        if (window.location.hash) {
+          window.scrollTo(0, 0); // Reset scroll position immediately
+          setTimeout(function () {
+            return window.scrollTo(0, 0);
+          }, 1); // Ensure it stays at top until we take over
+        }
+
+        /* ------------------------------
+        Get consistent offset
+        ------------------------------ */
+        function getScrollOffset() {
+          var header = document.querySelector('header');
+          return header ? -(header.offsetHeight + 120) : -100;
+        }
+
+        /* ------------------------------
+        Init Locomotive Scroll
+        ------------------------------ */
         function initScroll() {
-          // Only initialize if not already initialized
-          if (scroll === null) {
-            var scrollContainer = document.querySelector('[data-scroll-container]');
+          if (scroll !== null) return scroll;
+          var scrollContainer = document.querySelector('[data-scroll-container]');
+          if (!scrollContainer) {
+            console.error('Locomotive Scroll: No element with [data-scroll-container] found!');
+            return null;
+          }
+          try {
+            scroll = new LocomotiveScroll({
+              el: scrollContainer,
+              smooth: true,
+              multiplier: 1,
+              "class": 'loco-in-view',
+              lerp: 0.05,
+              scrollingClass: 'has-scroll-scrolling',
+              draggingClass: 'has-scroll-dragging'
+            });
 
-            // Debug: Check if scroll container exists
-            if (!scrollContainer) {
-              console.error('Locomotive Scroll: No element with [data-scroll-container] found!');
-              console.log('Available elements:', document.querySelectorAll('[data-scroll]'));
-              return null;
-            }
-            console.log('Initializing Locomotive Scroll on:', scrollContainer);
-            try {
-              scroll = new LocomotiveScroll({
-                el: scrollContainer,
-                smooth: true,
-                multiplier: 1,
-                "class": 'loco-in-view',
-                lerp: 0.05,
-                scrollingClass: 'has-scroll-scrolling',
-                draggingClass: 'has-scroll-dragging'
-              });
-
-              // Track scroll position
-              scroll.on('scroll', function (obj) {
-                scrollTop = obj.scroll.y;
-              });
-              console.log('Locomotive Scroll initialized successfully:', scroll);
-            } catch (error) {
-              console.error('Error initializing Locomotive Scroll:', error);
-              return null;
-            }
+            // Track scroll position
+            scroll.on('scroll', function (obj) {
+              scrollTop = obj.scroll.y;
+            });
+            console.log('Locomotive Scroll initialized:', scroll);
+          } catch (error) {
+            console.error('Error initializing Locomotive Scroll:', error);
+            scroll = null;
           }
           return scroll;
         }
 
-        // Set up hash links
-        function setupHashLinks() {
-          document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-            var targetId = link.getAttribute('href').substring(1);
-            if (targetId) {
-              link.setAttribute('data-scroll-to', targetId);
-              link.addEventListener('click', function (e) {
-                e.preventDefault();
-                var target = document.querySelector("[data-scroll-id=\"".concat(targetId, "\"]"));
-                if (target && scroll) {
-                  var _document$querySelect;
-                  var headerHeight = ((_document$querySelect = document.querySelector('header')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.offsetHeight) || 0;
-                  scroll.scrollTo(target, {
-                    offset: -headerHeight,
-                    callback: function callback() {
-                      return scroll.update();
-                    }
-                  });
-                }
-              });
-            }
-          });
-        }
-
-        // Function to scroll to hash (but only when explicitly called)
+        /* ------------------------------
+        Scroll to hash target
+        ------------------------------ */
         function scrollToHash(hash) {
           if (!hash || !scroll) return false;
+
+          // Make sure Locomotive recalculates positions
+          scroll.update();
           var target = document.querySelector("[data-scroll-id=\"".concat(hash, "\"]"));
           if (target) {
-            var _document$querySelect2;
-            var headerHeight = ((_document$querySelect2 = document.querySelector('header')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.offsetHeight) + 100 || 0;
             scroll.scrollTo(target, {
-              offset: -headerHeight,
+              offset: getScrollOffset(),
               duration: 800,
               callback: function callback() {
                 return scroll.update();
@@ -139,7 +128,25 @@ var FidatoPluginJS = /*#__PURE__*/function () {
           return false;
         }
 
-        // Fix for top cutoff
+        /* ------------------------------
+        Set up hash links
+        ------------------------------ */
+        function setupHashLinks() {
+          document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+            var targetId = link.getAttribute('href').substring(1);
+            if (targetId) {
+              link.setAttribute('data-scroll-to', targetId);
+              link.addEventListener('click', function (e) {
+                e.preventDefault();
+                scrollToHash(targetId);
+              });
+            }
+          });
+        }
+
+        /* ------------------------------
+        Prevent top cutoff
+        ------------------------------ */
         function fixTopCutoff() {
           if (scroll && scroll.scroll && scroll.scroll.instance.scroll.y < 0) {
             scroll.scrollTo(0, {
@@ -149,50 +156,43 @@ var FidatoPluginJS = /*#__PURE__*/function () {
           }
         }
 
-        // Initialize scroll immediately when DOM is ready
-        initScroll();
-
-        // Then set up the hash links
-        setupHashLinks();
-
-        // Update the scroll instance
-        if (scroll) {
-          scroll.update();
-        }
-
-        // Handle scrolling to hash ONLY when user explicitly requests it
-        var isInitialLoad = true;
-        window.addEventListener('load', function () {
-          console.log('Window loaded, updating scroll...');
-
-          // Update scroll on complete page load
-          if (scroll) {
-            scroll.update();
-          } else {
-            console.warn('Scroll not initialized, attempting to initialize...');
-            initScroll();
-          }
-
-          // Get hash from URL
-          var hash = window.location.hash.substring(1);
-
-          // IMPORTANT: Only scroll to hash if this isn't the initial page load
-          if (!isInitialLoad && hash) {
-            setTimeout(function () {
-              scrollToHash(hash);
-            }, 200);
-          }
-          isInitialLoad = false;
+        /* ------------------------------
+        INIT
+        ------------------------------ */
+        document.addEventListener('DOMContentLoaded', function () {
+          initScroll();
+          setupHashLinks();
+          if (scroll) scroll.update();
         });
 
-        // Apply fix every 2 seconds instead of every second (less resource intensive)
+        /* ------------------------------
+        After everything (images/fonts) load
+        ------------------------------ */
+        window.addEventListener('load', function () {
+          if (!scroll) initScroll();
+          requestAnimationFrame(function () {
+            if (scroll) {
+              scroll.update();
+              var hash = window.location.hash.substring(1);
+              if (hash) {
+                setTimeout(function () {
+                  scrollToHash(hash);
+                }, 300); // delay so Locomotive knows final positions
+              }
+            }
+          });
+        });
+
+        /* ------------------------------
+        Fix cutoff every 2s
+        ------------------------------ */
         setInterval(function () {
-          if (scroll) {
-            fixTopCutoff();
-          }
+          if (scroll) fixTopCutoff();
         }, 2000);
 
-        // Handle resize events
+        /* ------------------------------
+        Handle resize
+        ------------------------------ */
         window.addEventListener('resize', function () {
           clearTimeout(window.resizedFinished);
           window.resizedFinished = setTimeout(function () {
