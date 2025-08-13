@@ -316,7 +316,7 @@
 }
 .panel-container.video-view.active .team-panel--content {
   padding: 0;
-  display: flex;
+  display: none;
 }
 .panel-container.video-view.active .team-panel--content.active {
   flex-grow: 1;

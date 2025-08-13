@@ -308,7 +308,10 @@
         }
         
     }
+
     &.video-view.active{
+
+
 
         & .close svg *{
             stroke: #fff;
@@ -330,7 +333,8 @@
 
             &--content{
                 padding: 0;
-                display: flex;
+                display: none;
+
 
 
                 &.active{
