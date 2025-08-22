@@ -131,10 +131,13 @@ class FidatoPluginJS {
             INIT
             ------------------------------ */
             document.addEventListener('DOMContentLoaded', () => {
-                initScroll();
-                setupHashLinks();
-                if (scroll) scroll.update();
-            });
+                requestAnimationFrame(() => {
+                  initScroll();
+                  setupHashLinks();
+                  if (scroll) scroll.update();
+                });
+              });
+              
 
             /* ------------------------------
             After everything (images/fonts) load
