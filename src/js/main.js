@@ -131,11 +131,12 @@ class FidatoPluginJS {
             INIT
             ------------------------------ */
             document.addEventListener('DOMContentLoaded', () => {
-                requestAnimationFrame(() => {
-                  initScroll();
-                  setupHashLinks();
-                  if (scroll) scroll.update();
+                document.querySelectorAll("video[data-src]").forEach(v => {
+                  v.src = v.dataset.src;
                 });
+                initScroll();
+                setupHashLinks();
+                if (scroll) scroll.update();
               });
               
 
