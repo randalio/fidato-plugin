@@ -61,7 +61,7 @@ class FidatoPluginJS {
                         smooth: true,
                         multiplier: 1,
                         class: 'loco-in-view',
-                        lerp: 0.05,
+                        lerp: 0.15,
                         scrollingClass: 'has-scroll-scrolling',
                         draggingClass: 'has-scroll-dragging'
                     });

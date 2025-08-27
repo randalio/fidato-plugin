@@ -89,7 +89,7 @@ var FidatoPluginJS = /*#__PURE__*/function () {
               smooth: true,
               multiplier: 1,
               "class": 'loco-in-view',
-              lerp: 0.05,
+              lerp: 0.15,
               scrollingClass: 'has-scroll-scrolling',
               draggingClass: 'has-scroll-dragging'
             });
@@ -160,6 +160,9 @@ var FidatoPluginJS = /*#__PURE__*/function () {
         INIT
         ------------------------------ */
         document.addEventListener('DOMContentLoaded', function () {
+          document.querySelectorAll("video[data-src]").forEach(function (v) {
+            v.src = v.dataset.src;
+          });
           initScroll();
           setupHashLinks();
           if (scroll) scroll.update();
