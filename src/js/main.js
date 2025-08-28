@@ -1,3 +1,5 @@
+import Lenis from 'lenis';
+
 // Add your JavaScript code here
 class FidatoPluginJS {
 
@@ -9,6 +11,19 @@ class FidatoPluginJS {
         // Wait until DOM is ready
         document.addEventListener("DOMContentLoaded", () => {
             console.log("DOM loaded");
+
+            // ----------------------
+            // LENIS with Hash Scrolling Integration
+            // ----------------------
+
+            // STEP 1: Prevent initial browser hash jump
+            (function preventInitialHashJump() {
+                if (window.location.hash) {
+                    // Store hash and clear it temporarily
+                    window.pendingHash = window.location.hash
+                    history.replaceState(null, null, window.location.pathname + window.location.search)
+                }
+            })()
 
             // Add animation to all dividers
             const dividers = document.querySelectorAll('.elementor-widget-divider');
@@ -25,159 +40,128 @@ class FidatoPluginJS {
                 elements[i].setAttribute('data-scroll-id', elements[i].id);
             }
 
-            let scroll = null;
-            let scrollTop = 0;
+            // Initialize Lenis
+            const lenis = new Lenis({
+                autoRaf: true,
+                lerp: 0.15,
+            })
 
-            // Prevent browser from auto-scrolling to hash on load
-            if (window.location.hash) {
-                window.scrollTo(0, 0); // Reset scroll position immediately
-                setTimeout(() => window.scrollTo(0, 0), 1); // Ensure it stays at top until we take over
+            // Cached elements
+            let classElements = []
+            let parallaxItems = []
+
+            function cacheElements() {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop
+
+                // Elements that toggle class when in view
+                classElements = [...document.querySelectorAll('[data-scroll-class]')]
+
+                // Elements that use parallax
+                parallaxItems = [...document.querySelectorAll('[data-scroll-speed]')].map(el => {
+                const rect = el.getBoundingClientRect()
+                const elCenter = rect.top + scrollTop + rect.height / 2
+                const speed = parseFloat(el.dataset.scrollSpeed) || 0
+                return { el, elCenter, speed }
+                })
             }
 
+            // Re-cache when layout changes
+            window.addEventListener('resize', cacheElements)
+            window.addEventListener('load', cacheElements)
+            cacheElements()
 
-            /* ------------------------------
-            Get consistent offset
-            ------------------------------ */
-            function getScrollOffset() {
-                const header = document.querySelector('header');
-                return header ? -(header.offsetHeight + 120) : -100; 
+            function updateEffects(scrollY) {
+                const windowHeight = window.innerHeight
+                const viewportCenter = windowHeight / 2 + scrollY
+
+                // Toggle classes
+                classElements.forEach((el) => {
+                const rect = el.getBoundingClientRect()
+                const inView = rect.top < windowHeight && rect.bottom > 0
+                const className = el.dataset.scrollClass
+                inView ? el.classList.add(className) : el.classList.remove(className)
+                })
+
+                // Apply parallax
+                parallaxItems.forEach(({ el, elCenter, speed }) => {
+                const distanceFromCenter = elCenter - viewportCenter
+                let y = distanceFromCenter * speed / 10
+
+                // Clamp to 2 decimals for smoother paints
+                y = Math.round(y * 100) / 100
+
+                el.style.transform = `translate3d(0, ${y}px, 0)`
+                })
             }
 
-            /* ------------------------------
-            Init Locomotive Scroll
-            ------------------------------ */
-            function initScroll() {
-                if (scroll !== null) return scroll;
+            // Lenis scroll listener
+            lenis.on('scroll', (e) => {
+                updateEffects(e.scroll)
+            })
 
-                const scrollContainer = document.querySelector('[data-scroll-container]');
-                if (!scrollContainer) {
-                    console.error('Locomotive Scroll: No element with [data-scroll-container] found!');
-                    return null;
-                }
+            // Initial run
+            updateEffects(window.scrollY)
 
-                try {
-                    scroll = new LocomotiveScroll({
-                        el: scrollContainer,
-                        smooth: true,
-                        multiplier: 1,
-                        class: 'loco-in-view',
-                        lerp: 0.15,
-                        scrollingClass: 'has-scroll-scrolling',
-                        draggingClass: 'has-scroll-dragging'
-                    });
+            // ----------------------
+            // Hash Scrolling Integration
+            // ----------------------
 
-                    // Track scroll position
-                    scroll.on('scroll', (obj) => {
-                        scrollTop = obj.scroll.y;
-                    });
-
-                    console.log('Locomotive Scroll initialized:', scroll);
-
-                } catch (error) {
-                    console.error('Error initializing Locomotive Scroll:', error);
-                    scroll = null;
-                }
-
-                return scroll;
-            }
-
-            /* ------------------------------
-            Scroll to hash target
-            ------------------------------ */
-            function scrollToHash(hash) {
-                if (!hash || !scroll) return false;
-
-                // Make sure Locomotive recalculates positions
-                scroll.update();
-
-                const target = document.querySelector(`[data-scroll-id="${hash}"]`);
-                if (target) {
-                    scroll.scrollTo(target, {
-                        offset: getScrollOffset(),
-                        duration: 800,
-                        callback: () => scroll.update()
-                    });
-                    return true;
-                }
-                return false;
-            }
-
-            /* ------------------------------
-            Set up hash links
-            ------------------------------ */
-            function setupHashLinks() {
-                document.querySelectorAll('a[href^="#"]').forEach(link => {
-                    const targetId = link.getAttribute('href').substring(1);
-                    if (targetId) {
-                        link.setAttribute('data-scroll-to', targetId);
-                        link.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            scrollToHash(targetId);
-                        });
+            // Handle anchor link clicks
+            document.addEventListener('click', (e) => {
+                const anchor = e.target.closest('a[href^="#"]')
+                if (anchor) {
+                    e.preventDefault()
+                    const targetId = anchor.getAttribute('href')
+                    const targetEl = document.querySelector(targetId)
+                    
+                    if (targetEl) {
+                        lenis.scrollTo(targetEl, {
+                            offset: -100, // 100px offset above target
+                            duration: 1.2,
+                            easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic
+                            onComplete: () => {
+                                // Update URL after scroll completes
+                                history.replaceState(null, null, targetId)
+                            }
+                        })
                     }
-                });
-            }
+                }
+            })
 
-            /* ------------------------------
-            Prevent top cutoff
-            ------------------------------ */
-            function fixTopCutoff() {
-                if (scroll && scroll.scroll && scroll.scroll.instance.scroll.y < 0) {
-                    scroll.scrollTo(0, { duration: 100, disableLerp: true });
+            // Handle pending hash after page loads
+            function handlePendingHash() {
+                if (window.pendingHash && lenis) {
+                    const targetEl = document.querySelector(window.pendingHash)
+                    if (targetEl) {
+                        setTimeout(() => {
+                            lenis.scrollTo(targetEl, {
+                                offset: -100, // 100px offset above target
+                                duration: 1.2,
+                                easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic
+                                onComplete: () => {
+                                    // Restore hash to URL
+                                    history.replaceState(null, null, window.location.pathname + window.location.search + window.pendingHash)
+                                    delete window.pendingHash
+                                }
+                            })
+                        }, 200) // Delay to ensure Lenis and animations are ready
+                    }
                 }
             }
 
-            /* ------------------------------
-            INIT
-            ------------------------------ */
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll("video[data-src]").forEach(v => {
-                  v.src = v.dataset.src;
-                });
-                initScroll();
-                setupHashLinks();
-                if (scroll) scroll.update();
-              });
-              
+            // Initialize hash handling when everything is loaded
+            window.addEventListener('load', handlePendingHash)
 
-            /* ------------------------------
-            After everything (images/fonts) load
-            ------------------------------ */
-            window.addEventListener('load', () => {
-                if (!scroll) initScroll();
-
-                requestAnimationFrame(() => {
-                    if (scroll) {
-                        scroll.update();
-                        const hash = window.location.hash.substring(1);
-                        if (hash) {
-                            setTimeout(() => {
-                                scrollToHash(hash);
-                            }, 300); // delay so Locomotive knows final positions
-                        }
-                    }
-                });
-            });
-
-            /* ------------------------------
-            Fix cutoff every 2s
-            ------------------------------ */
-            setInterval(() => {
-                if (scroll) fixTopCutoff();
-            }, 2000);
-
-            /* ------------------------------
-            Handle resize
-            ------------------------------ */
-            window.addEventListener('resize', () => {
-                clearTimeout(window.resizedFinished);
-                window.resizedFinished = setTimeout(() => {
-                    if (scroll) {
-                        scroll.update();
-                        fixTopCutoff();
-                    }
-                }, 250);
-            });
+            // RAF loop (keeping your existing setup)
+            function raf(time) {
+                lenis.raf(time)
+                requestAnimationFrame(raf)
+            }
+            requestAnimationFrame(raf)
+  
+  
+  
+  
 
 
             // Initialize the Swiper with proper configuration to avoid scroll conflicts
@@ -316,18 +300,18 @@ class FidatoPluginJS {
                     loopedSlides: 5,
                     allowTouchMove: false,
                     on: {
-                        slideChangeTransitionEnd: function() {
-                            if (scroll) {
-                                scroll.update();
-                            }
-                        },
-                        touchEnd: function() {
-                            if (scroll) {
-                                setTimeout(() => {
-                                    scroll.update();
-                                }, 100);
-                            }
-                        }
+                        // slideChangeTransitionEnd: function() {
+                        //     if (scroll) {
+                        //         scroll.update();
+                        //     }
+                        // },
+                        // touchEnd: function() {
+                        //     if (scroll) {
+                        //         setTimeout(() => {
+                        //             scroll.update();
+                        //         }, 100);
+                        //     }
+                        // }
                     }
                 });
                 
@@ -360,9 +344,9 @@ class FidatoPluginJS {
                             targetPanel.classList.add('active');
                         }
                         
-                        if (scroll) {
-                            scroll.stop();
-                        }
+                        // if (scroll) {
+                        //     scroll.stop();
+                        // }
 
                         if (teamPanelOverlay) {
                             teamPanelOverlay.classList.add('active');
@@ -383,9 +367,9 @@ class FidatoPluginJS {
                             targetPanel.classList.add('active');
                         }
 
-                        if (scroll) {
-                            scroll.stop();
-                        }
+                        // if (scroll) {
+                        //     scroll.stop();
+                        // }
 
                         if (teamPanelOverlay) {
                             teamPanelOverlay.classList.add('active');
@@ -417,12 +401,12 @@ class FidatoPluginJS {
                         // }
                     });
 
-                    if (scroll) {
-                        scroll.start();
-                        setTimeout(() => {
-                            scroll.update();
-                        }, 100);
-                    }
+                    // if (scroll) {
+                    //     scroll.start();
+                    //     setTimeout(() => {
+                    //         scroll.update();
+                    //     }, 100);
+                    // }
                 }
 
                 // Close button handler
@@ -439,19 +423,19 @@ class FidatoPluginJS {
 
                 // Team carousel mouse event handlers
                 const teamCarousel = document.querySelector('.team-carousel');
-                if (teamCarousel) {
-                    teamCarousel.addEventListener('mouseenter', function() {
-                        if (scroll && !document.querySelector('.panel-container.active')) {
-                            scroll.update();
-                        }
-                    });
+                // if (teamCarousel) {
+                //     teamCarousel.addEventListener('mouseenter', function() {
+                //         if (scroll && !document.querySelector('.panel-container.active')) {
+                //             scroll.update();
+                //         }
+                //     });
                     
-                    teamCarousel.addEventListener('mouseleave', function() {
-                        if (scroll && !document.querySelector('.panel-container.active')) {
-                            scroll.update();
-                        }
-                    });
-                }
+                //     teamCarousel.addEventListener('mouseleave', function() {
+                //         if (scroll && !document.querySelector('.panel-container.active')) {
+                //             scroll.update();
+                //         }
+                //     });
+                // }
             }
         });
     }
