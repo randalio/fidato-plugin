@@ -1262,7 +1262,8 @@ var FidatoPluginJS = /*#__PURE__*/function () {
         lerp: 0.15,
         wheelMultiplier: 1,
         touchMultiplier: 2,
-        infinite: false
+        infinite: false,
+        allowNestedScroll: true
       });
 
       // Setup Intersection Observer for class toggling
@@ -1525,6 +1526,7 @@ var FidatoPluginJS = /*#__PURE__*/function () {
             document.querySelectorAll('.team-panel--content').forEach(function (panel) {
               panel.classList.remove('active');
             });
+            lenis.start();
           }; // Close button handler
           // Initialize the Swiper with proper configuration to avoid jump on loop
           var teamSwiper = new Swiper('.teamSwiper', {
@@ -1579,6 +1581,7 @@ var FidatoPluginJS = /*#__PURE__*/function () {
           document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(function (link) {
             link.addEventListener('click', function (e) {
               e.preventDefault();
+              lenis.stop();
               var linkHref = this.getAttribute('href').toString();
               var targetPanel = document.querySelector(linkHref);
               var teamPanelOverlay = document.querySelector('.panel-container');
@@ -1589,11 +1592,18 @@ var FidatoPluginJS = /*#__PURE__*/function () {
                 teamPanelOverlay.classList.add('active');
                 teamPanelOverlay.style.top = scrollTop + 'px';
               }
+
+              // enable scroll within the panel content
+              var panelContent = document.querySelector('.team-panel--content.active .team-panel--body');
+              if (panelContent) {
+                panelContent.style.overflowY = 'auto';
+              }
             });
           });
           document.querySelectorAll('.team-carousel .swiper-slide .video-icon').forEach(function (link) {
             link.addEventListener('click', function (e) {
               e.preventDefault();
+              lenis.stop();
               var linkHref = this.getAttribute('href').toString();
               var targetPanel = document.querySelector(linkHref);
               var teamPanelOverlay = document.querySelector('.panel-container');

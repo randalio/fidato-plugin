@@ -95,7 +95,10 @@ class FidatoPluginJS {
             lerp: 0.15,
             wheelMultiplier: 1,
             touchMultiplier: 2,
-            infinite: false
+            infinite: false,
+            allowNestedScroll: true,
+
+
         })
 
         // Setup Intersection Observer for class toggling
@@ -408,6 +411,8 @@ class FidatoPluginJS {
                 document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(link => {
                     link.addEventListener('click', function(e) {
                         e.preventDefault();
+
+                        lenis.stop();
                         
                         const linkHref = this.getAttribute('href').toString();
                         const targetPanel = document.querySelector(linkHref);
@@ -416,19 +421,31 @@ class FidatoPluginJS {
                         if (targetPanel) {
                             targetPanel.classList.add('active');
                         }
-                        
-
 
                         if (teamPanelOverlay) {
                             teamPanelOverlay.classList.add('active');
                             teamPanelOverlay.style.top = scrollTop + 'px';
                         }
+
+                        // enable scroll within the panel content
+                        const panelContent = document.querySelector('.team-panel--content.active .team-panel--body');
+                        if (panelContent) {
+                            panelContent.style.overflowY = 'auto';
+                        }
+                  
+
+                       
+
+                        
+
                     });
                 });
 
                 document.querySelectorAll('.team-carousel .swiper-slide .video-icon').forEach(link => {
                     link.addEventListener('click', function(e) {
                         e.preventDefault();
+
+                        lenis.stop();
                         
                         const linkHref = this.getAttribute('href').toString();
                         const targetPanel = document.querySelector(linkHref);
@@ -437,8 +454,6 @@ class FidatoPluginJS {
                         if (targetPanel) {
                             targetPanel.classList.add('active');
                         }
-
-
 
                         if (teamPanelOverlay) {
                             teamPanelOverlay.classList.add('active');
@@ -461,6 +476,8 @@ class FidatoPluginJS {
                     document.querySelectorAll('.team-panel--content').forEach(panel => {
                         panel.classList.remove('active');
                     });
+
+                    lenis.start();
 
                 }
 
