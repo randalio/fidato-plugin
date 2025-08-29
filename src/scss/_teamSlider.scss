@@ -1,11 +1,30 @@
-.teamSwiper{
-    opacity: 0;
-    transition: all 1.5s ease 1.5s;
-    &.swiper-initialized{
-        opacity: 1;
-        transform: translateY(0%);
+body:not(.elementor-editor-active){
+    .teamSwiper{
+        opacity: 0;
+        transition: all 1.5s ease 1.5s;
+        &.swiper-initialized{
+            opacity: 1;
+            transform: translateY(0%);
+        }
     }
 }
+
+body.elementor-editor-active{
+    .team-carousel{
+        min-height: 400px;
+
+        & .swiper-slide{
+            max-height: unset; // 500px;
+            max-width:  unset; // 300px;
+            aspect-ratio:  unset; // 3 / 2;
+            opacity: 1 !important;
+        }
+    }
+}
+
+
+
+
 
 
 .team-carousel{

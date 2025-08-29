@@ -1160,12 +1160,6 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lenis__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lenis */ "./node_modules/lenis/dist/lenis.mjs");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
-function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
 function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
 function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
@@ -1182,167 +1176,244 @@ var FidatoPluginJS = /*#__PURE__*/function () {
   return _createClass(FidatoPluginJS, [{
     key: "init",
     value: function init() {
-      // Wait until DOM is ready
-      document.addEventListener("DOMContentLoaded", function () {
-        console.log("DOM loaded");
+      // ----------------------
+      // OPTIMIZED LENIS with Hash Scrolling Integration
+      // ----------------------
 
-        // ----------------------
-        // LENIS with Hash Scrolling Integration
-        // ----------------------
+      // Prevent initial browser hash jump
+      (function preventInitialHashJump() {
+        if (window.location.hash) {
+          window.pendingHash = window.location.hash;
+          history.replaceState(null, null, window.location.pathname + window.location.search);
+        }
+      })();
 
-        // STEP 1: Prevent initial browser hash jump
-        (function preventInitialHashJump() {
-          if (window.location.hash) {
-            // Store hash and clear it temporarily
-            window.pendingHash = window.location.hash;
-            history.replaceState(null, null, window.location.pathname + window.location.search);
+      // Throttle function to limit execution frequency
+      function throttle(func, delay) {
+        var lastCall = 0;
+        var scheduled = false;
+        return function () {
+          var _this = this;
+          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
           }
-        })();
+          var now = Date.now();
+          if (now - lastCall >= delay) {
+            lastCall = now;
+            func.apply(this, args);
+          } else if (!scheduled) {
+            scheduled = true;
+            setTimeout(function () {
+              scheduled = false;
+              lastCall = Date.now();
+              func.apply(_this, args);
+            }, delay - (now - lastCall));
+          }
+        };
+      }
 
-        // Add animation to all dividers
-        var dividers = document.querySelectorAll('.elementor-widget-divider');
-        for (var i = 0; i < dividers.length; i++) {
-          dividers[i].setAttribute('data-scroll', '');
-          dividers[i].setAttribute('data-scroll-repeat', '');
-          dividers[i].setAttribute('data-scroll-class', 'loco-in-view');
+      // Use Intersection Observer for visibility detection instead of scroll calculations
+      var observer = null;
+      function setupIntersectionObserver() {
+        // Clean up existing observer
+        if (observer) {
+          observer.disconnect();
         }
-
-        // Get every element with an ID
-        var elements = document.querySelectorAll('[id]');
-        for (var _i = 0; _i < elements.length; _i++) {
-          elements[_i].setAttribute('data-scroll', '');
-          elements[_i].setAttribute('data-scroll-id', elements[_i].id);
-        }
-
-        // Initialize Lenis
-        var lenis = new lenis__WEBPACK_IMPORTED_MODULE_0__["default"]({
-          autoRaf: true,
-          lerp: 0.15
-        });
-
-        // Cached elements
-        var classElements = [];
-        var parallaxItems = [];
-        function cacheElements() {
-          var scrollTop = window.scrollY || document.documentElement.scrollTop;
-
-          // Elements that toggle class when in view
-          classElements = _toConsumableArray(document.querySelectorAll('[data-scroll-class]'));
-
-          // Elements that use parallax
-          parallaxItems = _toConsumableArray(document.querySelectorAll('[data-scroll-speed]')).map(function (el) {
-            var rect = el.getBoundingClientRect();
-            var elCenter = rect.top + scrollTop + rect.height / 2;
-            var speed = parseFloat(el.dataset.scrollSpeed) || 0;
-            return {
-              el: el,
-              elCenter: elCenter,
-              speed: speed
-            };
+        var options = {
+          rootMargin: '50px 0px',
+          threshold: [0, 0.1]
+        };
+        observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            var className = entry.target.dataset.scrollClass;
+            if (className) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add(className);
+              } else if (entry.target.hasAttribute('data-scroll-repeat')) {
+                entry.target.classList.remove(className);
+              }
+            }
           });
-        }
+        }, options);
 
-        // Re-cache when layout changes
-        window.addEventListener('resize', cacheElements);
-        window.addEventListener('load', cacheElements);
-        cacheElements();
-        function updateEffects(scrollY) {
+        // Observe elements with scroll-class
+        document.querySelectorAll('[data-scroll-class]').forEach(function (el) {
+          observer.observe(el);
+        });
+      }
+
+      // Add animation to all dividers
+      var dividers = document.querySelectorAll('.elementor-widget-divider');
+      dividers.forEach(function (divider) {
+        divider.setAttribute('data-scroll', '');
+        divider.setAttribute('data-scroll-repeat', '');
+        divider.setAttribute('data-scroll-class', 'loco-in-view');
+      });
+
+      // Add scroll tracking to elements with IDs
+      document.querySelectorAll('[id]').forEach(function (element) {
+        element.setAttribute('data-scroll', '');
+        element.setAttribute('data-scroll-id', element.id);
+      });
+
+      // Initialize Lenis (no manual RAF loop needed with autoRaf)
+      var lenis = new lenis__WEBPACK_IMPORTED_MODULE_0__["default"]({
+        autoRaf: true,
+        lerp: 0.15,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+        infinite: false
+      });
+
+      // Setup Intersection Observer for class toggling
+      setupIntersectionObserver();
+
+      // Parallax handling with caching and throttling
+      var parallaxCache = new Map();
+      var rafId = null;
+      function cacheParallaxElements() {
+        // Clear previous cache
+        parallaxCache.clear();
+        document.querySelectorAll('[data-scroll-speed]').forEach(function (el) {
+          var rect = el.getBoundingClientRect();
+          var scrollTop = window.scrollY || document.documentElement.scrollTop;
+          var speed = parseFloat(el.dataset.scrollSpeed) || 0;
+          parallaxCache.set(el, {
+            initialOffset: rect.top + scrollTop,
+            height: rect.height,
+            speed: speed
+          });
+        });
+      }
+
+      // Throttled parallax update (16ms = ~60fps)
+      var updateParallax = throttle(function (scrollY) {
+        // Cancel any pending animation frame
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+        }
+        rafId = requestAnimationFrame(function () {
           var windowHeight = window.innerHeight;
           var viewportCenter = windowHeight / 2 + scrollY;
-
-          // Toggle classes
-          classElements.forEach(function (el) {
-            var rect = el.getBoundingClientRect();
-            var inView = rect.top < windowHeight && rect.bottom > 0;
-            var className = el.dataset.scrollClass;
-            inView ? el.classList.add(className) : el.classList.remove(className);
-          });
-
-          // Apply parallax
-          parallaxItems.forEach(function (_ref) {
-            var el = _ref.el,
-              elCenter = _ref.elCenter,
-              speed = _ref.speed;
+          parallaxCache.forEach(function (data, el) {
+            var elCenter = data.initialOffset + data.height / 2;
             var distanceFromCenter = elCenter - viewportCenter;
-            var y = distanceFromCenter * speed / 10;
 
-            // Clamp to 2 decimals for smoother paints
-            y = Math.round(y * 100) / 100;
-            el.style.transform = "translate3d(0, ".concat(y, "px, 0)");
+            // Only update if element is near viewport
+            if (Math.abs(distanceFromCenter) < windowHeight * 1.5) {
+              var y = distanceFromCenter * data.speed / 10;
+              y = Math.round(y * 100) / 100;
+
+              // Use will-change for better performance
+              if (!el.style.willChange) {
+                el.style.willChange = 'transform';
+              }
+              el.style.transform = "translate3d(0, ".concat(y, "px, 0)");
+            }
+          });
+          rafId = null;
+        });
+      }, 32);
+
+      // Cache elements initially
+      cacheParallaxElements();
+
+      // Debounced resize handler
+      var resizeTimeout;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function () {
+          cacheParallaxElements();
+          setupIntersectionObserver();
+        }, 250);
+      }, {
+        passive: true
+      });
+
+      // Only attach scroll listener if parallax elements exist
+      if (parallaxCache.size > 0) {
+        lenis.on('scroll', function (e) {
+          updateParallax(e.scroll);
+        });
+      }
+
+      // ----------------------
+      // Hash Scrolling Integration
+      // ----------------------
+
+      // Handle anchor link clicks (delegated for performance)
+      document.addEventListener('click', function (e) {
+        var anchor = e.target.closest('a[href^="#"]');
+        if (!anchor) return;
+        e.preventDefault();
+        var targetId = anchor.getAttribute('href');
+        if (targetId === '#') return;
+        var targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          lenis.scrollTo(targetEl, {
+            offset: -100,
+            duration: 1.2,
+            easing: function easing(t) {
+              return 1 - Math.pow(1 - t, 3);
+            },
+            onComplete: function onComplete() {
+              history.replaceState(null, null, targetId);
+            }
           });
         }
+      }, {
+        passive: false
+      });
 
-        // Lenis scroll listener
-        lenis.on('scroll', function (e) {
-          updateEffects(e.scroll);
-        });
-
-        // Initial run
-        updateEffects(window.scrollY);
-
-        // ----------------------
-        // Hash Scrolling Integration
-        // ----------------------
-
-        // Handle anchor link clicks
-        document.addEventListener('click', function (e) {
-          var anchor = e.target.closest('a[href^="#"]');
-          if (anchor) {
-            e.preventDefault();
-            var targetId = anchor.getAttribute('href');
-            var targetEl = document.querySelector(targetId);
-            if (targetEl) {
+      // Handle pending hash after page loads
+      function handlePendingHash() {
+        if (window.pendingHash) {
+          var targetEl = document.querySelector(window.pendingHash);
+          if (targetEl) {
+            // Use requestIdleCallback for non-critical initial scroll
+            var scrollToHash = function scrollToHash() {
               lenis.scrollTo(targetEl, {
                 offset: -100,
-                // 100px offset above target
                 duration: 1.2,
                 easing: function easing(t) {
                   return 1 - Math.pow(1 - t, 3);
                 },
-                // easeOutCubic
                 onComplete: function onComplete() {
-                  // Update URL after scroll completes
-                  history.replaceState(null, null, targetId);
+                  history.replaceState(null, null, window.location.pathname + window.location.search + window.pendingHash);
+                  delete window.pendingHash;
                 }
               });
-            }
-          }
-        });
-
-        // Handle pending hash after page loads
-        function handlePendingHash() {
-          if (window.pendingHash && lenis) {
-            var targetEl = document.querySelector(window.pendingHash);
-            if (targetEl) {
-              setTimeout(function () {
-                lenis.scrollTo(targetEl, {
-                  offset: -100,
-                  // 100px offset above target
-                  duration: 1.2,
-                  easing: function easing(t) {
-                    return 1 - Math.pow(1 - t, 3);
-                  },
-                  // easeOutCubic
-                  onComplete: function onComplete() {
-                    // Restore hash to URL
-                    history.replaceState(null, null, window.location.pathname + window.location.search + window.pendingHash);
-                    delete window.pendingHash;
-                  }
-                });
-              }, 200); // Delay to ensure Lenis and animations are ready
+            };
+            if ('requestIdleCallback' in window) {
+              requestIdleCallback(scrollToHash, {
+                timeout: 500
+              });
+            } else {
+              setTimeout(scrollToHash, 200);
             }
           }
         }
+      }
 
-        // Initialize hash handling when everything is loaded
-        window.addEventListener('load', handlePendingHash);
+      // Initialize hash handling when everything is loaded
+      window.addEventListener('load', handlePendingHash, {
+        once: true
+      });
 
-        // RAF loop (keeping your existing setup)
-        function raf(time) {
-          lenis.raf(time);
-          requestAnimationFrame(raf);
+      // Cleanup on page unload to prevent memory leaks
+      window.addEventListener('beforeunload', function () {
+        if (observer) {
+          observer.disconnect();
         }
-        requestAnimationFrame(raf);
+        if (lenis) {
+          lenis.destroy();
+        }
+        parallaxCache.clear();
+      });
+
+      // Wait until DOM is ready
+      document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM loaded");
 
         // Initialize the Swiper with proper configuration to avoid scroll conflicts
         var overflowSwiper = new Swiper('.overflowSwiper', {
@@ -1453,22 +1524,7 @@ var FidatoPluginJS = /*#__PURE__*/function () {
             }
             document.querySelectorAll('.team-panel--content').forEach(function (panel) {
               panel.classList.remove('active');
-
-              // Stop any videos by replacing iframe
-              //const iframe = panel.querySelector('iframe');
-              // if (iframe) {
-              //     const original_frame = iframe.cloneNode(true);
-              //     iframe.remove();
-              //     panel.appendChild(original_frame);
-              // }
             });
-
-            // if (scroll) {
-            //     scroll.start();
-            //     setTimeout(() => {
-            //         scroll.update();
-            //     }, 100);
-            // }
           }; // Close button handler
           // Initialize the Swiper with proper configuration to avoid jump on loop
           var teamSwiper = new Swiper('.teamSwiper', {
@@ -1478,6 +1534,7 @@ var FidatoPluginJS = /*#__PURE__*/function () {
             centeredSlides: true,
             spaceBetween: 32,
             mousewheel: false,
+            allowTouchMove: true,
             keyboard: {
               enabled: true,
               onlyInViewport: true
@@ -1490,31 +1547,18 @@ var FidatoPluginJS = /*#__PURE__*/function () {
               768: {
                 slidesPerView: 2,
                 spaceBetween: 44,
-                centeredSlides: true
+                centeredSlides: true,
+                allowTouchMove: true
               },
               1024: {
                 slidesPerView: 3,
                 spaceBetween: 100,
-                centeredSlides: false
+                centeredSlides: false,
+                allowTouchMove: false
               }
             },
             loopAdditionalSlides: 5,
-            loopedSlides: 5,
-            allowTouchMove: false,
-            on: {
-              // slideChangeTransitionEnd: function() {
-              //     if (scroll) {
-              //         scroll.update();
-              //     }
-              // },
-              // touchEnd: function() {
-              //     if (scroll) {
-              //         setTimeout(() => {
-              //             scroll.update();
-              //         }, 100);
-              //     }
-              // }
-            }
+            loopedSlides: 5
           });
 
           // Button navigation
@@ -1541,11 +1585,6 @@ var FidatoPluginJS = /*#__PURE__*/function () {
               if (targetPanel) {
                 targetPanel.classList.add('active');
               }
-
-              // if (scroll) {
-              //     scroll.stop();
-              // }
-
               if (teamPanelOverlay) {
                 teamPanelOverlay.classList.add('active');
                 teamPanelOverlay.style.top = scrollTop + 'px';
@@ -1561,11 +1600,6 @@ var FidatoPluginJS = /*#__PURE__*/function () {
               if (targetPanel) {
                 targetPanel.classList.add('active');
               }
-
-              // if (scroll) {
-              //     scroll.stop();
-              // }
-
               if (teamPanelOverlay) {
                 teamPanelOverlay.classList.add('active');
                 teamPanelOverlay.classList.add('video-view');
@@ -1586,19 +1620,6 @@ var FidatoPluginJS = /*#__PURE__*/function () {
 
           // Team carousel mouse event handlers
           var teamCarousel = document.querySelector('.team-carousel');
-          // if (teamCarousel) {
-          //     teamCarousel.addEventListener('mouseenter', function() {
-          //         if (scroll && !document.querySelector('.panel-container.active')) {
-          //             scroll.update();
-          //         }
-          //     });
-
-          //     teamCarousel.addEventListener('mouseleave', function() {
-          //         if (scroll && !document.querySelector('.panel-container.active')) {
-          //             scroll.update();
-          //         }
-          //     });
-          // }
         }
       });
     }

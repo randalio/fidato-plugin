@@ -34,13 +34,106 @@
   opacity: 1 !important;
 }
 
-.teamSwiper {
+.two-level-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: max-content;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  /* Responsive design */
+}
+.two-level-menu .menu-item {
+  position: relative;
+  padding: 4px 0;
+}
+.two-level-menu .menu-item-wrapper {
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease;
+  max-width: max-content;
+}
+.two-level-menu .menu-link {
+  flex: 1;
+  display: block;
+  padding: 0;
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.2s ease;
+}
+.two-level-menu .menu-link:hover {
+  color: var(--e-global-color-770f0b03);
+}
+.two-level-menu .submenu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+.two-level-menu .submenu-toggle:hover {
+  color: var(--e-global-color-770f0b03);
+}
+.two-level-menu .submenu-toggle .arrow {
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+.two-level-menu .submenu-toggle[aria-expanded=true] .arrow {
+  transform: rotate(180deg);
+}
+.two-level-menu .submenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+.two-level-menu .submenu.open {
+  max-height: 500px; /* Adjust based on your needs */
+}
+.two-level-menu .submenu-item:last-child {
+  margin-bottom: 8px;
+}
+.two-level-menu .submenu-link {
+  display: block;
+  padding: 6px 6px 6px 16px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+@media (max-width: 768px) {
+  .two-level-menu .menu-item-wrapper {
+    flex-wrap: wrap;
+  }
+  .two-level-menu .menu-link {
+    font-size: 16px;
+    padding: 14px 16px;
+  }
+  .two-level-menu .submenu-toggle {
+    padding: 14px 16px;
+  }
+}
+
+body:not(.elementor-editor-active) .teamSwiper {
   opacity: 0;
   transition: all 1.5s ease 1.5s;
 }
-.teamSwiper.swiper-initialized {
+body:not(.elementor-editor-active) .teamSwiper.swiper-initialized {
   opacity: 1;
   transform: translateY(0%);
+}
+
+body.elementor-editor-active .team-carousel {
+  min-height: 400px;
+}
+body.elementor-editor-active .team-carousel .swiper-slide {
+  max-height: unset;
+  max-width: unset;
+  aspect-ratio: unset;
+  opacity: 1 !important;
 }
 
 .team-carousel {

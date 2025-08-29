@@ -368,6 +368,133 @@ function custom_post_type() {
 }
 add_action( 'init', 'custom_post_type', 0 );
 
+
+
+function custom_two_level_menu_shortcode($atts) {
+    // Set default attributes
+    $atts = shortcode_atts(array(
+        'menu' => 'main-menu', // Default menu slug/name
+        'container_class' => 'custom-menu-container',
+    ), $atts);
+    
+    // Get the menu
+    $menu = wp_get_nav_menu_object($atts['menu']);
+    if (!$menu) {
+        return '<p>Menu not found. Please check the menu name.</p>';
+    }
+    
+    // Get menu items
+    $menu_items = wp_get_nav_menu_items($menu->term_id);
+    if (!$menu_items) {
+        return '<p>No menu items found.</p>';
+    }
+    
+    // Organize menu items by parent
+    $menu_tree = array();
+    $sub_menus = array();
+    
+    foreach ($menu_items as $item) {
+        if ($item->menu_item_parent == 0) {
+            $menu_tree[$item->ID] = $item;
+        } else {
+            $sub_menus[$item->menu_item_parent][] = $item;
+        }
+    }
+    
+    // Start building the HTML
+    ob_start();
+    ?>
+    <div class="<?php echo esc_attr($atts['container_class']); ?>">
+        <ul class="two-level-menu">
+            <?php foreach ($menu_tree as $parent_item): ?>
+                <li class="menu-item <?php echo isset($sub_menus[$parent_item->ID]) ? 'has-submenu' : ''; ?>">
+                    <div class="menu-item-wrapper">
+                        <a href="<?php echo esc_url($parent_item->url); ?>" class="menu-link">
+                            <?php echo esc_html($parent_item->title); ?>
+                        </a>
+                        <?php if (isset($sub_menus[$parent_item->ID])): ?>
+                            <button class="submenu-toggle" aria-expanded="false" aria-label="Toggle submenu for <?php echo esc_attr($parent_item->title); ?>">
+                                <i class="icon icon-down-arrow1"></i>
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <?php if (isset($sub_menus[$parent_item->ID])): ?>
+                        <ul class="submenu">
+                            <?php foreach ($sub_menus[$parent_item->ID] as $child_item): ?>
+                                <li class="submenu-item">
+                                    <a href="<?php echo esc_url($child_item->url); ?>" class="submenu-link">
+                                        <?php echo esc_html($child_item->title); ?>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleButtons = document.querySelectorAll('.two-level-menu .submenu-toggle');
+        
+        toggleButtons.forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const menuItem = this.closest('.menu-item');
+                const submenu = menuItem.querySelector('.submenu');
+                const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                
+                // Close all other submenus
+                toggleButtons.forEach(function(otherButton) {
+                    if (otherButton !== button) {
+                        const otherMenuItem = otherButton.closest('.menu-item');
+                        const otherSubmenu = otherMenuItem.querySelector('.submenu');
+                        
+                        otherButton.setAttribute('aria-expanded', 'false');
+                        otherSubmenu.classList.remove('open');
+                    }
+                });
+                
+                // Toggle current submenu
+                if (isExpanded) {
+                    this.setAttribute('aria-expanded', 'false');
+                    submenu.classList.remove('open');
+                } else {
+                    this.setAttribute('aria-expanded', 'true');
+                    submenu.classList.add('open');
+                }
+            });
+        });
+        
+        // Close submenu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.two-level-menu')) {
+                toggleButtons.forEach(function(button) {
+                    const menuItem = button.closest('.menu-item');
+                    const submenu = menuItem.querySelector('.submenu');
+                    
+                    button.setAttribute('aria-expanded', 'false');
+                    submenu.classList.remove('open');
+                });
+            }
+        });
+    });
+    </script>
+    
+    <?php
+    return ob_get_clean();
+}
+
+// Register the shortcode
+add_shortcode('two_level_menu', 'custom_two_level_menu_shortcode');
+
+
+
 // Increase memory limit for this plugin
 function fidato_increase_memory_limit() {
     if (current_user_can('administrator')) {

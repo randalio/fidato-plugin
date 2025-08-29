@@ -8,160 +8,245 @@ class FidatoPluginJS {
     }
 
     init() {
-        // Wait until DOM is ready
-        document.addEventListener("DOMContentLoaded", () => {
-            console.log("DOM loaded");
 
-            // ----------------------
-            // LENIS with Hash Scrolling Integration
-            // ----------------------
+        // ----------------------
+        // OPTIMIZED LENIS with Hash Scrolling Integration
+        // ----------------------
 
-            // STEP 1: Prevent initial browser hash jump
-            (function preventInitialHashJump() {
-                if (window.location.hash) {
-                    // Store hash and clear it temporarily
-                    window.pendingHash = window.location.hash
-                    history.replaceState(null, null, window.location.pathname + window.location.search)
+        // Prevent initial browser hash jump
+        (function preventInitialHashJump() {
+            if (window.location.hash) {
+                window.pendingHash = window.location.hash
+                history.replaceState(null, null, window.location.pathname + window.location.search)
+            }
+        })()
+
+        // Throttle function to limit execution frequency
+        function throttle(func, delay) {
+            let lastCall = 0
+            let scheduled = false
+            
+            return function(...args) {
+                const now = Date.now()
+                
+                if (now - lastCall >= delay) {
+                    lastCall = now
+                    func.apply(this, args)
+                } else if (!scheduled) {
+                    scheduled = true
+                    setTimeout(() => {
+                        scheduled = false
+                        lastCall = Date.now()
+                        func.apply(this, args)
+                    }, delay - (now - lastCall))
                 }
-            })()
+            }
+        }
 
-            // Add animation to all dividers
-            const dividers = document.querySelectorAll('.elementor-widget-divider');
-            for (let i = 0; i < dividers.length; i++) {
-                dividers[i].setAttribute('data-scroll', '');
-                dividers[i].setAttribute('data-scroll-repeat', '');
-                dividers[i].setAttribute('data-scroll-class', 'loco-in-view');
+        // Use Intersection Observer for visibility detection instead of scroll calculations
+        let observer = null
+        function setupIntersectionObserver() {
+            // Clean up existing observer
+            if (observer) {
+                observer.disconnect()
             }
 
-            // Get every element with an ID
-            const elements = document.querySelectorAll('[id]');
-            for (let i = 0; i < elements.length; i++) {
-                elements[i].setAttribute('data-scroll', '');
-                elements[i].setAttribute('data-scroll-id', elements[i].id);
+            const options = {
+                rootMargin: '50px 0px',
+                threshold: [0, 0.1]
             }
 
-            // Initialize Lenis
-            const lenis = new Lenis({
-                autoRaf: true,
-                lerp: 0.15,
-            })
-
-            // Cached elements
-            let classElements = []
-            let parallaxItems = []
-
-            function cacheElements() {
-                const scrollTop = window.scrollY || document.documentElement.scrollTop
-
-                // Elements that toggle class when in view
-                classElements = [...document.querySelectorAll('[data-scroll-class]')]
-
-                // Elements that use parallax
-                parallaxItems = [...document.querySelectorAll('[data-scroll-speed]')].map(el => {
-                const rect = el.getBoundingClientRect()
-                const elCenter = rect.top + scrollTop + rect.height / 2
-                const speed = parseFloat(el.dataset.scrollSpeed) || 0
-                return { el, elCenter, speed }
+            observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const className = entry.target.dataset.scrollClass
+                    if (className) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add(className)
+                        } else if (entry.target.hasAttribute('data-scroll-repeat')) {
+                            entry.target.classList.remove(className)
+                        }
+                    }
                 })
+            }, options)
+
+            // Observe elements with scroll-class
+            document.querySelectorAll('[data-scroll-class]').forEach(el => {
+                observer.observe(el)
+            })
+        }
+
+        // Add animation to all dividers
+        const dividers = document.querySelectorAll('.elementor-widget-divider')
+        dividers.forEach(divider => {
+            divider.setAttribute('data-scroll', '')
+            divider.setAttribute('data-scroll-repeat', '')
+            divider.setAttribute('data-scroll-class', 'loco-in-view')
+        })
+
+        // Add scroll tracking to elements with IDs
+        document.querySelectorAll('[id]').forEach(element => {
+            element.setAttribute('data-scroll', '')
+            element.setAttribute('data-scroll-id', element.id)
+        })
+
+        // Initialize Lenis (no manual RAF loop needed with autoRaf)
+        const lenis = new Lenis({
+            autoRaf: true,
+            lerp: 0.15,
+            wheelMultiplier: 1,
+            touchMultiplier: 2,
+            infinite: false
+        })
+
+        // Setup Intersection Observer for class toggling
+        setupIntersectionObserver()
+
+        // Parallax handling with caching and throttling
+        let parallaxCache = new Map()
+        let rafId = null
+
+        function cacheParallaxElements() {
+            // Clear previous cache
+            parallaxCache.clear()
+            
+            document.querySelectorAll('[data-scroll-speed]').forEach(el => {
+                const rect = el.getBoundingClientRect()
+                const scrollTop = window.scrollY || document.documentElement.scrollTop
+                const speed = parseFloat(el.dataset.scrollSpeed) || 0
+                
+                parallaxCache.set(el, {
+                    initialOffset: rect.top + scrollTop,
+                    height: rect.height,
+                    speed: speed
+                })
+            })
+        }
+
+        // Throttled parallax update (16ms = ~60fps)
+        const updateParallax = throttle((scrollY) => {
+            // Cancel any pending animation frame
+            if (rafId) {
+                cancelAnimationFrame(rafId)
             }
-
-            // Re-cache when layout changes
-            window.addEventListener('resize', cacheElements)
-            window.addEventListener('load', cacheElements)
-            cacheElements()
-
-            function updateEffects(scrollY) {
+            
+            rafId = requestAnimationFrame(() => {
                 const windowHeight = window.innerHeight
                 const viewportCenter = windowHeight / 2 + scrollY
 
-                // Toggle classes
-                classElements.forEach((el) => {
-                const rect = el.getBoundingClientRect()
-                const inView = rect.top < windowHeight && rect.bottom > 0
-                const className = el.dataset.scrollClass
-                inView ? el.classList.add(className) : el.classList.remove(className)
+                parallaxCache.forEach((data, el) => {
+                    const elCenter = data.initialOffset + data.height / 2
+                    const distanceFromCenter = elCenter - viewportCenter
+                    
+                    // Only update if element is near viewport
+                    if (Math.abs(distanceFromCenter) < windowHeight * 1.5) {
+                        let y = distanceFromCenter * data.speed / 10
+                        y = Math.round(y * 100) / 100
+                        
+                        // Use will-change for better performance
+                        if (!el.style.willChange) {
+                            el.style.willChange = 'transform'
+                        }
+                        el.style.transform = `translate3d(0, ${y}px, 0)`
+                    }
                 })
+                
+                rafId = null
+            })
+        }, 32)
 
-                // Apply parallax
-                parallaxItems.forEach(({ el, elCenter, speed }) => {
-                const distanceFromCenter = elCenter - viewportCenter
-                let y = distanceFromCenter * speed / 10
+        // Cache elements initially
+        cacheParallaxElements()
 
-                // Clamp to 2 decimals for smoother paints
-                y = Math.round(y * 100) / 100
+        // Debounced resize handler
+        let resizeTimeout
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout)
+            resizeTimeout = setTimeout(() => {
+                cacheParallaxElements()
+                setupIntersectionObserver()
+            }, 250)
+        }, { passive: true })
 
-                el.style.transform = `translate3d(0, ${y}px, 0)`
+        // Only attach scroll listener if parallax elements exist
+        if (parallaxCache.size > 0) {
+            lenis.on('scroll', (e) => {
+                updateParallax(e.scroll)
+            })
+        }
+
+        // ----------------------
+        // Hash Scrolling Integration
+        // ----------------------
+
+        // Handle anchor link clicks (delegated for performance)
+        document.addEventListener('click', (e) => {
+            const anchor = e.target.closest('a[href^="#"]')
+            if (!anchor) return
+            
+            e.preventDefault()
+            const targetId = anchor.getAttribute('href')
+            if (targetId === '#') return
+            
+            const targetEl = document.querySelector(targetId)
+            if (targetEl) {
+                lenis.scrollTo(targetEl, {
+                    offset: -100,
+                    duration: 1.2,
+                    easing: (t) => 1 - Math.pow(1 - t, 3),
+                    onComplete: () => {
+                        history.replaceState(null, null, targetId)
+                    }
                 })
             }
+        }, { passive: false })
 
-            // Lenis scroll listener
-            lenis.on('scroll', (e) => {
-                updateEffects(e.scroll)
-            })
-
-            // Initial run
-            updateEffects(window.scrollY)
-
-            // ----------------------
-            // Hash Scrolling Integration
-            // ----------------------
-
-            // Handle anchor link clicks
-            document.addEventListener('click', (e) => {
-                const anchor = e.target.closest('a[href^="#"]')
-                if (anchor) {
-                    e.preventDefault()
-                    const targetId = anchor.getAttribute('href')
-                    const targetEl = document.querySelector(targetId)
-                    
-                    if (targetEl) {
+        // Handle pending hash after page loads
+        function handlePendingHash() {
+            if (window.pendingHash) {
+                const targetEl = document.querySelector(window.pendingHash)
+                if (targetEl) {
+                    // Use requestIdleCallback for non-critical initial scroll
+                    const scrollToHash = () => {
                         lenis.scrollTo(targetEl, {
-                            offset: -100, // 100px offset above target
+                            offset: -100,
                             duration: 1.2,
-                            easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic
+                            easing: (t) => 1 - Math.pow(1 - t, 3),
                             onComplete: () => {
-                                // Update URL after scroll completes
-                                history.replaceState(null, null, targetId)
+                                history.replaceState(null, null, 
+                                    window.location.pathname + 
+                                    window.location.search + 
+                                    window.pendingHash)
+                                delete window.pendingHash
                             }
                         })
                     }
-                }
-            })
-
-            // Handle pending hash after page loads
-            function handlePendingHash() {
-                if (window.pendingHash && lenis) {
-                    const targetEl = document.querySelector(window.pendingHash)
-                    if (targetEl) {
-                        setTimeout(() => {
-                            lenis.scrollTo(targetEl, {
-                                offset: -100, // 100px offset above target
-                                duration: 1.2,
-                                easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic
-                                onComplete: () => {
-                                    // Restore hash to URL
-                                    history.replaceState(null, null, window.location.pathname + window.location.search + window.pendingHash)
-                                    delete window.pendingHash
-                                }
-                            })
-                        }, 200) // Delay to ensure Lenis and animations are ready
+                    
+                    if ('requestIdleCallback' in window) {
+                        requestIdleCallback(scrollToHash, { timeout: 500 })
+                    } else {
+                        setTimeout(scrollToHash, 200)
                     }
                 }
             }
+        }
 
-            // Initialize hash handling when everything is loaded
-            window.addEventListener('load', handlePendingHash)
+        // Initialize hash handling when everything is loaded
+        window.addEventListener('load', handlePendingHash, { once: true })
 
-            // RAF loop (keeping your existing setup)
-            function raf(time) {
-                lenis.raf(time)
-                requestAnimationFrame(raf)
+        // Cleanup on page unload to prevent memory leaks
+        window.addEventListener('beforeunload', () => {
+            if (observer) {
+                observer.disconnect()
             }
-            requestAnimationFrame(raf)
-  
-  
-  
-  
+            if (lenis) {
+                lenis.destroy()
+            }
+            parallaxCache.clear()
+        })
+
+        // Wait until DOM is ready
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("DOM loaded");
 
 
             // Initialize the Swiper with proper configuration to avoid scroll conflicts
@@ -276,6 +361,7 @@ class FidatoPluginJS {
                     centeredSlides: true,
                     spaceBetween: 32,
                     mousewheel: false,
+                    allowTouchMove: true,
                     keyboard: {
                         enabled: true,
                         onlyInViewport: true,
@@ -289,30 +375,17 @@ class FidatoPluginJS {
                             slidesPerView: 2,
                             spaceBetween: 44,
                             centeredSlides: true,
+                            allowTouchMove: true,
                         },
                         1024: {
                             slidesPerView: 3,
                             spaceBetween: 100,
                             centeredSlides: false,
+                            allowTouchMove: false
                         }
                     },
                     loopAdditionalSlides: 5,
                     loopedSlides: 5,
-                    allowTouchMove: false,
-                    on: {
-                        // slideChangeTransitionEnd: function() {
-                        //     if (scroll) {
-                        //         scroll.update();
-                        //     }
-                        // },
-                        // touchEnd: function() {
-                        //     if (scroll) {
-                        //         setTimeout(() => {
-                        //             scroll.update();
-                        //         }, 100);
-                        //     }
-                        // }
-                    }
                 });
                 
                 // Button navigation
@@ -344,9 +417,7 @@ class FidatoPluginJS {
                             targetPanel.classList.add('active');
                         }
                         
-                        // if (scroll) {
-                        //     scroll.stop();
-                        // }
+
 
                         if (teamPanelOverlay) {
                             teamPanelOverlay.classList.add('active');
@@ -367,9 +438,7 @@ class FidatoPluginJS {
                             targetPanel.classList.add('active');
                         }
 
-                        // if (scroll) {
-                        //     scroll.stop();
-                        // }
+
 
                         if (teamPanelOverlay) {
                             teamPanelOverlay.classList.add('active');
@@ -391,22 +460,8 @@ class FidatoPluginJS {
                     
                     document.querySelectorAll('.team-panel--content').forEach(panel => {
                         panel.classList.remove('active');
-
-                        // Stop any videos by replacing iframe
-                        //const iframe = panel.querySelector('iframe');
-                        // if (iframe) {
-                        //     const original_frame = iframe.cloneNode(true);
-                        //     iframe.remove();
-                        //     panel.appendChild(original_frame);
-                        // }
                     });
 
-                    // if (scroll) {
-                    //     scroll.start();
-                    //     setTimeout(() => {
-                    //         scroll.update();
-                    //     }, 100);
-                    // }
                 }
 
                 // Close button handler
@@ -423,19 +478,6 @@ class FidatoPluginJS {
 
                 // Team carousel mouse event handlers
                 const teamCarousel = document.querySelector('.team-carousel');
-                // if (teamCarousel) {
-                //     teamCarousel.addEventListener('mouseenter', function() {
-                //         if (scroll && !document.querySelector('.panel-container.active')) {
-                //             scroll.update();
-                //         }
-                //     });
-                    
-                //     teamCarousel.addEventListener('mouseleave', function() {
-                //         if (scroll && !document.querySelector('.panel-container.active')) {
-                //             scroll.update();
-                //         }
-                //     });
-                // }
             }
         });
     }
