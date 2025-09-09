@@ -93,11 +93,27 @@ body.elementor-editor-active{
 }
 .team-carousel .swiper-button-next{
     left: 0; 
+    border: unset;
+    padding: unset;
+    
+    &:hover,
+    &:focus,
+    &:active{
+        background: transparent !important
+    }
     
 }
 .team-carousel .swiper-button-prev{
     right: 0; 
     left: unset;
+    border: unset;
+    padding: unset; 
+
+    &:hover,
+    &:focus,
+    &:active{
+        background: transparent !important
+    }
 }
 
 .team-carousel .swiper-navigation{
@@ -107,6 +123,7 @@ body.elementor-editor-active{
     margin-bottom: 2rem;
     margin-top: -8rem;
     margin-bottom: 4rem;
+
 
     @media screen and (max-width: 1024px){
         margin-top: -1rem;

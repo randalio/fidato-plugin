@@ -194,11 +194,21 @@ body.elementor-editor-active .team-carousel .swiper-slide {
 
 .team-carousel .swiper-button-next {
   left: 0;
+  border: unset;
+  padding: unset;
+}
+.team-carousel .swiper-button-next:hover, .team-carousel .swiper-button-next:focus, .team-carousel .swiper-button-next:active {
+  background: transparent !important;
 }
 
 .team-carousel .swiper-button-prev {
   right: 0;
   left: unset;
+  border: unset;
+  padding: unset;
+}
+.team-carousel .swiper-button-prev:hover, .team-carousel .swiper-button-prev:focus, .team-carousel .swiper-button-prev:active {
+  background: transparent !important;
 }
 
 .team-carousel .swiper-navigation {

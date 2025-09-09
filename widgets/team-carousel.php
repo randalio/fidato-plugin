@@ -148,21 +148,39 @@ class Elementor_Team_Carousel extends \Elementor\Widget_Base {
                     <?php endforeach; ?>
                 </div>
 
-                <div class="swiper-navigation">
+                <div class="swiper-navigation" role="group" aria-label="Slider navigation">
                     <!-- Navigation Buttons -->
-                    <div class="swiper-button-prev team-swiper-button-prev">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
+                    <button 
+                        class="swiper-button-prev team-swiper-button-prev"
+                        type="button"
+                        aria-label="Previous slide"
+                        aria-describedby="slider-instructions"
+                        tabindex="0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none" aria-hidden="true" focusable="false">
                             <circle cx="25" cy="25" r="25" transform="rotate(-180 25 25)" fill="#113452"/>
                             <path d="M40 25L10 25M10 25L19.6429 34M10 25L19.6429 16" stroke="white"/>
                         </svg>
-                    </div>
-                    <div class="swiper-button-next team-swiper-button-next">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
+                        <span class="sr-only">Go to previous slide</span>
+                    </button>
+                    
+                    <button 
+                        class="swiper-button-next team-swiper-button-next"
+                        type="button"
+                        aria-label="Next slide"
+                        aria-describedby="slider-instructions"
+                        tabindex="0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none" aria-hidden="true" focusable="false">
                             <circle cx="25" cy="25" r="25" fill="#113452"/>
                             <path d="M10 25L40 25M40 25L30.3571 16M40 25L30.3571 34" stroke="white"/>
                         </svg>
+                        <span class="sr-only">Go to next slide</span>
+                    </button>
+                    
+                    <!-- Hidden instructions for screen readers -->
+                    <div id="slider-instructions" class="sr-only">
+                        Use the arrow keys to navigate between slides, or use the previous and next buttons.
                     </div>
-            </div>
+                </div>
 
             </div>
         </div>

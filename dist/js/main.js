@@ -1535,7 +1535,7 @@ var FidatoPluginJS = /*#__PURE__*/function () {
             speed: 750,
             centeredSlides: true,
             spaceBetween: 32,
-            mousewheel: false,
+            mousewheel: true,
             allowTouchMove: true,
             keyboard: {
               enabled: true,
