@@ -1,10 +1,12 @@
 body:not(.elementor-editor-active){
     .teamSwiper{
         opacity: 0;
-        transition: all 1.5s ease 1.5s;
+        transition: opacity 1.5s ease 0.5s, transform 1s ease 0.5s;
+        transform: translateY(20rem);
         &.swiper-initialized{
             opacity: 1;
             transform: translateY(0%);
+            max-width: 100%;
         }
     }
 }
@@ -134,9 +136,12 @@ body.elementor-editor-active{
 
 .team-carousel .swiper.teamSwiper .swiper-slide,
 .team-panel .team-panel--content{
+
+
     & img{
-        aspect-ratio: 24/31;
-        min-width: 100%;
+        // aspect-ratio: 24/31;
+        // min-width: 100%;
+        max-width: 370px;
         object-fit: cover;
         border-radius: 1rem;
         box-shadow: 5px 6px 13px rgba(0, 0, 0, 0.10);
