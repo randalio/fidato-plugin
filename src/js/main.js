@@ -247,81 +247,7 @@ class FidatoPluginJS {
             parallaxCache.clear()
         })
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const teamCarousel = document.querySelector('.team-carousel');
-        
-            if (teamCarousel) {
-                const observer = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            // Initialize Swiper once visible
-                            
-                            initTeamSwiper();
-                            observer.unobserve(entry.target); // stop observing once initialized
-                        }
-                    });
-                }, {
-                    threshold: 0.2 // adjust: 0.2 = 20% visible before init
-                });
-        
-                observer.observe(teamCarousel);
-            }
-        
-            function initTeamSwiper() {
-                var teamSwiper = new Swiper('.teamSwiper', {
-                    slidesPerView: 1.5,
-                    loop: true,
-                    speed: 750,
-                    centeredSlides: true,
-                    spaceBetween: 32,
-                    mousewheel: false,
-                    allowTouchMove: true,
-                    initialSlide: 0,
-                    autoplay: {
-                        delay: 3500,
-                        disableOnInteraction: false,
-                    },
-                    keyboard: {
-                        enabled: true,
-                        onlyInViewport: true,
-                    },
-                    navigation: {
-                        nextEl: '.team-swiper-button-next',
-                        prevEl: '.team-swiper-button-prev',
-                    },
-                    breakpoints: {
-                        768: {
-                            slidesPerView: 2,
-                            spaceBetween: 44,
-                            centeredSlides: true,
-                            allowTouchMove: true,
-                        },
-                        1024: {
-                            slidesPerView: 3,
-                            spaceBetween: 100,
-                            centeredSlides: false,
-                            //allowTouchMove: false
-                        }
-                    },
-                    // loopAdditionalSlides: 12,
-                    // loopedSlides: 12,
-                });
-        
-                // Button navigation
-                const nextBtn = document.querySelector('.team-swiper-button-next');
-                const prevBtn = document.querySelector('.team-swiper-button-prev');
-        
-                if (nextBtn) {
-                    nextBtn.addEventListener('click', () => teamSwiper.slideNext());
-                }
-                if (prevBtn) {
-                    prevBtn.addEventListener('click', () => teamSwiper.slidePrev());
-                }
-        
-                // --- rest of your panel open/close handlers here ---
-            }
-        });
-        
+
 
         // Wait until DOM is ready
         document.addEventListener("DOMContentLoaded", () => {
@@ -431,148 +357,170 @@ class FidatoPluginJS {
                 },
             });
 
-            // if (document.querySelectorAll('.team-carousel').length) {
-            //     // Initialize the Swiper with proper configuration to avoid jump on loop
-            //     var teamSwiper = new Swiper('.teamSwiper', {
-            //         slidesPerView: 1.5,
-            //         loop: true,
-            //         speed: 750,
-            //         centeredSlides: true,
-            //         spaceBetween: 32,
-            //         mousewheel: false,
-            //         allowTouchMove: true,
-            //         autoplay: true,
-            //         keyboard: {
-            //             enabled: true,
-            //             onlyInViewport: true,
-            //         },
-            //         navigation: {
-            //             nextEl: '.team-swiper-button-next',
-            //             prevEl: '.team-swiper-button-prev',
-            //         },
-            //         breakpoints: {
-            //             768: {
-            //                 slidesPerView: 2,
-            //                 spaceBetween: 44,
-            //                 centeredSlides: true,
-            //                 allowTouchMove: true,
-            //             },
-            //             1024: {
-            //                 slidesPerView: 3,
-            //                 spaceBetween: 100,
-            //                 centeredSlides: false,
-            //                 allowTouchMove: false
-            //             }
-            //         },
-            //         loopAdditionalSlides: 5,
-            //         loopedSlides: 5,
-            //     });
-                
-            //     // Button navigation
-            //     const nextBtn = document.querySelector('.team-swiper-button-next');
-            //     const prevBtn = document.querySelector('.team-swiper-button-prev');
-                
-            //     if (nextBtn) {
-            //         nextBtn.addEventListener('click', () => {
-            //             teamSwiper.slideNext();
-            //         });
-            //     }
-                
-            //     if (prevBtn) {
-            //         prevBtn.addEventListener('click', () => {
-            //             teamSwiper.slidePrev();
-            //         });
-            //     }
+            const teamCarousel = document.querySelector('.team-carousel');
+        
+            if (teamCarousel) {
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            // Initialize Swiper once visible
+                            
+                            initTeamSwiper();
+                            observer.unobserve(entry.target); // stop observing once initialized
+                        }
+                    });
+                }, {
+                    threshold: 0.2 // adjust: 0.2 = 20% visible before init
+                });
+        
+                observer.observe(teamCarousel);
+            }
+        
+            function initTeamSwiper() {
+                var teamSwiper = new Swiper('.teamSwiper', {
+                    slidesPerView: 1.5,
+                    loop: true,
+                    speed: 750,
+                    centeredSlides: true,
+                    spaceBetween: 32,
+                    mousewheel: false,
+                    allowTouchMove: true,
+                    initialSlide: 0,
+                    autoplay: {
+                        delay: 3500,
+                        disableOnInteraction: false,
+                    },
+                    keyboard: {
+                        enabled: true,
+                        onlyInViewport: true,
+                    },
+                    navigation: {
+                        nextEl: '.team-swiper-button-next',
+                        prevEl: '.team-swiper-button-prev',
+                    },
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 2,
+                            spaceBetween: 44,
+                            centeredSlides: true,
+                            allowTouchMove: true,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 100,
+                            centeredSlides: false,
+                            //allowTouchMove: false
+                        }
+                    },
+                    // loopAdditionalSlides: 12,
+                    // loopedSlides: 12,
+                });
+        
+                // Button navigation
+                const nextBtn = document.querySelector('.team-swiper-button-next');
+                const prevBtn = document.querySelector('.team-swiper-button-prev');
+        
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => teamSwiper.slideNext());
+                }
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => teamSwiper.slidePrev());
+                }
+        
+                // Team panel handlers
+                document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
 
-            //     // Team panel handlers
-            //     document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(link => {
-            //         link.addEventListener('click', function(e) {
-            //             e.preventDefault();
-
-            //             lenis.stop();
+                        lenis.stop();
                         
-            //             const linkHref = this.getAttribute('href').toString();
-            //             const targetPanel = document.querySelector(linkHref);
-            //             const teamPanelOverlay = document.querySelector('.panel-container');
+                        const linkHref = this.getAttribute('href').toString();
+                        const targetPanel = document.querySelector(linkHref);
+                        const teamPanelOverlay = document.querySelector('.panel-container');
                         
-            //             if (targetPanel) {
-            //                 targetPanel.classList.add('active');
-            //             }
+                        if (targetPanel) {
+                            targetPanel.classList.add('active');
+                        }
 
-            //             if (teamPanelOverlay) {
-            //                 teamPanelOverlay.classList.add('active');
-            //                 teamPanelOverlay.style.top = scrollTop + 'px';
-            //             }
+                        if (teamPanelOverlay) {
+                            teamPanelOverlay.classList.add('active');
+                            teamPanelOverlay.style.top = scrollTop + 'px';
+                        }
 
-            //             // enable scroll within the panel content
-            //             const panelContent = document.querySelector('.team-panel--content.active .team-panel--body');
-            //             if (panelContent) {
-            //                 panelContent.style.overflowY = 'auto';
-            //             }
-                  
-
-                       
-
-                        
-
-            //         });
-            //     });
-
-            //     document.querySelectorAll('.team-carousel .swiper-slide .video-icon').forEach(link => {
-            //         link.addEventListener('click', function(e) {
-            //             e.preventDefault();
-
-            //             lenis.stop();
-                        
-            //             const linkHref = this.getAttribute('href').toString();
-            //             const targetPanel = document.querySelector(linkHref);
-            //             const teamPanelOverlay = document.querySelector('.panel-container');
-                        
-            //             if (targetPanel) {
-            //                 targetPanel.classList.add('active');
-            //             }
-
-            //             if (teamPanelOverlay) {
-            //                 teamPanelOverlay.classList.add('active');
-            //                 teamPanelOverlay.classList.add('video-view');
-            //                 teamPanelOverlay.style.top = scrollTop + 'px';
-            //             }
-                        
-            //         });
-            //     });
-
-            //     // Function to close team panel modal
-            //     function closeTeamPanel() {
-            //         const teamPanelOverlay = document.querySelector('.panel-container');
-
-            //         if (teamPanelOverlay) {
-            //             teamPanelOverlay.classList.remove('active');
-            //             teamPanelOverlay.classList.remove('video-view');
-            //         }
+                        // enable scroll within the panel content
+                        const panelContent = document.querySelector('.team-panel--content.active .team-panel--body');
+                        if (panelContent) {
+                            panelContent.style.overflowY = 'auto';
+                        }
                     
-            //         document.querySelectorAll('.team-panel--content').forEach(panel => {
-            //             panel.classList.remove('active');
-            //         });
 
-            //         lenis.start();
+                        
 
-            //     }
+                        
 
-            //     // Close button handler
-            //     const closeBtn = document.querySelector('.team-panel--header .close');
-            //     if (closeBtn) {
-            //         closeBtn.addEventListener('click', closeTeamPanel);
-            //     }
+                    });
+                });
 
-            //     // Overlay click handler
-            //     const overlay = document.querySelector('.team-panel--overlay');
-            //     if (overlay) {
-            //         overlay.addEventListener('click', closeTeamPanel);
-            //     }
+                document.querySelectorAll('.team-carousel .swiper-slide .video-icon').forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
 
-            //     // Team carousel mouse event handlers
-            //     const teamCarousel = document.querySelector('.team-carousel');
-            // }
+                        lenis.stop();
+                        
+                        const linkHref = this.getAttribute('href').toString();
+                        const targetPanel = document.querySelector(linkHref);
+                        const teamPanelOverlay = document.querySelector('.panel-container');
+                        
+                        if (targetPanel) {
+                            targetPanel.classList.add('active');
+                        }
+
+                        if (teamPanelOverlay) {
+                            teamPanelOverlay.classList.add('active');
+                            teamPanelOverlay.classList.add('video-view');
+                            teamPanelOverlay.style.top = scrollTop + 'px';
+                        }
+                        
+                    });
+                });
+
+                // Function to close team panel modal
+                function closeTeamPanel() {
+                    const teamPanelOverlay = document.querySelector('.panel-container');
+
+                    if (teamPanelOverlay) {
+                        teamPanelOverlay.classList.remove('active');
+                        teamPanelOverlay.classList.remove('video-view');
+                    }
+                    
+                    document.querySelectorAll('.team-panel--content').forEach(panel => {
+                        panel.classList.remove('active');
+                    });
+
+                    lenis.start();
+
+                }
+
+                // Close button handler
+                const closeBtn = document.querySelector('.team-panel--header .close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', closeTeamPanel);
+                }
+
+                // Overlay click handler
+                const overlay = document.querySelector('.team-panel--overlay');
+                if (overlay) {
+                    overlay.addEventListener('click', closeTeamPanel);
+                }
+
+                // Team carousel mouse event handlers
+                const teamCarousel = document.querySelector('.team-carousel');
+            }
+
+
+
+
+
         });
     }
 }

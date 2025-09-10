@@ -1411,80 +1411,6 @@ var FidatoPluginJS = /*#__PURE__*/function () {
         }
         parallaxCache.clear();
       });
-      document.addEventListener("DOMContentLoaded", function () {
-        var teamCarousel = document.querySelector('.team-carousel');
-        if (teamCarousel) {
-          var _observer = new IntersectionObserver(function (entries, observer) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                // Initialize Swiper once visible
-
-                initTeamSwiper();
-                observer.unobserve(entry.target); // stop observing once initialized
-              }
-            });
-          }, {
-            threshold: 0.2 // adjust: 0.2 = 20% visible before init
-          });
-          _observer.observe(teamCarousel);
-        }
-        function initTeamSwiper() {
-          var teamSwiper = new Swiper('.teamSwiper', {
-            slidesPerView: 1.5,
-            loop: true,
-            speed: 750,
-            centeredSlides: true,
-            spaceBetween: 32,
-            mousewheel: false,
-            allowTouchMove: true,
-            initialSlide: 0,
-            autoplay: {
-              delay: 3500,
-              disableOnInteraction: false
-            },
-            keyboard: {
-              enabled: true,
-              onlyInViewport: true
-            },
-            navigation: {
-              nextEl: '.team-swiper-button-next',
-              prevEl: '.team-swiper-button-prev'
-            },
-            breakpoints: {
-              768: {
-                slidesPerView: 2,
-                spaceBetween: 44,
-                centeredSlides: true,
-                allowTouchMove: true
-              },
-              1024: {
-                slidesPerView: 3,
-                spaceBetween: 100,
-                centeredSlides: false
-                //allowTouchMove: false
-              }
-            }
-            // loopAdditionalSlides: 12,
-            // loopedSlides: 12,
-          });
-
-          // Button navigation
-          var nextBtn = document.querySelector('.team-swiper-button-next');
-          var prevBtn = document.querySelector('.team-swiper-button-prev');
-          if (nextBtn) {
-            nextBtn.addEventListener('click', function () {
-              return teamSwiper.slideNext();
-            });
-          }
-          if (prevBtn) {
-            prevBtn.addEventListener('click', function () {
-              return teamSwiper.slidePrev();
-            });
-          }
-
-          // --- rest of your panel open/close handlers here ---
-        }
-      });
 
       // Wait until DOM is ready
       document.addEventListener("DOMContentLoaded", function () {
@@ -1589,144 +1515,145 @@ var FidatoPluginJS = /*#__PURE__*/function () {
             prevEl: '.learning-center-swiper-button-prev'
           }
         });
+        var teamCarousel = document.querySelector('.team-carousel');
+        if (teamCarousel) {
+          var _observer = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                // Initialize Swiper once visible
 
-        // if (document.querySelectorAll('.team-carousel').length) {
-        //     // Initialize the Swiper with proper configuration to avoid jump on loop
-        //     var teamSwiper = new Swiper('.teamSwiper', {
-        //         slidesPerView: 1.5,
-        //         loop: true,
-        //         speed: 750,
-        //         centeredSlides: true,
-        //         spaceBetween: 32,
-        //         mousewheel: false,
-        //         allowTouchMove: true,
-        //         autoplay: true,
-        //         keyboard: {
-        //             enabled: true,
-        //             onlyInViewport: true,
-        //         },
-        //         navigation: {
-        //             nextEl: '.team-swiper-button-next',
-        //             prevEl: '.team-swiper-button-prev',
-        //         },
-        //         breakpoints: {
-        //             768: {
-        //                 slidesPerView: 2,
-        //                 spaceBetween: 44,
-        //                 centeredSlides: true,
-        //                 allowTouchMove: true,
-        //             },
-        //             1024: {
-        //                 slidesPerView: 3,
-        //                 spaceBetween: 100,
-        //                 centeredSlides: false,
-        //                 allowTouchMove: false
-        //             }
-        //         },
-        //         loopAdditionalSlides: 5,
-        //         loopedSlides: 5,
-        //     });
+                initTeamSwiper();
+                observer.unobserve(entry.target); // stop observing once initialized
+              }
+            });
+          }, {
+            threshold: 0.2 // adjust: 0.2 = 20% visible before init
+          });
+          _observer.observe(teamCarousel);
+        }
+        function initTeamSwiper() {
+          var teamSwiper = new Swiper('.teamSwiper', {
+            slidesPerView: 1.5,
+            loop: true,
+            speed: 750,
+            centeredSlides: true,
+            spaceBetween: 32,
+            mousewheel: false,
+            allowTouchMove: true,
+            initialSlide: 0,
+            autoplay: {
+              delay: 3500,
+              disableOnInteraction: false
+            },
+            keyboard: {
+              enabled: true,
+              onlyInViewport: true
+            },
+            navigation: {
+              nextEl: '.team-swiper-button-next',
+              prevEl: '.team-swiper-button-prev'
+            },
+            breakpoints: {
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 44,
+                centeredSlides: true,
+                allowTouchMove: true
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 100,
+                centeredSlides: false
+                //allowTouchMove: false
+              }
+            }
+            // loopAdditionalSlides: 12,
+            // loopedSlides: 12,
+          });
 
-        //     // Button navigation
-        //     const nextBtn = document.querySelector('.team-swiper-button-next');
-        //     const prevBtn = document.querySelector('.team-swiper-button-prev');
+          // Button navigation
+          var nextBtn = document.querySelector('.team-swiper-button-next');
+          var prevBtn = document.querySelector('.team-swiper-button-prev');
+          if (nextBtn) {
+            nextBtn.addEventListener('click', function () {
+              return teamSwiper.slideNext();
+            });
+          }
+          if (prevBtn) {
+            prevBtn.addEventListener('click', function () {
+              return teamSwiper.slidePrev();
+            });
+          }
 
-        //     if (nextBtn) {
-        //         nextBtn.addEventListener('click', () => {
-        //             teamSwiper.slideNext();
-        //         });
-        //     }
+          // Team panel handlers
+          document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+              e.preventDefault();
+              lenis.stop();
+              var linkHref = this.getAttribute('href').toString();
+              var targetPanel = document.querySelector(linkHref);
+              var teamPanelOverlay = document.querySelector('.panel-container');
+              if (targetPanel) {
+                targetPanel.classList.add('active');
+              }
+              if (teamPanelOverlay) {
+                teamPanelOverlay.classList.add('active');
+                teamPanelOverlay.style.top = scrollTop + 'px';
+              }
 
-        //     if (prevBtn) {
-        //         prevBtn.addEventListener('click', () => {
-        //             teamSwiper.slidePrev();
-        //         });
-        //     }
+              // enable scroll within the panel content
+              var panelContent = document.querySelector('.team-panel--content.active .team-panel--body');
+              if (panelContent) {
+                panelContent.style.overflowY = 'auto';
+              }
+            });
+          });
+          document.querySelectorAll('.team-carousel .swiper-slide .video-icon').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+              e.preventDefault();
+              lenis.stop();
+              var linkHref = this.getAttribute('href').toString();
+              var targetPanel = document.querySelector(linkHref);
+              var teamPanelOverlay = document.querySelector('.panel-container');
+              if (targetPanel) {
+                targetPanel.classList.add('active');
+              }
+              if (teamPanelOverlay) {
+                teamPanelOverlay.classList.add('active');
+                teamPanelOverlay.classList.add('video-view');
+                teamPanelOverlay.style.top = scrollTop + 'px';
+              }
+            });
+          });
 
-        //     // Team panel handlers
-        //     document.querySelectorAll('.team-carousel .swiper-slide .link').forEach(link => {
-        //         link.addEventListener('click', function(e) {
-        //             e.preventDefault();
+          // Function to close team panel modal
+          function closeTeamPanel() {
+            var teamPanelOverlay = document.querySelector('.panel-container');
+            if (teamPanelOverlay) {
+              teamPanelOverlay.classList.remove('active');
+              teamPanelOverlay.classList.remove('video-view');
+            }
+            document.querySelectorAll('.team-panel--content').forEach(function (panel) {
+              panel.classList.remove('active');
+            });
+            lenis.start();
+          }
 
-        //             lenis.stop();
+          // Close button handler
+          var closeBtn = document.querySelector('.team-panel--header .close');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', closeTeamPanel);
+          }
 
-        //             const linkHref = this.getAttribute('href').toString();
-        //             const targetPanel = document.querySelector(linkHref);
-        //             const teamPanelOverlay = document.querySelector('.panel-container');
+          // Overlay click handler
+          var overlay = document.querySelector('.team-panel--overlay');
+          if (overlay) {
+            overlay.addEventListener('click', closeTeamPanel);
+          }
 
-        //             if (targetPanel) {
-        //                 targetPanel.classList.add('active');
-        //             }
-
-        //             if (teamPanelOverlay) {
-        //                 teamPanelOverlay.classList.add('active');
-        //                 teamPanelOverlay.style.top = scrollTop + 'px';
-        //             }
-
-        //             // enable scroll within the panel content
-        //             const panelContent = document.querySelector('.team-panel--content.active .team-panel--body');
-        //             if (panelContent) {
-        //                 panelContent.style.overflowY = 'auto';
-        //             }
-
-        //         });
-        //     });
-
-        //     document.querySelectorAll('.team-carousel .swiper-slide .video-icon').forEach(link => {
-        //         link.addEventListener('click', function(e) {
-        //             e.preventDefault();
-
-        //             lenis.stop();
-
-        //             const linkHref = this.getAttribute('href').toString();
-        //             const targetPanel = document.querySelector(linkHref);
-        //             const teamPanelOverlay = document.querySelector('.panel-container');
-
-        //             if (targetPanel) {
-        //                 targetPanel.classList.add('active');
-        //             }
-
-        //             if (teamPanelOverlay) {
-        //                 teamPanelOverlay.classList.add('active');
-        //                 teamPanelOverlay.classList.add('video-view');
-        //                 teamPanelOverlay.style.top = scrollTop + 'px';
-        //             }
-
-        //         });
-        //     });
-
-        //     // Function to close team panel modal
-        //     function closeTeamPanel() {
-        //         const teamPanelOverlay = document.querySelector('.panel-container');
-
-        //         if (teamPanelOverlay) {
-        //             teamPanelOverlay.classList.remove('active');
-        //             teamPanelOverlay.classList.remove('video-view');
-        //         }
-
-        //         document.querySelectorAll('.team-panel--content').forEach(panel => {
-        //             panel.classList.remove('active');
-        //         });
-
-        //         lenis.start();
-
-        //     }
-
-        //     // Close button handler
-        //     const closeBtn = document.querySelector('.team-panel--header .close');
-        //     if (closeBtn) {
-        //         closeBtn.addEventListener('click', closeTeamPanel);
-        //     }
-
-        //     // Overlay click handler
-        //     const overlay = document.querySelector('.team-panel--overlay');
-        //     if (overlay) {
-        //         overlay.addEventListener('click', closeTeamPanel);
-        //     }
-
-        //     // Team carousel mouse event handlers
-        //     const teamCarousel = document.querySelector('.team-carousel');
-        // }
+          // Team carousel mouse event handlers
+          var teamCarousel = document.querySelector('.team-carousel');
+        }
       });
     }
   }]);
